@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "smarttrade",
+  "version": "${version}",
+  "name": "SMART TRADE",
+  "description": "A clean, vanilla-friendly foundation for configurable villager trading.",
+  "authors": ["markusvdc"],
+  "contact": {
+    "homepage": "https://github.com/markusvdc/smarttrade",
+    "sources": "https://github.com/markusvdc/smarttrade",
+    "issues": "https://github.com/markusvdc/smarttrade/issues"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "smarttrade.link.pinterest": "https://pinterest.com/markusvdc/",
+        "smarttrade.link.github": "https://github.com/markusvdc/",
+        "smarttrade.link.medium": "https://markusvdc.medium.com/",
+        "smarttrade.link.instagram": "https://www.instagram.com/markusvdc/"
+      }
+    }
+  },
+  "license": "MIT",
+  "icon": "assets/smarttrade/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "br.com.smarttrade.SmartTrade"
+    ],
+    "client": [
+      "br.com.smarttrade.client.SmartTradeClient"
+    ],
+    "modmenu": [
+      "br.com.smarttrade.client.SmartTradeModMenuIntegration"
+    ],
+    "jade": [
+      "br.com.smarttrade.client.integration.jade.SmartTradeJadePlugin"
+    ]
+  },
+  "mixins": [
+    "smarttrade.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "fabric-api": "*",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "modmenu": ">=20.0.1"
+  },
+  "suggests": {
+    "jade": ">=26.2.9"
+  }
+}
