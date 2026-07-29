@@ -8,7 +8,7 @@ O SMART TRADE existe para ampliar as possibilidades do comércio sem descaracter
 ## Trocas disponíveis para configurar
 |![space](https://cdn.modrinth.com/data/cached_images/379e1655ce7c438cd194b1260d0a309bdc5bc4ef_0.webp)|![space](https://cdn.modrinth.com/data/cached_images/b6f434fab7f5b844b77234dbe5352e9b8e79090b_0.webp)|
 | --- | --- |
-| Agricultor | 16 Ovos, 16 Canas-de-açúcar, 16 Sementes de Cacau ou 8 Favos de Mel por 1 Esmeralda. |
+| Agricultor | 16 Ovos, 16 Sementes de Cacau ou 8 Favos de Mel por 1 Esmeralda. |
 | Clérigo | 12 Olhos de Aranha, 2 Pérolas do Ender, 16 Pós de Redstone ou 16 Lápis-Lazúli por 1 Esmeralda. |
 | Açougueiro | 16 Ossos por 1 Esmeralda. |
 | Flecheiro | 12 Flechas por 1 Esmeralda. |

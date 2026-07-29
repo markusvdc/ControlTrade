@@ -6,17 +6,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.MushroomBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MushroomBlock.class)
-public abstract class MushroomBlockMixin {
+@Mixin(SaplingBlock.class)
+public abstract class SaplingBlockMixin {
 	@Inject(method = "performBonemeal", at = @At("HEAD"))
-	private void smarttrade$beginFixedHeightGrowth(
+	private void smarttrade$beginFixedJungleTreeHeight(
 		ServerLevel level,
 		RandomSource random,
 		BlockPos pos,
@@ -24,24 +24,13 @@ public abstract class MushroomBlockMixin {
 		CallbackInfo callback
 	) {
 		FixedHeightGrowthContext.clear();
-		if (!SmartTradeConfig.fixedHugeMushroomHeight()) {
-			return;
-		}
-
-		BlockState ground = level.getBlockState(pos.below());
-		if (!ground.is(Blocks.CRIMSON_NYLIUM) && !ground.is(Blocks.WARPED_NYLIUM)) {
-			return;
-		}
-
-		if (state.is(Blocks.RED_MUSHROOM)) {
-			FixedHeightGrowthContext.begin(5);
-		} else if (state.is(Blocks.BROWN_MUSHROOM)) {
-			FixedHeightGrowthContext.begin(4);
+		if (SmartTradeConfig.fixedHugeMushroomHeight() && state.is(Blocks.JUNGLE_SAPLING)) {
+			FixedHeightGrowthContext.begin(6);
 		}
 	}
 
 	@Inject(method = "performBonemeal", at = @At("RETURN"))
-	private void smarttrade$finishFixedHeightGrowth(
+	private void smarttrade$finishFixedJungleTreeHeight(
 		ServerLevel level,
 		RandomSource random,
 		BlockPos pos,

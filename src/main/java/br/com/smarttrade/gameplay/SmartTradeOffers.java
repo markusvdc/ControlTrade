@@ -22,27 +22,27 @@ public final class SmartTradeOffers {
 	private static final int MAX_USES = 12;
 	private static final int VILLAGER_XP = 2;
 	private static final float PRICE_MULTIPLIER = 0.05F;
-	private static final Map<Item, Integer> LEGACY_INPUT_COUNTS = Map.of(
-		Items.SUGAR_CANE, 32,
-		Items.COCOA_BEANS, 32,
-		Items.HONEYCOMB, 12,
-		Items.SPIDER_EYE, 24,
-		Items.ENDER_PEARL, 4,
-		Items.REDSTONE, 24,
-		Items.LAPIS_LAZULI, 24,
-		Items.BONE, 32
+	private static final Map<Item, List<Integer>> LEGACY_INPUT_COUNTS = Map.of(
+		Items.EGG, List.of(16),
+		Items.COCOA_BEANS, List.of(16, 32),
+		Items.HONEYCOMB, List.of(8, 12),
+		Items.SPIDER_EYE, List.of(12, 24),
+		Items.ENDER_PEARL, List.of(2, 4),
+		Items.REDSTONE, List.of(16, 24),
+		Items.LAPIS_LAZULI, List.of(16, 24),
+		Items.BONE, List.of(16, 32),
+		Items.ARROW, List.of(12)
 	);
 	private static final List<TradeDefinition> DEFINITIONS = List.of(
-		new TradeDefinition(VillagerProfession.FARMER, Items.EGG, 16),
-		new TradeDefinition(VillagerProfession.FARMER, Items.SUGAR_CANE, 16),
-		new TradeDefinition(VillagerProfession.FARMER, Items.COCOA_BEANS, 16),
-		new TradeDefinition(VillagerProfession.FARMER, Items.HONEYCOMB, 8),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.SPIDER_EYE, 12),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.ENDER_PEARL, 2),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.REDSTONE, 16),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.LAPIS_LAZULI, 16),
-		new TradeDefinition(VillagerProfession.BUTCHER, Items.BONE, 16),
-		new TradeDefinition(VillagerProfession.FLETCHER, Items.ARROW, 12)
+		new TradeDefinition(VillagerProfession.FARMER, Items.EGG, 20),
+		new TradeDefinition(VillagerProfession.FARMER, Items.COCOA_BEANS, 20),
+		new TradeDefinition(VillagerProfession.FARMER, Items.HONEYCOMB, 10),
+		new TradeDefinition(VillagerProfession.CLERIC, Items.SPIDER_EYE, 15),
+		new TradeDefinition(VillagerProfession.CLERIC, Items.ENDER_PEARL, 3),
+		new TradeDefinition(VillagerProfession.CLERIC, Items.REDSTONE, 20),
+		new TradeDefinition(VillagerProfession.CLERIC, Items.LAPIS_LAZULI, 20),
+		new TradeDefinition(VillagerProfession.BUTCHER, Items.BONE, 20),
+		new TradeDefinition(VillagerProfession.FLETCHER, Items.ARROW, 15)
 	);
 
 	private SmartTradeOffers() {
@@ -53,6 +53,8 @@ public final class SmartTradeOffers {
 		if (profession == null) {
 			return;
 		}
+
+		removeRetiredSugarCaneOffers(villager, offers, profession);
 
 		int customOffset = 0;
 		for (TradeDefinition definition : DEFINITIONS) {
@@ -91,19 +93,58 @@ public final class SmartTradeOffers {
 		logValidation(villager, offers, profession);
 	}
 
-	private static void removeLegacyOffer(
+	private static void removeRetiredSugarCaneOffers(
 		Villager villager,
 		MerchantOffers offers,
-		TradeDefinition definition
+		ResourceKey<VillagerProfession> profession
 	) {
-		Integer legacyCount = LEGACY_INPUT_COUNTS.get(definition.input());
-		if (legacyCount == null) {
+		if (profession != VillagerProfession.FARMER) {
 			return;
 		}
 
 		for (int index = offers.size() - 1; index >= 0; index--) {
 			MerchantOffer offer = offers.get(index);
-			if (!definition.matchesWithInputCount(offer, legacyCount)) {
+			ItemStack cost = offer.getBaseCostA();
+			ItemStack result = offer.getResult();
+			boolean retiredTrade = cost.is(Items.SUGAR_CANE)
+				&& (cost.getCount() == 16 || cost.getCount() == 32)
+				&& offer.getCostB().isEmpty()
+				&& result.is(Items.EMERALD)
+				&& result.getCount() == EMERALD_RESULT
+				&& offer.getMaxUses() == MAX_USES
+				&& offer.getXp() == VILLAGER_XP;
+			if (!retiredTrade) {
+				continue;
+			}
+
+			offers.remove(index);
+			SmartTrade.LOGGER.info(
+				"Retired trade removed: villager={}, profession={}, level={}, "
+					+ "trade=farmer/minecraft:sugar_cane, index={}, input={}xsugar_cane",
+				villager.getUUID(),
+				profession.identifier(),
+				villager.getVillagerData().level(),
+				index,
+				cost.getCount()
+			);
+		}
+	}
+
+	private static void removeLegacyOffer(
+		Villager villager,
+		MerchantOffers offers,
+		TradeDefinition definition
+	) {
+		List<Integer> legacyCounts = LEGACY_INPUT_COUNTS.get(definition.input());
+		if (legacyCounts == null) {
+			return;
+		}
+
+		for (int index = offers.size() - 1; index >= 0; index--) {
+			MerchantOffer offer = offers.get(index);
+			int legacyCount = offer.getBaseCostA().getCount();
+			if (!legacyCounts.contains(legacyCount)
+				|| !definition.matchesWithInputCount(offer, legacyCount)) {
 				continue;
 			}
 

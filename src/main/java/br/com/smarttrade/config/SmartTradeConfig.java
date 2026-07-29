@@ -22,10 +22,9 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 8;
+	private static final int CURRENT_VERSION = 9;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
-		"minecraft:sugar_cane",
 		"minecraft:cocoa_beans",
 		"minecraft:honeycomb",
 		"minecraft:spider_eye",

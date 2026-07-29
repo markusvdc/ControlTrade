@@ -1,9 +1,9 @@
 package br.com.smarttrade.gameplay;
 
-public final class MushroomGrowthContext {
+public final class FixedHeightGrowthContext {
 	private static final ThreadLocal<Integer> FIXED_TREE_HEIGHT = new ThreadLocal<>();
 
-	private MushroomGrowthContext() {
+	private FixedHeightGrowthContext() {
 	}
 
 	public static void begin(int treeHeight) {

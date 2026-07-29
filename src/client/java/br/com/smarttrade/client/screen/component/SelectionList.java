@@ -28,22 +28,21 @@ public final class SelectionList extends AbstractWidget {
 		this.rowHeight = rowHeight;
 		this.entries = List.of(
 			SelectionEntry.category(minecraft, "smarttrade.category.farmer"),
-			new SelectionEntry(minecraft, Items.EGG, 16, SmartTradeConfig.isTradeEnabled(Items.EGG)),
-			new SelectionEntry(minecraft, Items.SUGAR_CANE, 16, SmartTradeConfig.isTradeEnabled(Items.SUGAR_CANE)),
-			new SelectionEntry(minecraft, Items.COCOA_BEANS, 16, SmartTradeConfig.isTradeEnabled(Items.COCOA_BEANS)),
-			new SelectionEntry(minecraft, Items.HONEYCOMB, 8, SmartTradeConfig.isTradeEnabled(Items.HONEYCOMB)),
+			new SelectionEntry(minecraft, Items.EGG, 20, SmartTradeConfig.isTradeEnabled(Items.EGG)),
+			new SelectionEntry(minecraft, Items.COCOA_BEANS, 20, SmartTradeConfig.isTradeEnabled(Items.COCOA_BEANS)),
+			new SelectionEntry(minecraft, Items.HONEYCOMB, 10, SmartTradeConfig.isTradeEnabled(Items.HONEYCOMB)),
 
 			SelectionEntry.category(minecraft, "smarttrade.category.cleric"),
-			new SelectionEntry(minecraft, Items.SPIDER_EYE, 12, SmartTradeConfig.isTradeEnabled(Items.SPIDER_EYE)),
-			new SelectionEntry(minecraft, Items.ENDER_PEARL, 2, SmartTradeConfig.isTradeEnabled(Items.ENDER_PEARL)),
-			new SelectionEntry(minecraft, Items.REDSTONE, 16, SmartTradeConfig.isTradeEnabled(Items.REDSTONE)),
-			new SelectionEntry(minecraft, Items.LAPIS_LAZULI, 16, SmartTradeConfig.isTradeEnabled(Items.LAPIS_LAZULI)),
+			new SelectionEntry(minecraft, Items.SPIDER_EYE, 15, SmartTradeConfig.isTradeEnabled(Items.SPIDER_EYE)),
+			new SelectionEntry(minecraft, Items.ENDER_PEARL, 3, SmartTradeConfig.isTradeEnabled(Items.ENDER_PEARL)),
+			new SelectionEntry(minecraft, Items.REDSTONE, 20, SmartTradeConfig.isTradeEnabled(Items.REDSTONE)),
+			new SelectionEntry(minecraft, Items.LAPIS_LAZULI, 20, SmartTradeConfig.isTradeEnabled(Items.LAPIS_LAZULI)),
 
 			SelectionEntry.category(minecraft, "smarttrade.category.butcher"),
-			new SelectionEntry(minecraft, Items.BONE, 16, SmartTradeConfig.isTradeEnabled(Items.BONE)),
+			new SelectionEntry(minecraft, Items.BONE, 20, SmartTradeConfig.isTradeEnabled(Items.BONE)),
 
 			SelectionEntry.category(minecraft, "smarttrade.category.fletcher"),
-			new SelectionEntry(minecraft, Items.ARROW, 12, SmartTradeConfig.isTradeEnabled(Items.ARROW))
+			new SelectionEntry(minecraft, Items.ARROW, 15, SmartTradeConfig.isTradeEnabled(Items.ARROW))
 		);
 	}
 

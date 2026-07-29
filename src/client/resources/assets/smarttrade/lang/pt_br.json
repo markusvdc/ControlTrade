@@ -25,7 +25,7 @@
   "smarttrade.options.soul_speed_nether": "VELOCIDADE CONDICIONADA",
   "smarttrade.options.soul_speed_nether.tooltip": "Faz o encantamento Velocidade das Almas funcionar apenas no Nether.",
   "smarttrade.options.fixed_mushroom_height": "ALTURA LIMITADA",
-  "smarttrade.options.fixed_mushroom_height.tooltip": "Padroniza a altura de cogumelos gigantes cultivados com pó de osso.",
+  "smarttrade.options.fixed_mushroom_height.tooltip": "Fixa exatamente a altura de cogumelos gigantes e em 6 blocos os troncos de árvores da selva e fungos gigantes cultivados com pó de osso.",
   "smarttrade.jade.reputation": "Reputação: %s",
   "smarttrade.jade.restocks": "Reabastecimentos: %s/%s",
   "smarttrade.jade.cured": "Curado: %s",
