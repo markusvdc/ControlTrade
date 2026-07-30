@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(SaplingBlock.class)
 public abstract class SaplingBlockMixin {
 	@Inject(method = "performBonemeal", at = @At("HEAD"))
-	private void smarttrade$beginFixedJungleTreeHeight(
+	private void smarttrade$beginFixedTreeHeight(
 		ServerLevel level,
 		RandomSource random,
 		BlockPos pos,
@@ -24,13 +24,16 @@ public abstract class SaplingBlockMixin {
 		CallbackInfo callback
 	) {
 		FixedHeightGrowthContext.clear();
-		if (SmartTradeConfig.fixedHugeMushroomHeight() && state.is(Blocks.JUNGLE_SAPLING)) {
+		if (
+			SmartTradeConfig.fixedHugeMushroomHeight()
+				&& (state.is(Blocks.JUNGLE_SAPLING) || state.is(Blocks.ACACIA_SAPLING))
+		) {
 			FixedHeightGrowthContext.begin(6);
 		}
 	}
 
 	@Inject(method = "performBonemeal", at = @At("RETURN"))
-	private void smarttrade$finishFixedJungleTreeHeight(
+	private void smarttrade$finishFixedTreeHeight(
 		ServerLevel level,
 		RandomSource random,
 		BlockPos pos,

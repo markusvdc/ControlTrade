@@ -25,7 +25,7 @@
   "smarttrade.options.soul_speed_nether": "VELOCIDADE CONDICIONADA",
   "smarttrade.options.soul_speed_nether.tooltip": "Faz o encantamento Velocidade das Almas funcionar apenas no Nether.",
   "smarttrade.options.fixed_mushroom_height": "ALTURA LIMITADA",
-  "smarttrade.options.fixed_mushroom_height.tooltip": "Fixa exatamente a altura de cogumelos gigantes e em 6 blocos os troncos de árvores da selva e fungos gigantes cultivados com pó de osso.",
+  "smarttrade.options.fixed_mushroom_height.tooltip": "Fixa exatamente a altura de cogumelos gigantes e em 6 blocos os troncos de árvores da selva, acácias e fungos gigantes cultivados com pó de osso.",
   "smarttrade.jade.reputation": "Reputação: %s",
   "smarttrade.jade.restocks": "Reabastecimentos: %s/%s",
   "smarttrade.jade.cured": "Curado: %s",
@@ -39,5 +39,5 @@
   "smarttrade.link.medium": "Medium",
   "smarttrade.link.instagram": "Instagram",
   "modmenu.summaryTranslation.smarttrade": "Transforme as trocas com aldeões em uma experiência mais inteligente, flexível e fiel ao vanilla, com configurações adicionais.",
-  "modmenu.descriptionTranslation.smarttrade": "Desenvolvimento:\nRiquinho — Conceito, direção e desenvolvimento do projeto.\nDekuzinho — Implementação e suporte no desenvolvimento.\nCodex — Assistência de desenvolvimento e colaboração técnica.\n\nFerramentas:\nVSCode — Desenvolvimento do código-fonte.\nFigma — Design e prototipação de interface.\nTrello — Organização e gerenciamento do projeto.\nGitHub — Versionamento e armazenamento do código."
+  "modmenu.descriptionTranslation.smarttrade": "Desenvolvimento:\nRiquinho — Conceito, direção e desenvolvimento do projeto.\nDekuzinho — Implementação e suporte no desenvolvimento.\n\nFerramentas:\nCodex — Assistência de desenvolvimento e colaboração técnica.\nVSCode — Desenvolvimento do código-fonte.\nFigma — Design e prototipação de interface.\nTrello — Organização e gerenciamento do projeto.\nGitHub — Versionamento e armazenamento do código."
 }

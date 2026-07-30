@@ -25,7 +25,7 @@
   "smarttrade.options.soul_speed_nether": "SOUL SPEED IN THE NETHER",
   "smarttrade.options.soul_speed_nether.tooltip": "Makes the Soul Speed enchantment work only in the Nether.",
   "smarttrade.options.fixed_mushroom_height": "LIMITED HEIGHT",
-  "smarttrade.options.fixed_mushroom_height.tooltip": "Sets exact huge mushroom heights and fixes bone-mealed jungle tree and huge fungus stems at exactly 6 blocks.",
+  "smarttrade.options.fixed_mushroom_height.tooltip": "Sets exact huge mushroom heights and fixes bone-mealed jungle tree, acacia tree, and huge fungus stems at exactly 6 blocks.",
   "smarttrade.jade.reputation": "Reputation: %s",
   "smarttrade.jade.restocks": "Restocks: %s/%s",
   "smarttrade.jade.cured": "Cured: %s",
@@ -39,5 +39,5 @@
   "smarttrade.link.medium": "Medium",
   "smarttrade.link.instagram": "Instagram",
   "modmenu.summaryTranslation.smarttrade": "A vanilla-friendly foundation for configurable villager trading.",
-  "modmenu.descriptionTranslation.smarttrade": "Development:\nRiquinho — Project concept, direction, and development.\nDekuzinho — Implementation and development support.\nCodex — Development assistance and technical collaboration.\n\nTools:\nVSCode — Source code development.\nFigma — Interface design and prototyping.\nTrello — Project organization and management.\nGitHub — Code versioning and storage."
+  "modmenu.descriptionTranslation.smarttrade": "Development:\nRiquinho — Project concept, direction, and development.\nDekuzinho — Implementation and development support.\n\nTools:\nCodex — Development assistance and technical collaboration.\nVSCode — Source code development.\nFigma — Interface design and prototyping.\nTrello — Project organization and management.\nGitHub — Code versioning and storage."
 }

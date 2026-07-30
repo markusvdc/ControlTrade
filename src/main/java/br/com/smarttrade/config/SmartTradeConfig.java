@@ -36,7 +36,7 @@ public final class SmartTradeConfig {
 	);
 
 	private static volatile Set<String> enabledTrades = AVAILABLE_TRADES;
-	private static volatile boolean showAdditionalInformation = true;
+	private static volatile boolean showAdditionalInformation;
 	private static volatile boolean maximumVillagerReputation;
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
@@ -71,7 +71,7 @@ public final class SmartTradeConfig {
 			} else if (data != null && data.showVillagerReputationInJade != null) {
 				showAdditionalInformation = data.showVillagerReputationInJade;
 			} else {
-				showAdditionalInformation = true;
+				showAdditionalInformation = false;
 			}
 			maximumVillagerReputation =
 				data != null && Boolean.TRUE.equals(data.maximumVillagerReputation);
@@ -82,7 +82,7 @@ public final class SmartTradeConfig {
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
-			showAdditionalInformation = true;
+			showAdditionalInformation = false;
 			maximumVillagerReputation = false;
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
