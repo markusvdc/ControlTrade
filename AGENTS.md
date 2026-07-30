@@ -50,10 +50,6 @@ Depois de cada build bem-sucedido:
 
 Nunca remova, mova ou substitua outros mods dessas pastas.
 
-## Documentação pública
-
-**O DEKUZINHO NÃO ESTÁ AUTORIZADO A CRIAR, EDITAR, RENOMEAR, MOVER OU EXCLUIR ARQUIVOS DE DOCUMENTAÇÃO DO MOD, INCLUINDO `README.md` E ARQUIVOS SEMELHANTES. APENAS SE FOR EXPLICITAMENTE AUTORIZADO NA SOLICITAÇÃO.**
-
 ## Clareza e precisão do README
 
 Ao criar ou alterar opções e funcionalidades destinadas ao jogador, revise também o `README.md`, desde que a solicitação autorize explicitamente a edição da documentação pública.
