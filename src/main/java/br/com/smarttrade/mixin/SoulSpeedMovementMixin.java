@@ -4,6 +4,7 @@ import br.com.smarttrade.config.SmartTradeConfig;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -30,10 +31,15 @@ public abstract class SoulSpeedMovementMixin {
 			return;
 		}
 
-		var enchantments = entity.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
+		LivingEntity enchantmentBearer = entity;
+		if (entity instanceof AbstractHorse horse && horse.getControllingPassenger() != null) {
+			enchantmentBearer = horse.getControllingPassenger();
+		}
+
+		var enchantments = enchantmentBearer.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 		if (EnchantmentHelper.getEnchantmentLevel(
 			enchantments.getOrThrow(Enchantments.SOUL_SPEED),
-			entity
+			enchantmentBearer
 		) > 0) {
 			callback.setReturnValue(1.0F);
 		}
