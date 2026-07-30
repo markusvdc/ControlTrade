@@ -15,6 +15,9 @@
     "VillagerReputationMixin",
     "VillagerRestockMixin"
   ],
+  "client": [
+    "HorseHealthHudMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

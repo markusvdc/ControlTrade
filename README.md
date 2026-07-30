@@ -1,13 +1,13 @@
 # SMART TRADE
 
-O SMART TRADE é um mod client-side para singleplayer que adiciona nove trocas configuráveis com aldeões e quatro opções globais. A configuração é aberta pelo Mod Menu e salva em `config/smarttrade.json`. As regras de gameplay são executadas pelo servidor integrado do mundo; instalar o mod somente no cliente não oferece suporte a servidores multiplayer externos.
+O SMART TRADE é um mod client-side para singleplayer que adiciona nove trocas configuráveis com aldeões e cinco opções globais. A configuração é aberta pelo Mod Menu e salva em `config/smarttrade.json`. As regras de gameplay são executadas pelo servidor integrado do mundo; instalar o mod somente no cliente não oferece suporte a servidores multiplayer externos.
 
 ![Tela de seleção do SMART TRADE](docs/images/smarttrade-selection.png)
 
 ## Como a configuração funciona
 
 - Marcar ou desmarcar entradas na interface não altera a configuração imediatamente: é necessário selecionar **APLICAR** na tela correspondente. O botão **ALTERNAR** marca todas as entradas quando pelo menos uma está desmarcada e desmarca todas quando todas estão marcadas.
-- Na primeira instalação, quando `config/smarttrade.json` ainda não existe, as nove opções principais de troca começam marcadas e as quatro opções globais — **INFORMAÇÕES ADICIONAIS**, **REPUTAÇÃO MÁXIMA**, **VELOCIDADE CONDICIONADA** e **ALTURA LIMITADA** — começam desativadas.
+- Na primeira instalação, quando `config/smarttrade.json` ainda não existe, as nove opções principais de troca começam marcadas e as cinco opções globais — **INFORMAÇÕES ADICIONAIS**, **REPUTAÇÃO MÁXIMA**, **VELOCIDADE CONDICIONADA**, **ALTURA LIMITADA** e **VIDA COMPACTA** — começam desativadas.
 - Configurações já salvas são carregadas e preservadas. Ao atualizar versões antigas, o mod migra os campos reconhecidos e descarta somente identificadores de troca que não pertençam à lista atual de nove opções. Se o arquivo não puder ser lido ou contiver JSON inválido, os padrões da primeira instalação são usados durante aquela execução.
 - As alterações passam a ser usadas assim que são aplicadas. Fechar uma tela sem selecionar **APLICAR** descarta as mudanças ainda não salvas daquela tela.
 
@@ -59,3 +59,7 @@ Restringe os efeitos de Velocidade das Almas ao Nether. Nas outras dimensões, e
 ### ALTURA LIMITADA
 
 Padroniza crescimentos com pó de osso: cogumelos vermelho/marrom sobre nicélios carmesim/distorcido usam caules de 5/4 blocos e ocupam até 6/5 camadas com a copa; mudas da selva e acácia usam tronco de 6 blocos; fungos carmesim/distorcido no nicélio correspondente usam caule de 6 blocos em 11/12 dos casos ou 12 blocos em 1/12, ocupando até 7/13 camadas. Preserva as chances: 40% para cogumelos e fungos e 45% para mudas, aplicando a altura quando a árvore é gerada, além dos requisitos de suporte, espaço, altura e substituição.
+
+### VIDA COMPACTA
+
+Limita a HUD de vida de cavalos, burros, mulas, cavalos-zumbis e cavalos-esqueletos a uma linha de 10 corações, preenchidos proporcionalmente à vida máxima da montaria. Altera somente a exibição; a vida real, o dano e a cura permanecem inalterados.
