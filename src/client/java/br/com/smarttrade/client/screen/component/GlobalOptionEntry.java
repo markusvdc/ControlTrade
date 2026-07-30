@@ -1,16 +1,27 @@
 package br.com.smarttrade.client.screen.component;
 
+import java.util.List;
 import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractButton;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.narration.NarratedElementType;
+import net.minecraft.client.gui.screens.inventory.tooltip.BelowOrAboveWidgetTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipPositioner;
+import net.minecraft.client.gui.screens.inventory.tooltip.MenuTooltipPositioner;
 import net.minecraft.client.input.InputWithModifiers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 
 public final class GlobalOptionEntry extends AbstractButton {
+	private static final int VANILLA_TOOLTIP_MAX_WIDTH = 170;
+	private static final int TOOLTIP_MAX_WIDTH = VANILLA_TOOLTIP_MAX_WIDTH * 5 / 2;
+
 	private final Consumer<Boolean> onValueChange;
+	private final Component description;
 	private boolean selected;
 
 	public GlobalOptionEntry(
@@ -26,7 +37,7 @@ public final class GlobalOptionEntry extends AbstractButton {
 		super(x, y, width, height, label);
 		this.selected = selected;
 		this.onValueChange = onValueChange;
-		this.setTooltip(Tooltip.create(description));
+		this.description = description;
 	}
 
 	@Override
@@ -66,8 +77,32 @@ public final class GlobalOptionEntry extends AbstractButton {
 		}
 	}
 
+	public void renderTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+		Minecraft minecraft = Minecraft.getInstance();
+		boolean focusedByKeyboard = this.isFocused() && minecraft.getLastInputType().isKeyboard();
+		if (!this.isHovered() && !focusedByKeyboard) {
+			return;
+		}
+
+		Font font = minecraft.font;
+		List<FormattedCharSequence> wrappedLines = font.split(this.description, TOOLTIP_MAX_WIDTH);
+		List<ClientTooltipComponent> lines = java.util.stream.IntStream.range(0, wrappedLines.size())
+			.mapToObj(index -> new GlobalOptionTooltipLine(
+				wrappedLines.get(index),
+				index == 0,
+				index == wrappedLines.size() - 1
+			))
+			.map(ClientTooltipComponent.class::cast)
+			.toList();
+		ClientTooltipPositioner positioner = focusedByKeyboard && !this.isHovered()
+			? new BelowOrAboveWidgetTooltipPositioner(this.getRectangle())
+			: new MenuTooltipPositioner(this.getRectangle());
+		graphics.tooltip(font, lines, mouseX, mouseY, positioner, null);
+	}
+
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput output) {
 		this.defaultButtonNarrationText(output);
+		output.add(NarratedElementType.HINT, this.description);
 	}
 }

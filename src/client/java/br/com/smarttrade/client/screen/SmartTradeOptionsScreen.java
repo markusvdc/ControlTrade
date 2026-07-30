@@ -146,6 +146,28 @@ public final class SmartTradeOptionsScreen extends Screen {
 		if (!this.status.getString().isEmpty()) {
 			graphics.centeredText(this.font, this.status, this.width / 2, this.height - 49, this.statusColor);
 		}
+		this.renderGlobalOptionTooltip(graphics, mouseX, mouseY);
+	}
+
+	private void renderGlobalOptionTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+		GlobalOptionEntry[] entries = {
+			this.jadeReputationEntry,
+			this.maximumReputationEntry,
+			this.soulSpeedEntry,
+			this.mushroomHeightEntry
+		};
+		for (GlobalOptionEntry entry : entries) {
+			if (entry.isHovered()) {
+				entry.renderTooltip(graphics, mouseX, mouseY);
+				return;
+			}
+		}
+		for (GlobalOptionEntry entry : entries) {
+			if (entry.isFocused()) {
+				entry.renderTooltip(graphics, mouseX, mouseY);
+				return;
+			}
+		}
 	}
 
 	@Override

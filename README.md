@@ -46,39 +46,16 @@ Ao carregar as ofertas de um aldeão, o mod também remove variantes antigas des
 
 ### INFORMAÇÕES ADICIONAIS
 
-Quando ativada e o mod [Jade](https://modrinth.com/mod/jade) está instalado, acrescenta três linhas ao painel de um aldeão observado:
-
-- **Reputação:** a reputação total daquele aldeão em relação ao jogador que o observa. Valores maiores que **0** aparecem em verde e com sinal `+`, valores menores que **0** aparecem em vermelho e o valor **0** aparece em cinza.
-- **Reabastecimentos:** o número de reabastecimentos realizados pelo aldeão no dia atual, exibido no formato `atual/2`.
-- **Curado:** mostra **Sim** quando o aldeão possui, para o jogador que o observa, reputação do tipo vanilla `major_positive` maior que **0**; caso contrário, mostra **Não**.
-
-A opção apenas controla essas informações no Jade: não altera reputação, cura, ofertas ou reabastecimentos. Sem o Jade, não há painel adicional. Quando **REPUTAÇÃO MÁXIMA** também está ativada, a linha de reputação mostra **+150**, porque esse é o valor que o aldeão passa a fornecer às consultas do jogo; a linha **Curado** continua baseada no dado real `major_positive`.
+Exibe no Jade três dados do aldeão observado: reputação em relação ao jogador, em verde e com sinal + acima de 0, em vermelho abaixo de 0 e em cinza quando igual a 0; reabastecimentos realizados no dia, no formato atual/2; e Curado como Sim quando a reputação major_positive desse jogador é maior que 0. Com REPUTAÇÃO MÁXIMA, exibe +150, enquanto Curado usa o dado real. Requer Jade.
 
 ### REPUTAÇÃO MÁXIMA
 
-Quando ativada, toda consulta à reputação de um jogador feita por qualquer aldeão retorna exatamente **150**. Isso afeta todas as ofertas do aldeão, tanto vanilla quanto adicionadas pelo SMART TRADE, sempre que o jogo calcula preços especiais ao abrir o comércio.
-
-Para as nove ofertas do mod, cujo multiplicador é **0,05**, a contribuição desse valor ao preço especial é de **−7 itens** (`floor(150 × 0,05)`), antes da combinação com demanda e outros modificadores vanilla e respeitando o preço final mínimo de **1 item**. Ofertas vanilla mantêm seus próprios multiplicadores, preços-base, demanda, limites, usos e condições; portanto, a redução numérica pode ser diferente em cada uma.
-
-Desativar a opção faz as consultas voltarem a usar a reputação real. O mod não escreve, apaga, aumenta nem reduz os registros reais de fofocas, negociações, agressões ou curas do aldeão.
+Faz toda consulta de reputação de qualquer aldeão retornar 150 para o jogador, afetando os preços especiais de ofertas vanilla e do SMART TRADE. Nas nove ofertas do mod, o multiplicador 0,05 reduz 7 itens antes da demanda e de outros modificadores, respeitando o preço final mínimo de 1 item. Ofertas vanilla usam seus próprios multiplicadores. Os dados reais de reputação permanecem preservados.
 
 ### VELOCIDADE CONDICIONADA
 
-Quando ativada, o encantamento **Velocidade das Almas** executa seus efeitos de localização e de movimento somente na dimensão do Nether. Fora do Nether, uma entidade viva que possua qualquer nível do encantamento e esteja sobre um bloco da tag `minecraft:soul_speed_blocks` tem o fator de velocidade desse bloco fixado em **1,0**, mantendo movimento normal em vez da aceleração do encantamento.
-
-No conteúdo vanilla, `minecraft:soul_speed_blocks` contém exatamente **areia das almas** e **terra das almas**; datapacks ou outros mods podem acrescentar blocos à mesma tag. A verificação considera tanto o bloco na posição da entidade quanto o bloco inferior usado pelo jogo para afetar o movimento.
-
-A opção não remove o encantamento dos equipamentos, não altera seu nível e não modifica movimento sobre esses blocos para entidades sem Velocidade das Almas. No Nether, todos os efeitos do encantamento permanecem vanilla. Quando a opção está desativada, o encantamento também permanece vanilla em todas as dimensões.
+Restringe os efeitos de Velocidade das Almas ao Nether. Nas outras dimensões, entidades vivas com qualquer nível do encantamento recebem fator de velocidade 1,0 sobre blocos da tag minecraft:soul_speed_blocks. A verificação considera o bloco na posição da entidade e o bloco inferior. No conteúdo vanilla, a tag contém exatamente areia das almas e terra das almas; datapacks e mods podem ampliá-la.
 
 ### ALTURA LIMITADA
 
-Quando ativada, a opção interfere somente em tentativas de crescimento iniciadas com **pó de osso** e somente nos casos abaixo:
-
-- **Cogumelo vermelho** sobre **nicélio carmesim ou nicélio distorcido:** o caule usa altura exata de **5 blocos**, da camada de origem até a quarta camada acima; a copa chega à quinta camada acima da origem. Assim, a estrutura pode ocupar **6 camadas verticais** contando a camada de origem.
-- **Cogumelo marrom** sobre **nicélio carmesim ou nicélio distorcido:** o caule usa altura exata de **4 blocos**, da camada de origem até a terceira camada acima; a copa fica na quarta camada acima da origem. Assim, a estrutura pode ocupar **5 camadas verticais** contando a camada de origem.
-- **Muda da selva** ou **muda de acácia:** quando aquela aplicação de pó de osso efetivamente gera a árvore, o gerador do tronco recebe altura exata de **6 blocos**. Folhas, copa, galhos e a forma total da estrutura continuam definidos pelo gerador vanilla e podem ultrapassar a altura do tronco.
-- **Fungo carmesim** ou **fungo distorcido:** quando cultivado sobre seu bloco vanilla obrigatório — respectivamente, **nicélio carmesim** ou **nicélio distorcido** — a altura-base do caule é fixada em **6 blocos**. A chance vanilla de **1 em 12 (aproximadamente 8,33%)** de duplicar essa altura continua ativa, portanto o caule usa **6 blocos em 11 de 12 casos (aproximadamente 91,67%)** e **12 blocos em 1 de 12 casos (aproximadamente 8,33%)**. A copa pode ocupar também a camada imediatamente acima do caule; contando a camada de origem, a extensão vertical pode chegar a **7 camadas** no primeiro caso e **13 camadas** no segundo.
-
-A opção não força o crescimento e preserva as chances de sucesso do pó de osso: **40%** para cogumelos, **40%** para fungos do Nether e **45%** por aplicação em mudas. Também permanecem válidas todas as verificações vanilla de bloco de suporte, espaço livre, altura do mundo e substituição de blocos; se uma delas falhar, a estrutura não é gerada.
-
-Crescimento natural, geração do mundo, cogumelos plantados sobre qualquer bloco diferente dos dois tipos de nicélio, outras mudas, outras árvores e outras plantas não recebem altura fixa. Nas mudas, uma aplicação de pó de osso que apenas muda a muda do estágio **0** para o estágio **1** não gera árvore e, por isso, ainda não aplica a altura ao tronco; a altura fixa só vale se a geração ocorrer dentro de uma aplicação posterior de pó de osso.
+Padroniza crescimentos com pó de osso: cogumelos vermelho/marrom sobre nicélios carmesim/distorcido usam caules de 5/4 blocos e ocupam até 6/5 camadas com a copa; mudas da selva e acácia usam tronco de 6 blocos; fungos carmesim/distorcido no nicélio correspondente usam caule de 6 blocos em 11/12 dos casos ou 12 blocos em 1/12, ocupando até 7/13 camadas. Preserva as chances: 40% para cogumelos e fungos e 45% para mudas, aplicando a altura quando a árvore é gerada, além dos requisitos de suporte, espaço, altura e substituição.

@@ -62,12 +62,36 @@ Ao criar ou alterar opções e funcionalidades destinadas ao jogador, revise tam
 - Descreva todas as opções e funcionalidades destinadas ao jogador de forma completa, clara e explicativa.
 - Informe todos os valores fixos relevantes, incluindo quantidades, multiplicadores, porcentagens, distâncias, alcances, durações, intervalos, limites, chances e tempos. Essa precisão é especialmente importante quando o mod não permite que o jogador altere esses valores.
 - Não use expressões vagas como “mais rápido”, “por algum tempo”, “itens compatíveis” ou nomes genéricos de categorias quando existir um valor, prazo, lista ou critério exato no código.
-- Para cada opção, explique quando ela é ativada, o que afeta, o que permanece inalterado e quais são suas exceções, exclusões, condições de término e comportamentos especiais.
+- Para cada opção, explique o que faz, o que afeta e os valores, condições, exceções ou comportamentos especiais diretamente necessários para compreender seu funcionamento.
 - Quando existir uma lista fechada de itens, blocos, entidades ou categorias, enumere seus integrantes ou defina precisamente a categoria usada.
 - Informe os valores e estados padrão da primeira instalação e esclareça que configurações existentes são preservadas quando esse for o comportamento implementado.
 - Não reduza a precisão para manter descrições curtas. Priorize clareza e exatidão para que o jogador entenda o comportamento oferecido.
 - Ao adicionar ou corrigir uma opção, revise também as demais descrições do README e complete valores, limites, escopos ou exceções ausentes.
 - Não invente comportamentos. Toda afirmação deve corresponder ao código atual.
+
+## Sincronização dos tooltips globais
+
+- O tooltip de cada opção global e a descrição correspondente no `README.md` devem permanecer sincronizados e apresentar exatamente o mesmo conteúdo informativo.
+- No idioma principal `pt_br`, mantenha a redação do tooltip literalmente igual à descrição do README, desconsiderando somente formatações exclusivas do Markdown.
+- Toda mudança de regra, valor, limite, escopo, condição ou exceção de uma opção global exige, no mesmo conjunto de alterações, a atualização da descrição no README, do tooltip dentro do jogo e de todas as traduções desse tooltip.
+- Documente nos dois locais todos os valores fixos, multiplicadores, quantidades, distâncias, limites, tempos, condições de início e término, exceções, exclusões, elementos afetados e comportamentos que permanecem inalterados.
+- As traduções dos tooltips globais devem permanecer completas e semanticamente equivalentes ao texto principal em `pt_br`.
+- A largura máxima de quebra de linha dos tooltips globais deve permanecer em exatamente `425` pixels, equivalente a `2,5×` a largura vanilla de `170` pixels.
+- A distância vertical entre as linhas dos tooltips globais deve permanecer uniforme e `2` pixels maior que a altura vanilla, aproveitando o espaçamento especial vanilla após a primeira linha sem duplicá-lo.
+- Essas alterações de largura e espaçamento pertencem somente aos tooltips das opções globais. Tooltips de itens, botões e outras interfaces devem conservar o comportamento vanilla.
+- Confira o código real antes de redigir ou atualizar os textos. Não invente comportamentos nem use redação vaga quando existir um critério exato implementado.
+
+## Concisão das descrições e tooltips
+
+- Descrições e tooltips devem ser sucintos, claros e restritos ao funcionamento da opção.
+- Informe somente o que a opção faz, quais elementos afeta, valores fixos relevantes, condições necessárias para compreender seu funcionamento e comportamentos especiais diretamente produzidos por ela.
+- Não transforme descrições ou tooltips em tutoriais de Minecraft. Exclua conhecimentos gerais do jogo, explicações de mecânicas vanilla e dúvidas que possam ser resolvidas pela wiki.
+- Prefira afirmações positivas que definam diretamente o escopo. Não prolongue o texto enumerando tudo que a opção não faz, não altera ou não afeta.
+- Não use “caso ativada”, “quando estiver ativa”, “ao ativar esta opção” ou expressões equivalentes. O contexto da interface já comunica que o comportamento depende da opção.
+- Preserve sempre multiplicadores, quantidades, distâncias, limites, tempos e demais números relevantes que o jogador não possa configurar.
+- Quando uma descrição ou tooltip ultrapassar `450` caracteres sem contar espaços, faça uma revisão obrigatória. O valor é um gatilho de revisão, não um limite rígido.
+- Durante essa revisão, remova explicações gerais de Minecraft, redundâncias, frases negativas desnecessárias, exemplos que não definam a opção e detalhes técnicos internos sem impacto para o jogador.
+- Listas fechadas podem permanecer quando forem indispensáveis para definir exatamente o escopo da opção.
 
 ## Controle de versão
 
