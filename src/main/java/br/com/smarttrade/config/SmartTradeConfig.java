@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 10;
+	private static final int CURRENT_VERSION = 11;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -41,6 +41,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
 	private static volatile boolean compactHorseHealthHud;
+	private static volatile boolean automaticDoorClosing;
 
 	private SmartTradeConfig() {
 	}
@@ -82,6 +83,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.fixedHugeMushroomHeight);
 			compactHorseHealthHud =
 				data != null && Boolean.TRUE.equals(data.compactHorseHealthHud);
+			automaticDoorClosing =
+				data != null && Boolean.TRUE.equals(data.automaticDoorClosing);
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
@@ -90,6 +93,7 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
 			compactHorseHealthHud = false;
+			automaticDoorClosing = false;
 			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
@@ -107,13 +111,15 @@ public final class SmartTradeConfig {
 		boolean useMaximumVillagerReputation,
 		boolean restrictSoulSpeedToNether,
 		boolean useFixedHugeMushroomHeight,
-		boolean useCompactHorseHealthHud
+		boolean useCompactHorseHealthHud,
+		boolean useAutomaticDoorClosing
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
 		fixedHugeMushroomHeight = useFixedHugeMushroomHeight;
 		compactHorseHealthHud = useCompactHorseHealthHud;
+		automaticDoorClosing = useAutomaticDoorClosing;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -133,7 +139,8 @@ public final class SmartTradeConfig {
 					maximumVillagerReputation,
 					soulSpeedOnlyInNether,
 					fixedHugeMushroomHeight,
-					compactHorseHealthHud
+					compactHorseHealthHud,
+					automaticDoorClosing
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -171,6 +178,10 @@ public final class SmartTradeConfig {
 		return compactHorseHealthHud;
 	}
 
+	public static boolean automaticDoorClosing() {
+		return automaticDoorClosing;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -185,7 +196,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} automaticDoorClosing={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -194,6 +205,7 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether,
 			fixedHugeMushroomHeight,
 			compactHorseHealthHud,
+			automaticDoorClosing,
 			enabledTrades.stream().sorted().toList()
 		);
 	}
@@ -207,7 +219,8 @@ public final class SmartTradeConfig {
 		Boolean maximumVillagerReputation,
 		Boolean soulSpeedOnlyInNether,
 		Boolean fixedHugeMushroomHeight,
-		Boolean compactHorseHealthHud
+		Boolean compactHorseHealthHud,
+		Boolean automaticDoorClosing
 	) {
 	}
 }

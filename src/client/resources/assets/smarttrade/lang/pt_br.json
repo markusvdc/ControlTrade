@@ -28,6 +28,8 @@
   "smarttrade.options.fixed_mushroom_height.tooltip": "Padroniza crescimentos com pó de osso: cogumelos vermelho/marrom sobre nicélios carmesim/distorcido usam caules de 5/4 blocos e ocupam até 6/5 camadas com a copa; mudas da selva e acácia usam tronco de 6 blocos; fungos carmesim/distorcido no nicélio correspondente usam caule de 6 blocos em 11/12 dos casos ou 12 blocos em 1/12, ocupando até 7/13 camadas. Preserva as chances: 40% para cogumelos e fungos e 45% para mudas, aplicando a altura quando a árvore é gerada, além dos requisitos de suporte, espaço, altura e substituição.",
   "smarttrade.options.compact_horse_health_hud": "VIDA COMPACTA",
   "smarttrade.options.compact_horse_health_hud.tooltip": "Limita a HUD de vida de cavalos, burros, mulas, cavalos-zumbis e cavalos-esqueletos a uma linha de 10 corações, preenchidos proporcionalmente à vida máxima da montaria. Altera somente a exibição; a vida real, o dano e a cura permanecem inalterados.",
+  "smarttrade.options.automatic_door_closing": "PORTA AUTOMÁTICA",
+  "smarttrade.options.automatic_door_closing.tooltip": "Fecha portas de madeira e portões de cerca 5 segundos (100 ticks) após serem abertos diretamente pelo jogador. Antes de fechar, verifica se a posição ainda contém o mesmo tipo de bloco aberto; se estiver fechado, ausente ou tiver sido trocado por outro bloco, nada acontece. Uma nova abertura reinicia a contagem.",
   "smarttrade.jade.reputation": "Reputação: %s",
   "smarttrade.jade.restocks": "Reabastecimentos: %s/%s",
   "smarttrade.jade.cured": "Curado: %s",

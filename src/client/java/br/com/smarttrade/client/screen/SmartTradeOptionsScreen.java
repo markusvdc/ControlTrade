@@ -21,11 +21,13 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean soulSpeedOnlyInNether;
 	private boolean fixedHugeMushroomHeight;
 	private boolean compactHorseHealthHud;
+	private boolean automaticDoorClosing;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
 	private GlobalOptionEntry horseHealthHudEntry;
+	private GlobalOptionEntry automaticDoorClosingEntry;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -42,6 +44,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
 		this.fixedHugeMushroomHeight = SmartTradeConfig.fixedHugeMushroomHeight();
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
+		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
 		this.jadeReputationEntry = this.addRenderableWidget(new GlobalOptionEntry(
 			left,
 			137,
@@ -92,6 +95,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactHorseHealthHud,
 			selected -> this.compactHorseHealthHud = selected
 		));
+		this.automaticDoorClosingEntry = this.addRenderableWidget(new GlobalOptionEntry(
+			left,
+			327,
+			contentWidth,
+			34,
+			Component.translatable("smarttrade.options.automatic_door_closing"),
+			Component.translatable("smarttrade.options.automatic_door_closing.tooltip"),
+			this.automaticDoorClosing,
+			selected -> this.automaticDoorClosing = selected
+		));
 		ActionButtons actionButtons = new ActionButtons(
 			left,
 			buttonY,
@@ -113,12 +126,14 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.soulSpeedOnlyInNether
 				&& this.fixedHugeMushroomHeight
 				&& this.compactHorseHealthHud
+				&& this.automaticDoorClosing
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
 		this.soulSpeedEntry.setSelected(selected);
 		this.mushroomHeightEntry.setSelected(selected);
 		this.horseHealthHudEntry.setSelected(selected);
+		this.automaticDoorClosingEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -127,7 +142,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.maximumVillagerReputation,
 			this.soulSpeedOnlyInNether,
 			this.fixedHugeMushroomHeight,
-			this.compactHorseHealthHud
+			this.compactHorseHealthHud,
+			this.automaticDoorClosing
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
@@ -171,7 +187,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.maximumReputationEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
-			this.horseHealthHudEntry
+			this.horseHealthHudEntry,
+			this.automaticDoorClosingEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {
