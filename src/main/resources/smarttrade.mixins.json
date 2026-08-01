@@ -8,7 +8,6 @@
     "HugeMushroomFeatureMixin",
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
-    "OpenableBlockMixin",
     "SaplingBlockMixin",
     "SoulSpeedDimensionMixin",
     "SoulSpeedMovementMixin",
@@ -17,6 +16,7 @@
     "VillagerRestockMixin"
   ],
   "client": [
+    "ClientOpenableBlockMixin",
     "HorseHealthHudMixin"
   ],
   "injectors": {
