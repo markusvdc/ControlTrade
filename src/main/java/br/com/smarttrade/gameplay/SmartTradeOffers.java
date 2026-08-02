@@ -2,7 +2,6 @@ package br.com.smarttrade.gameplay;
 
 import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.config.SmartTradeConfig;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -192,46 +191,6 @@ public final class SmartTradeOffers {
 			offer.getPriceMultiplier(),
 			offer.isOutOfStock()
 		);
-	}
-
-	public static Map<String, Integer> snapshotUses(MerchantOffers offers) {
-		Map<String, Integer> uses = new LinkedHashMap<>();
-		for (MerchantOffer offer : offers) {
-			TradeDefinition definition = findDefinition(offer);
-			if (definition != null) {
-				uses.put(definition.id(), offer.getUses());
-			}
-		}
-		return uses;
-	}
-
-	public static void logRestocks(Villager villager, Map<String, Integer> usesBefore, MerchantOffers offers) {
-		for (MerchantOffer offer : offers) {
-			TradeDefinition definition = findDefinition(offer);
-			if (definition == null) {
-				continue;
-			}
-
-			Integer previousUses = usesBefore.get(definition.id());
-			if (previousUses == null || previousUses == offer.getUses()) {
-				continue;
-			}
-
-			SmartTrade.LOGGER.info(
-				"Trade restocked: villager={}, profession={}, level={}, trade={}, "
-					+ "usesBefore={}/{}, usesAfter={}/{}, demand={}, specialPrice={}",
-				villager.getUUID(),
-				professionId(villager),
-				villager.getVillagerData().level(),
-				definition.id(),
-				previousUses,
-				offer.getMaxUses(),
-				offer.getUses(),
-				offer.getMaxUses(),
-				offer.getDemand(),
-				offer.getSpecialPriceDiff()
-			);
-		}
 	}
 
 	private static void logValidation(

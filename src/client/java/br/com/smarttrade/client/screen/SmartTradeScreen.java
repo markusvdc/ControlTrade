@@ -88,6 +88,7 @@ public final class SmartTradeScreen extends Screen {
 		if (!this.status.getString().isEmpty()) {
 			graphics.centeredText(this.font, this.status, this.width / 2, this.height - 49, this.statusColor);
 		}
+		this.selectionList.renderTooltip(graphics, mouseX, mouseY);
 	}
 
 	@Override

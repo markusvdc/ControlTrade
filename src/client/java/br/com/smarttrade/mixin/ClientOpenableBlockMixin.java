@@ -1,10 +1,12 @@
 package br.com.smarttrade.mixin;
 
+import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.client.gameplay.AutomaticDoorCloser;
 import br.com.smarttrade.config.SmartTradeConfig;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -40,6 +42,16 @@ public abstract class ClientOpenableBlockMixin {
 		boolean interactionSucceeded = callback.getReturnValue() == InteractionResult.SUCCESS;
 		boolean supportedBlock = resultingState.is(BlockTags.WOODEN_DOORS)
 			|| block instanceof FenceGateBlock;
+		SmartTrade.LOGGER.info(
+			"Automatic door interaction: block={} pos={} dimension={} resultingOpen={} succeeded={} supported={} enabled={}",
+			BuiltInRegistries.BLOCK.getKey(block),
+			pos,
+			clientLevel.dimension().identifier(),
+			isOpen,
+			interactionSucceeded,
+			supportedBlock,
+			SmartTradeConfig.automaticDoorClosing()
+		);
 		if (SmartTradeConfig.automaticDoorClosing() && supportedBlock && isOpen && interactionSucceeded) {
 			AutomaticDoorCloser.schedule(clientLevel, pos, block, hitResult);
 		} else if (supportedBlock && !isOpen && interactionSucceeded) {

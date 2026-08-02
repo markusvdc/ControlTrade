@@ -8,15 +8,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.DefaultTooltipPositioner;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.Items;
 
 public final class SelectionList extends AbstractWidget {
 	private static final int SCROLLBAR_WIDTH = 6;
 	private static final int SCROLLBAR_GAP = 6;
+	private static final int TOOLTIP_MAX_WIDTH = 425;
 
 	private final List<SelectionEntry> entries;
 	private final int rowHeight;
@@ -160,6 +164,44 @@ public final class SelectionList extends AbstractWidget {
 			.filter(entry -> !entry.isCategory() && entry.isSelected())
 			.map(SelectionEntry::itemId)
 			.collect(Collectors.toUnmodifiableSet());
+	}
+
+	public void renderTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+		int contentWidth = this.width - SCROLLBAR_WIDTH - SCROLLBAR_GAP;
+		if (mouseX < getX() || mouseX >= getX() + contentWidth || mouseY < getY() || mouseY >= getY() + this.height) {
+			return;
+		}
+
+		int index = (int) ((mouseY - getY() + this.scrollAmount) / this.rowHeight);
+		if (index < 0 || index >= this.entries.size()) {
+			return;
+		}
+
+		SelectionEntry entry = this.entries.get(index);
+		if (entry.isCategory()) {
+			return;
+		}
+
+		List<FormattedCharSequence> wrappedLines = Minecraft.getInstance().font.split(
+			entry.description(),
+			TOOLTIP_MAX_WIDTH
+		);
+		List<ClientTooltipComponent> lines = java.util.stream.IntStream.range(0, wrappedLines.size())
+			.mapToObj(lineIndex -> new GlobalOptionTooltipLine(
+				wrappedLines.get(lineIndex),
+				lineIndex == 0,
+				lineIndex == wrappedLines.size() - 1
+			))
+			.map(ClientTooltipComponent.class::cast)
+			.toList();
+		graphics.tooltip(
+			Minecraft.getInstance().font,
+			lines,
+			mouseX,
+			mouseY,
+			DefaultTooltipPositioner.INSTANCE,
+			null
+		);
 	}
 
 	private int getRowY(int index) {

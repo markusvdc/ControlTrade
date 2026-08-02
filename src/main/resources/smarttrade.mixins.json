@@ -17,7 +17,8 @@
   ],
   "client": [
     "ClientOpenableBlockMixin",
-    "HorseHealthHudMixin"
+    "HorseHealthHudMixin",
+    "OpenableBlockInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

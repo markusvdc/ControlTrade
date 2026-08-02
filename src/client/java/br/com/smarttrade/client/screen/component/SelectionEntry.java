@@ -15,6 +15,7 @@ public final class SelectionEntry {
 	private final Item item;
 	private final Identifier texture;
 	private final Component name;
+	private final Component description;
 	private final boolean category;
 	private boolean selected;
 
@@ -30,6 +31,7 @@ public final class SelectionEntry {
 			Component.empty()
 				.append(uppercaseNativeName(minecraft, item))
 				.append(Component.literal(" (" + amount + ")")),
+			Component.translatable("smarttrade.trade." + BuiltInRegistries.ITEM.getKey(item).getPath() + ".tooltip"),
 			false,
 			selected
 		);
@@ -40,6 +42,7 @@ public final class SelectionEntry {
 		Item item,
 		Identifier texture,
 		Component name,
+		Component description,
 		boolean category,
 		boolean selected
 	) {
@@ -47,6 +50,7 @@ public final class SelectionEntry {
 		this.item = item;
 		this.texture = texture;
 		this.name = name;
+		this.description = description;
 		this.category = category;
 		this.selected = !category && selected;
 	}
@@ -57,6 +61,7 @@ public final class SelectionEntry {
 			Items.AIR,
 			BuiltInRegistries.ITEM.getKey(Items.AIR),
 			Component.translatable(translationKey),
+			Component.empty(),
 			true,
 			false
 		);
@@ -139,5 +144,9 @@ public final class SelectionEntry {
 
 	public boolean isCategory() {
 		return this.category;
+	}
+
+	public Component description() {
+		return this.description;
 	}
 }
