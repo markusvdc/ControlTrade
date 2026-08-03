@@ -21,7 +21,7 @@ public final class GlobalOptionEntry extends AbstractButton {
 	private static final int TOOLTIP_MAX_WIDTH = VANILLA_TOOLTIP_MAX_WIDTH * 5 / 2;
 
 	private final Consumer<Boolean> onValueChange;
-	private final Component description;
+	private final OptionTooltip tooltip;
 	private boolean selected;
 
 	public GlobalOptionEntry(
@@ -30,14 +30,14 @@ public final class GlobalOptionEntry extends AbstractButton {
 		int width,
 		int height,
 		Component label,
-		Component description,
+		OptionTooltip tooltip,
 		boolean selected,
 		Consumer<Boolean> onValueChange
 	) {
 		super(x, y, width, height, label);
 		this.selected = selected;
 		this.onValueChange = onValueChange;
-		this.description = description;
+		this.tooltip = tooltip;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public final class GlobalOptionEntry extends AbstractButton {
 		}
 
 		Font font = minecraft.font;
-		List<FormattedCharSequence> wrappedLines = font.split(this.description, TOOLTIP_MAX_WIDTH);
+		List<FormattedCharSequence> wrappedLines = this.tooltip.split(font, TOOLTIP_MAX_WIDTH);
 		List<ClientTooltipComponent> lines = java.util.stream.IntStream.range(0, wrappedLines.size())
 			.mapToObj(index -> new GlobalOptionTooltipLine(
 				wrappedLines.get(index),
@@ -103,6 +103,6 @@ public final class GlobalOptionEntry extends AbstractButton {
 	@Override
 	protected void updateWidgetNarration(NarrationElementOutput output) {
 		this.defaultButtonNarrationText(output);
-		output.add(NarratedElementType.HINT, this.description);
+		output.add(NarratedElementType.HINT, this.tooltip.narration());
 	}
 }

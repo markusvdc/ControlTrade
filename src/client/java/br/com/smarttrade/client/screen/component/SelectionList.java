@@ -182,8 +182,8 @@ public final class SelectionList extends AbstractWidget {
 			return;
 		}
 
-		List<FormattedCharSequence> wrappedLines = Minecraft.getInstance().font.split(
-			entry.description(),
+		List<FormattedCharSequence> wrappedLines = entry.tooltip().split(
+			Minecraft.getInstance().font,
 			TOOLTIP_MAX_WIDTH
 		);
 		List<ClientTooltipComponent> lines = java.util.stream.IntStream.range(0, wrappedLines.size())
