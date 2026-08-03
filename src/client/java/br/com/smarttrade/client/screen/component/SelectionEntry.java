@@ -146,6 +146,10 @@ public final class SelectionEntry {
 		return this.category;
 	}
 
+	public Component name() {
+		return this.name;
+	}
+
 	public OptionTooltip tooltip() {
 		return this.tooltip;
 	}

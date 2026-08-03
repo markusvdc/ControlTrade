@@ -1,5 +1,7 @@
 package br.com.smarttrade.client.screen.component;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +32,7 @@ public final class SelectionList extends AbstractWidget {
 	public SelectionList(Minecraft minecraft, int width, int height, int y, int rowHeight) {
 		super(0, y, width, height, Component.translatable("smarttrade.list.title"));
 		this.rowHeight = rowHeight;
-		this.entries = List.of(
+		this.entries = sortWithinCategories(minecraft, List.of(
 			SelectionEntry.category(minecraft, "smarttrade.category.farmer"),
 			new SelectionEntry(minecraft, Items.EGG, 20, SmartTradeConfig.isTradeEnabled(Items.EGG)),
 			new SelectionEntry(minecraft, Items.COCOA_BEANS, 20, SmartTradeConfig.isTradeEnabled(Items.COCOA_BEANS)),
@@ -47,7 +49,25 @@ public final class SelectionList extends AbstractWidget {
 
 			SelectionEntry.category(minecraft, "smarttrade.category.fletcher"),
 			new SelectionEntry(minecraft, Items.ARROW, 15, SmartTradeConfig.isTradeEnabled(Items.ARROW))
+		));
+	}
+
+	private static List<SelectionEntry> sortWithinCategories(Minecraft minecraft, List<SelectionEntry> entries) {
+		List<SelectionEntry> sorted = new ArrayList<>(entries);
+		Comparator<SelectionEntry> comparator = Comparator.comparing(
+			SelectionEntry::name,
+			AlphabeticalOrder.components(minecraft)
 		);
+		int categoryStart = 0;
+		while (categoryStart < sorted.size()) {
+			int nextCategory = categoryStart + 1;
+			while (nextCategory < sorted.size() && !sorted.get(nextCategory).isCategory()) {
+				nextCategory++;
+			}
+			sorted.subList(categoryStart + 1, nextCategory).sort(comparator);
+			categoryStart = nextCategory;
+		}
+		return List.copyOf(sorted);
 	}
 
 	@Override

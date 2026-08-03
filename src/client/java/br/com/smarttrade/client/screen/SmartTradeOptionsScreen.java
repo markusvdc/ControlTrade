@@ -1,10 +1,14 @@
 package br.com.smarttrade.client.screen;
 
 import br.com.smarttrade.client.screen.component.ActionButtons;
+import br.com.smarttrade.client.screen.component.AlphabeticalOrder;
 import br.com.smarttrade.client.screen.component.GlobalOptionEntry;
 import br.com.smarttrade.client.screen.component.OptionTooltip;
 import br.com.smarttrade.client.screen.component.SummaryPanel;
 import br.com.smarttrade.config.SmartTradeConfig;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -49,76 +53,92 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
-		this.jadeReputationEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
-			137,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.jade_reputation"),
 			OptionTooltip.translated("smarttrade.options.jade_reputation"),
 			this.showAdditionalInformation,
 			selected -> this.showAdditionalInformation = selected
-		));
-		this.maximumReputationEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.maximumReputationEntry = new GlobalOptionEntry(
 			left,
-			175,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.maximum_reputation"),
 			OptionTooltip.translated("smarttrade.options.maximum_reputation"),
 			this.maximumVillagerReputation,
 			selected -> this.maximumVillagerReputation = selected
-		));
-		this.soulSpeedEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.soulSpeedEntry = new GlobalOptionEntry(
 			left,
-			213,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.soul_speed_nether"),
 			OptionTooltip.translated("smarttrade.options.soul_speed_nether"),
 			this.soulSpeedOnlyInNether,
 			selected -> this.soulSpeedOnlyInNether = selected
-		));
-		this.mushroomHeightEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.mushroomHeightEntry = new GlobalOptionEntry(
 			left,
-			251,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.fixed_mushroom_height"),
 			OptionTooltip.translated("smarttrade.options.fixed_mushroom_height"),
 			this.fixedHugeMushroomHeight,
 			selected -> this.fixedHugeMushroomHeight = selected
-		));
-		this.horseHealthHudEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.horseHealthHudEntry = new GlobalOptionEntry(
 			left,
-			289,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.compact_horse_health_hud"),
 			OptionTooltip.translated("smarttrade.options.compact_horse_health_hud"),
 			this.compactHorseHealthHud,
 			selected -> this.compactHorseHealthHud = selected
-		));
-		this.automaticDoorClosingEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.automaticDoorClosingEntry = new GlobalOptionEntry(
 			left,
-			327,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.automatic_door_closing"),
 			OptionTooltip.translated("smarttrade.options.automatic_door_closing"),
 			this.automaticDoorClosing,
 			selected -> this.automaticDoorClosing = selected
-		));
-		this.chatHistoryNavigationEntry = this.addRenderableWidget(new GlobalOptionEntry(
+		);
+		this.chatHistoryNavigationEntry = new GlobalOptionEntry(
 			left,
-			365,
+			0,
 			contentWidth,
 			34,
 			Component.translatable("smarttrade.options.disable_chat_history_navigation"),
 			OptionTooltip.translated("smarttrade.options.disable_chat_history_navigation"),
 			this.disableChatHistoryNavigation,
 			selected -> this.disableChatHistoryNavigation = selected
+		);
+		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
+			this.jadeReputationEntry,
+			this.maximumReputationEntry,
+			this.soulSpeedEntry,
+			this.mushroomHeightEntry,
+			this.horseHealthHudEntry,
+			this.automaticDoorClosingEntry,
+			this.chatHistoryNavigationEntry
 		));
+		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
+		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
+		for (int index = 0; index < entries.size(); index++) {
+			GlobalOptionEntry entry = entries.get(index);
+			entry.setY(137 + index * 38);
+			this.addRenderableWidget(entry);
+		}
 		ActionButtons actionButtons = new ActionButtons(
 			left,
 			buttonY,
