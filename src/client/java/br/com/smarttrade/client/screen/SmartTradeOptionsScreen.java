@@ -28,6 +28,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean soulSpeedOnlyInNether;
 	private boolean fixedHugeMushroomHeight;
 	private boolean compactHorseHealthHud;
+	private boolean equestrianHud;
 	private boolean automaticDoorClosing;
 	private boolean disableChatHistoryNavigation;
 	private boolean compactItemCounts;
@@ -36,6 +37,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
 	private GlobalOptionEntry horseHealthHudEntry;
+	private GlobalOptionEntry equestrianHudEntry;
 	private GlobalOptionEntry automaticDoorClosingEntry;
 	private GlobalOptionEntry chatHistoryNavigationEntry;
 	private GlobalOptionEntry compactItemCountsEntry;
@@ -55,6 +57,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
 		this.fixedHugeMushroomHeight = SmartTradeConfig.fixedHugeMushroomHeight();
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
+		this.equestrianHud = SmartTradeConfig.equestrianHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
 		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
@@ -108,6 +111,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactHorseHealthHud,
 			selected -> this.compactHorseHealthHud = selected
 		);
+		this.equestrianHudEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.equestrian_hud"),
+			OptionTooltip.translated("smarttrade.options.equestrian_hud"),
+			this.equestrianHud,
+			selected -> this.equestrianHud = selected
+		);
 		this.automaticDoorClosingEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -144,6 +157,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
+			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry
@@ -176,6 +190,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.soulSpeedOnlyInNether
 				&& this.fixedHugeMushroomHeight
 				&& this.compactHorseHealthHud
+				&& this.equestrianHud
 				&& this.automaticDoorClosing
 				&& this.disableChatHistoryNavigation
 				&& this.compactItemCounts
@@ -185,6 +200,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.soulSpeedEntry.setSelected(selected);
 		this.mushroomHeightEntry.setSelected(selected);
 		this.horseHealthHudEntry.setSelected(selected);
+		this.equestrianHudEntry.setSelected(selected);
 		this.automaticDoorClosingEntry.setSelected(selected);
 		this.chatHistoryNavigationEntry.setSelected(selected);
 		this.compactItemCountsEntry.setSelected(selected);
@@ -197,6 +213,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedOnlyInNether,
 			this.fixedHugeMushroomHeight,
 			this.compactHorseHealthHud,
+			this.equestrianHud,
 			this.automaticDoorClosing,
 			this.disableChatHistoryNavigation,
 			this.compactItemCounts
@@ -244,6 +261,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
+			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry

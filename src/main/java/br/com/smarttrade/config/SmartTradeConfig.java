@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 13;
+	private static final int CURRENT_VERSION = 14;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -41,6 +41,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
 	private static volatile boolean compactHorseHealthHud;
+	private static volatile boolean equestrianHud;
 	private static volatile boolean automaticDoorClosing;
 	private static volatile boolean disableChatHistoryNavigation;
 	private static volatile boolean compactItemCounts;
@@ -85,6 +86,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.fixedHugeMushroomHeight);
 			compactHorseHealthHud =
 				data != null && Boolean.TRUE.equals(data.compactHorseHealthHud);
+			equestrianHud =
+				data != null && Boolean.TRUE.equals(data.equestrianHud);
 			automaticDoorClosing =
 				data != null && Boolean.TRUE.equals(data.automaticDoorClosing);
 			disableChatHistoryNavigation =
@@ -99,6 +102,7 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
 			compactHorseHealthHud = false;
+			equestrianHud = false;
 			automaticDoorClosing = false;
 			disableChatHistoryNavigation = false;
 			compactItemCounts = false;
@@ -120,6 +124,7 @@ public final class SmartTradeConfig {
 		boolean restrictSoulSpeedToNether,
 		boolean useFixedHugeMushroomHeight,
 		boolean useCompactHorseHealthHud,
+		boolean useEquestrianHud,
 		boolean useAutomaticDoorClosing,
 		boolean disableHistoryNavigation,
 		boolean useCompactItemCounts
@@ -129,6 +134,7 @@ public final class SmartTradeConfig {
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
 		fixedHugeMushroomHeight = useFixedHugeMushroomHeight;
 		compactHorseHealthHud = useCompactHorseHealthHud;
+		equestrianHud = useEquestrianHud;
 		automaticDoorClosing = useAutomaticDoorClosing;
 		disableChatHistoryNavigation = disableHistoryNavigation;
 		compactItemCounts = useCompactItemCounts;
@@ -152,6 +158,7 @@ public final class SmartTradeConfig {
 					soulSpeedOnlyInNether,
 					fixedHugeMushroomHeight,
 					compactHorseHealthHud,
+					equestrianHud,
 					automaticDoorClosing,
 					disableChatHistoryNavigation,
 					compactItemCounts
@@ -192,6 +199,10 @@ public final class SmartTradeConfig {
 		return compactHorseHealthHud;
 	}
 
+	public static boolean equestrianHud() {
+		return equestrianHud;
+	}
+
 	public static boolean automaticDoorClosing() {
 		return automaticDoorClosing;
 	}
@@ -218,7 +229,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -227,6 +238,7 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether,
 			fixedHugeMushroomHeight,
 			compactHorseHealthHud,
+			equestrianHud,
 			automaticDoorClosing,
 			disableChatHistoryNavigation,
 			compactItemCounts,
@@ -244,6 +256,7 @@ public final class SmartTradeConfig {
 		Boolean soulSpeedOnlyInNether,
 		Boolean fixedHugeMushroomHeight,
 		Boolean compactHorseHealthHud,
+		Boolean equestrianHud,
 		Boolean automaticDoorClosing,
 		Boolean disableChatHistoryNavigation,
 		Boolean compactItemCounts
