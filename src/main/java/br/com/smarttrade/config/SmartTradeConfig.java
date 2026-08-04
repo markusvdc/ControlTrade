@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 15;
+	private static final int CURRENT_VERSION = 16;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -46,6 +46,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean disableChatHistoryNavigation;
 	private static volatile boolean compactItemCounts;
 	private static volatile boolean expandedItemStacks;
+	private static volatile boolean compactInformationOverlay;
 
 	private SmartTradeConfig() {
 	}
@@ -97,6 +98,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactItemCounts);
 			expandedItemStacks =
 				data != null && Boolean.TRUE.equals(data.expandedItemStacks);
+			compactInformationOverlay =
+				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
@@ -110,6 +113,7 @@ public final class SmartTradeConfig {
 			disableChatHistoryNavigation = false;
 			compactItemCounts = false;
 			expandedItemStacks = false;
+			compactInformationOverlay = false;
 			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
@@ -132,7 +136,8 @@ public final class SmartTradeConfig {
 		boolean useAutomaticDoorClosing,
 		boolean disableHistoryNavigation,
 		boolean useCompactItemCounts,
-		boolean useExpandedItemStacks
+		boolean useExpandedItemStacks,
+		boolean useCompactInformationOverlay
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -144,6 +149,7 @@ public final class SmartTradeConfig {
 		disableChatHistoryNavigation = disableHistoryNavigation;
 		compactItemCounts = useCompactItemCounts;
 		expandedItemStacks = useExpandedItemStacks;
+		compactInformationOverlay = useCompactInformationOverlay;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -168,7 +174,8 @@ public final class SmartTradeConfig {
 					automaticDoorClosing,
 					disableChatHistoryNavigation,
 					compactItemCounts,
-					expandedItemStacks
+					expandedItemStacks,
+					compactInformationOverlay
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -226,6 +233,10 @@ public final class SmartTradeConfig {
 		return expandedItemStacks;
 	}
 
+	public static boolean compactInformationOverlay() {
+		return compactInformationOverlay;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -240,7 +251,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} compactInformationOverlay={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -254,6 +265,7 @@ public final class SmartTradeConfig {
 			disableChatHistoryNavigation,
 			compactItemCounts,
 			expandedItemStacks,
+			compactInformationOverlay,
 			enabledTrades.stream().sorted().toList()
 		);
 	}
@@ -272,7 +284,8 @@ public final class SmartTradeConfig {
 		Boolean automaticDoorClosing,
 		Boolean disableChatHistoryNavigation,
 		Boolean compactItemCounts,
-		Boolean expandedItemStacks
+		Boolean expandedItemStacks,
+		Boolean compactInformationOverlay
 	) {
 	}
 }
