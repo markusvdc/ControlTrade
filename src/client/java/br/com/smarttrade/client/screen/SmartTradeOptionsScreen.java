@@ -16,6 +16,8 @@ import net.minecraft.network.chat.Component;
 public final class SmartTradeOptionsScreen extends Screen {
 	private static final int MAX_CONTENT_WIDTH = 540;
 	private static final int SIDE_MARGIN = 16;
+	private static final int OPTIONS_TOP = 137;
+	private static final int OPTION_HEIGHT = 30;
 
 	private final Screen parent;
 	private final SummaryPanel summaryPanel = new SummaryPanel();
@@ -57,7 +59,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.jade_reputation"),
 			OptionTooltip.translated("smarttrade.options.jade_reputation"),
 			this.showAdditionalInformation,
@@ -67,7 +69,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.maximum_reputation"),
 			OptionTooltip.translated("smarttrade.options.maximum_reputation"),
 			this.maximumVillagerReputation,
@@ -77,7 +79,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.soul_speed_nether"),
 			OptionTooltip.translated("smarttrade.options.soul_speed_nether"),
 			this.soulSpeedOnlyInNether,
@@ -87,7 +89,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.fixed_mushroom_height"),
 			OptionTooltip.translated("smarttrade.options.fixed_mushroom_height"),
 			this.fixedHugeMushroomHeight,
@@ -97,7 +99,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.compact_horse_health_hud"),
 			OptionTooltip.translated("smarttrade.options.compact_horse_health_hud"),
 			this.compactHorseHealthHud,
@@ -107,7 +109,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.automatic_door_closing"),
 			OptionTooltip.translated("smarttrade.options.automatic_door_closing"),
 			this.automaticDoorClosing,
@@ -117,7 +119,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.disable_chat_history_navigation"),
 			OptionTooltip.translated("smarttrade.options.disable_chat_history_navigation"),
 			this.disableChatHistoryNavigation,
@@ -136,7 +138,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
 		for (int index = 0; index < entries.size(); index++) {
 			GlobalOptionEntry entry = entries.get(index);
-			entry.setY(137 + index * 38);
+			entry.setY(OPTIONS_TOP + OPTION_HEIGHT * index);
 			this.addRenderableWidget(entry);
 		}
 		ActionButtons actionButtons = new ActionButtons(

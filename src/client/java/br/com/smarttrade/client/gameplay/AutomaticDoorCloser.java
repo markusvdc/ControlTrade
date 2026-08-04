@@ -13,9 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.BlockHitResult;
 
 public final class AutomaticDoorCloser {
@@ -89,15 +92,13 @@ public final class AutomaticDoorCloser {
 			iterator.remove();
 			BlockState state = level.getBlockState(entry.getKey());
 			boolean sameOpenBlock = state.getBlock() == closure.block()
-				&& state.hasProperty(BlockStateProperties.OPEN)
-				&& state.getValue(BlockStateProperties.OPEN);
+				&& isOpen(level, entry.getKey(), state);
 			SmartTrade.LOGGER.info(
 				"Automatic door deadline: pos={} dimension={} sameBlock={} open={} action={}",
 				entry.getKey(),
 				level.dimension().identifier(),
 				state.getBlock() == closure.block(),
-				state.hasProperty(BlockStateProperties.OPEN)
-					&& state.getValue(BlockStateProperties.OPEN),
+				isOpen(level, entry.getKey(), state),
 				sameOpenBlock ? "close" : "ignore"
 			);
 			if (sameOpenBlock) {
@@ -116,9 +117,7 @@ public final class AutomaticDoorCloser {
 
 			BlockState state = level.getBlockState(entry.getKey());
 			boolean sameBlock = state.getBlock() == verification.block();
-			boolean open = sameBlock
-				&& state.hasProperty(BlockStateProperties.OPEN)
-				&& state.getValue(BlockStateProperties.OPEN);
+			boolean open = sameBlock && isOpen(level, entry.getKey(), state);
 			SmartTrade.LOGGER.info(
 				"Automatic door verification: pos={} dimension={} attempt={} sameBlock={} open={} action={}",
 				entry.getKey(),
@@ -201,8 +200,7 @@ public final class AutomaticDoorCloser {
 
 			BlockState state = serverLevel.getBlockState(pos);
 			boolean canClose = state.getBlock() == expectedBlock
-				&& state.hasProperty(BlockStateProperties.OPEN)
-				&& state.getValue(BlockStateProperties.OPEN);
+				&& isOpen(serverLevel, pos, state);
 			if (!canClose) {
 				SmartTrade.LOGGER.info(
 					"Automatic door server close skipped: pos={} attempt={} sameBlock={} open={}",
@@ -215,16 +213,58 @@ public final class AutomaticDoorCloser {
 				return;
 			}
 
-			InteractionResult result = ((OpenableBlockInvoker) state.getBlock())
-				.smarttrade$useWithoutItem(state, serverLevel, pos, null, hitResult);
+			InteractionResult result = state.getValue(BlockStateProperties.OPEN)
+				? ((OpenableBlockInvoker) state.getBlock())
+					.smarttrade$useWithoutItem(state, serverLevel, pos, null, hitResult)
+				: InteractionResult.PASS;
+			boolean synchronizedDoorHalf = synchronizeDoorHalf(serverLevel, pos, state);
 			SmartTrade.LOGGER.info(
-				"Automatic door server close: pos={} dimension={} attempt={} result={}",
+				"Automatic door server close: pos={} dimension={} attempt={} result={} synchronizedDoorHalf={}",
 				pos,
 				dimension.identifier(),
 				attempt,
-				result
+				result,
+				synchronizedDoorHalf
 			);
 		});
+	}
+
+	private static boolean isOpen(LevelReader level, BlockPos pos, BlockState state) {
+		if (state.hasProperty(BlockStateProperties.OPEN)
+			&& state.getValue(BlockStateProperties.OPEN)) {
+			return true;
+		}
+		if (!(state.getBlock() instanceof DoorBlock)) {
+			return false;
+		}
+
+		BlockState otherHalf = level.getBlockState(otherDoorHalfPos(pos, state));
+		return otherHalf.getBlock() == state.getBlock()
+			&& otherHalf.hasProperty(BlockStateProperties.OPEN)
+			&& otherHalf.getValue(BlockStateProperties.OPEN);
+	}
+
+	private static boolean synchronizeDoorHalf(ServerLevel level, BlockPos pos, BlockState state) {
+		if (!(state.getBlock() instanceof DoorBlock)) {
+			return false;
+		}
+
+		BlockPos otherPos = otherDoorHalfPos(pos, state);
+		BlockState otherState = level.getBlockState(otherPos);
+		if (otherState.getBlock() != state.getBlock()
+			|| !otherState.hasProperty(BlockStateProperties.OPEN)
+			|| !otherState.getValue(BlockStateProperties.OPEN)) {
+			return false;
+		}
+
+		level.setBlock(otherPos, otherState.setValue(BlockStateProperties.OPEN, false), 10);
+		return true;
+	}
+
+	private static BlockPos otherDoorHalfPos(BlockPos pos, BlockState state) {
+		return state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.LOWER
+			? pos.above()
+			: pos.below();
 	}
 
 	private static void track(ClientLevel level) {
