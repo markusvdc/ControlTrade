@@ -46,6 +46,8 @@
   "smarttrade.options.disable_chat_history_navigation.description": "Impede que as setas para cima e para baixo naveguem pelas mensagens e pelos comandos anteriores na tela de chat. O histórico continua sendo armazenado normalmente.",
   "smarttrade.options.compact_item_counts": "NÚMEROS QUADRADOS",
   "smarttrade.options.compact_item_counts.description": "Substitui os números de quantidade das pilhas de itens por uma fonte compacta 3x5 inspirada na interface do Create, com contorno escuro para manter a leitura sobre fundos claros e escuros. Altera somente a exibição; a quantidade real dos itens permanece inalterada. (GPL)",
+  "smarttrade.options.expanded_item_stacks": "PILHAS AMPLIADAS",
+  "smarttrade.options.expanded_item_stacks.description": "Altera o empilhamento máximo de sopas, pérolas do Ender, bolos e itens da tag c:eggs para 64; selas, poções, arreios, barcos, camas, livros encantados, discos musicais e itens da tag c:buckets para 16. Reconhece as tags c:foods/soup, c:potions, minecraft:harnesses, minecraft:boats, minecraft:beds, c:music_discs, c:eggs e c:buckets, incluindo itens adicionados a elas por datapacks e mods. Projetada para mundos singleplayer; em servidores externos, o servidor controla os limites reais.",
   "smarttrade.jade.reputation": "Reputação: %s",
   "smarttrade.jade.restocks": "Reabastecimentos: %s/%s",
   "smarttrade.jade.cured": "Curado: %s",

@@ -6,6 +6,7 @@
     "AbstractVillagerMixin",
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
+	"ItemInstanceMixin",
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
     "SaplingBlockMixin",

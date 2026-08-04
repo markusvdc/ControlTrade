@@ -46,6 +46,8 @@
   "smarttrade.options.disable_chat_history_navigation.description": "Prevents the up and down arrow keys from navigating through previous messages and commands on the chat screen. The history continues to be stored normally.",
   "smarttrade.options.compact_item_counts": "SQUARE NUMBERS",
   "smarttrade.options.compact_item_counts.description": "Replaces item stack count numbers with a compact 3x5 font inspired by Create's interface, with a dark outline to remain readable over light and dark backgrounds. Changes only the display; the actual item quantities remain unchanged. (GPL)",
+  "smarttrade.options.expanded_item_stacks": "EXPANDED STACKS",
+  "smarttrade.options.expanded_item_stacks.description": "Changes the maximum stack size of soups, Ender pearls, cakes, and items in the c:eggs tag to 64; saddles, potions, harnesses, boats, beds, enchanted books, music discs, and items in the c:buckets tag to 16. Recognizes the c:foods/soup, c:potions, minecraft:harnesses, minecraft:boats, minecraft:beds, c:music_discs, c:eggs, and c:buckets tags, including items added to them by data packs and mods. Designed for singleplayer worlds; on external servers, the server controls the actual limits.",
   "smarttrade.jade.reputation": "Reputation: %s",
   "smarttrade.jade.restocks": "Restocks: %s/%s",
   "smarttrade.jade.cured": "Cured: %s",
