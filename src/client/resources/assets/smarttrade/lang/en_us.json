@@ -1,6 +1,6 @@
 {
   "smarttrade.title": "SMART TRADE",
-  "smarttrade.subtitle": "Configure your trading experience.",
+  "smarttrade.subtitle": "Select the resources you want to make available in trades.",
   "smarttrade.base.label": "TRADE BASE",
   "smarttrade.base.name": "EMERALD",
   "smarttrade.base.output": "RECEIVED",
@@ -26,7 +26,7 @@
   "smarttrade.action.toggle_all": "TOGGLE",
   "smarttrade.action.toggle_all.tooltip": "Toggle all available entries.",
   "smarttrade.options.title": "GLOBAL OPTIONS",
-  "smarttrade.options.subtitle": "Configure global trade options.",
+  "smarttrade.options.subtitle": "Select the global options you want to enable.",
   "smarttrade.options.jade_reputation": "ADDITIONAL INFORMATION",
   "smarttrade.options.jade_reputation.description": "Shows three values for the observed villager in Jade: reputation toward the player, green with a + sign above 0, red below 0, and gray at 0; restocks completed that day in current/2 format; and Cured as Yes when that player's major_positive reputation is above 0. With MAXIMUM REPUTATION, reputation shows +150 while Cured uses the real data. Requires Jade.",
   "smarttrade.options.maximum_reputation": "MAXIMUM REPUTATION",
@@ -49,9 +49,9 @@
   "smarttrade.options.expanded_item_stacks": "EXPANDED STACKS",
   "smarttrade.options.expanded_item_stacks.description": "Changes the maximum stack size of soups, Ender pearls, cakes, and items in the c:eggs tag to 64; saddles, potions, harnesses, boats, beds, enchanted books, music discs, and items in the c:buckets tag to 16. Recognizes the c:foods/soup, c:potions, minecraft:harnesses, minecraft:boats, minecraft:beds, c:music_discs, c:eggs, and c:buckets tags, including items added to them by data packs and mods. Designed for singleplayer worlds; on external servers, the server controls the actual limits.",
   "smarttrade.options.compact_information_overlay": "COMPACT INFORMATION",
-  "smarttrade.options.compact_information_overlay.description": "Toggles an uppercase overlay in the top-left corner with one press of TAB, containing the time in 12-hour format, used/maximum memory and percentage, current/limited FPS, integer coordinates of the block occupied by the player, direction with axis, and biome. Direct TAB detection is independent of configured controls. Keeps the player list and the vanilla debug screen unchanged.",
+  "smarttrade.options.compact_information_overlay.description": "Toggles an uppercase overlay in the top-left corner with one press of TAB, containing the time in 12-hour format, used/maximum memory and percentage, current/limited FPS, integer coordinates of the block occupied by the player, direction with axis, and biome. The memory line is green through 75% and red from 76%. Direct TAB detection is independent of configured controls. Keeps the player list and the vanilla debug screen unchanged.",
   "smarttrade.options.compact_game_menus": "SIMPLIFIED MENU",
-  "smarttrade.options.compact_game_menus.description": "Organizes the out-of-game and in-game menus into centered columns of seven equally sized buttons. Out of game: Player, Players, Friends, ModMenu, Realms, Options, and Quit. In game: Play, Friends, ModMenu, LAN, Statistics, Options, and Save (Quit). Removes icons from both menus; Language and Accessibility remain in vanilla options, while Advancements, Report, Feedback, and Report bug are placed inside Options during the game.",
+  "smarttrade.options.compact_game_menus.description": "Organizes the out-of-game and in-game menus into centered columns of seven equally sized buttons. Out of game: Player, Players, Friends, ModMenu, Realms, Options, and Quit. In game: Play, Friends, ModMenu, LAN, Statistics, Options, and Save (Quit). Removes icons from both menus and the version text in the lower-left corner of the title screen; Language and Accessibility remain in vanilla options, while Advancements, Report, Feedback, and Report bug are placed inside Options during the game.",
   "smarttrade.menu.player": "PLAYER",
   "smarttrade.menu.players": "PLAYERS",
   "smarttrade.menu.friends": "FRIENDS",
@@ -92,6 +92,6 @@
   "smarttrade.link.github": "GitHub",
   "smarttrade.link.medium": "Medium",
   "smarttrade.link.instagram": "Instagram",
-  "modmenu.summaryTranslation.smarttrade": "A vanilla-friendly foundation for configurable villager trading.",
+  "modmenu.summaryTranslation.smarttrade": "Transform villager trading into a smarter, more flexible, vanilla-friendly experience with additional settings.",
   "modmenu.descriptionTranslation.smarttrade": "Development:\nRiquinho — Project concept, direction, and development.\nDekuzinho — Implementation and development support.\n\nTools:\nCodex — Development assistance and technical collaboration.\nVSCode — Source code development.\nFigma — Interface design and prototyping.\nTrello — Project organization and management.\nGitHub — Code versioning and storage."
 }

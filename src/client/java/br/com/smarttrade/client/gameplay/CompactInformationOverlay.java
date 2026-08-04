@@ -49,17 +49,17 @@ public final class CompactInformationOverlay {
 		}
 
 		Font font = minecraft.font;
-		List<String> lines = createLines(minecraft);
+		List<OverlayLine> lines = createLines(minecraft);
 		for (int index = 0; index < lines.size(); index++) {
-			String line = lines.get(index);
+			OverlayLine line = lines.get(index);
 			int y = 4 + index * 11;
-			graphics.fill(2, y - 2, 6 + font.width(line), y + 9, 0x90000000);
-			graphics.text(font, line, 4, y, 0xFFFFFFFF, false);
+			graphics.fill(2, y - 2, 6 + font.width(line.text()), y + 9, 0x90000000);
+			graphics.text(font, line.text(), 4, y, line.color(), false);
 		}
 	}
 
-	private static List<String> createLines(Minecraft minecraft) {
-		List<String> lines = new ArrayList<>(6);
+	private static List<OverlayLine> createLines(Minecraft minecraft) {
+		List<OverlayLine> lines = new ArrayList<>(6);
 		Runtime runtime = Runtime.getRuntime();
 		long usedMemory = runtime.totalMemory() - runtime.freeMemory();
 		long maximumMemory = runtime.maxMemory();
@@ -67,26 +67,41 @@ public final class CompactInformationOverlay {
 		BlockPos position = minecraft.player.blockPosition();
 		int fpsLimit = minecraft.options.framerateLimit().get();
 
-		lines.add(Component.translatable("smarttrade.overlay.time", LocalTime.now().format(TIME_FORMAT)).getString());
-		lines.add(Component.translatable(
+		lines.add(line(Component.translatable("smarttrade.overlay.time", LocalTime.now().format(TIME_FORMAT))));
+		lines.add(line(Component.translatable(
 			"smarttrade.overlay.memory",
 			usedMemory / 1024 / 1024,
 			maximumMemory / 1024 / 1024,
 			memoryPercent
-		).getString());
-		lines.add(Component.translatable(
+		), memoryColor(memoryPercent)));
+		lines.add(line(Component.translatable(
 			"smarttrade.overlay.fps",
 			minecraft.getFps(),
 			fpsLimit >= 260 ? Component.translatable("smarttrade.overlay.unlimited") : fpsLimit
-		).getString());
-		lines.add(Component.translatable("smarttrade.overlay.block", position.getX(), position.getY(), position.getZ()).getString());
-		lines.add(Component.translatable(
+		)));
+		lines.add(line(Component.translatable("smarttrade.overlay.block", position.getX(), position.getY(), position.getZ())));
+		lines.add(line(Component.translatable(
 			"smarttrade.overlay.direction",
 			directionName(minecraft.player.getDirection()),
 			directionAxis(minecraft.player.getDirection())
-		).getString());
-		lines.add(Component.translatable("smarttrade.overlay.biome", biomeName(minecraft, position)).getString());
-		return lines.stream().map(value -> value.toUpperCase(Locale.ROOT)).toList();
+		)));
+		lines.add(line(Component.translatable("smarttrade.overlay.biome", biomeName(minecraft, position))));
+		return lines;
+	}
+
+	private static OverlayLine line(Component component) {
+		return line(component, 0xFFFFFFFF);
+	}
+
+	private static OverlayLine line(Component component, int color) {
+		return new OverlayLine(component.getString().toUpperCase(Locale.ROOT), color);
+	}
+
+	private static int memoryColor(int memoryPercent) {
+		if (memoryPercent <= 75) {
+			return 0xFF9CD67A;
+		}
+		return 0xFFFF6B6B;
 	}
 
 	private static Component directionName(Direction direction) {
@@ -111,5 +126,8 @@ public final class CompactInformationOverlay {
 		}
 		String fallback = identifier.getPath().replace('_', ' ');
 		return Component.translatableWithFallback("biome." + identifier.getNamespace() + "." + identifier.getPath(), fallback);
+	}
+
+	private record OverlayLine(String text, int color) {
 	}
 }

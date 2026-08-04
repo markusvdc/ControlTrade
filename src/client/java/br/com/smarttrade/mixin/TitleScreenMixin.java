@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = TitleScreen.class, priority = 500)
@@ -32,6 +33,18 @@ public abstract class TitleScreenMixin {
 	@Shadow
 	@Mutable
 	private RealmsNotificationsScreen realmsNotificationsScreen;
+
+	@ModifyArg(
+		method = "extractRenderState",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;III)V"
+		),
+		index = 1
+	)
+	private String smarttrade$hideVersionText(String versionText) {
+		return SmartTradeConfig.compactGameMenus() ? "" : versionText;
+	}
 
 	@Inject(method = "init", at = @At("RETURN"))
 	private void smarttrade$organizeOffGameMenu(CallbackInfo callbackInfo) {
