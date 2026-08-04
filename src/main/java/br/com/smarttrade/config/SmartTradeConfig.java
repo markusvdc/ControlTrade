@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 16;
+	private static final int CURRENT_VERSION = 17;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -47,6 +47,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean compactItemCounts;
 	private static volatile boolean expandedItemStacks;
 	private static volatile boolean compactInformationOverlay;
+	private static volatile boolean compactGameMenus;
 
 	private SmartTradeConfig() {
 	}
@@ -100,6 +101,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.expandedItemStacks);
 			compactInformationOverlay =
 				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
+			compactGameMenus =
+				data != null && Boolean.TRUE.equals(data.compactGameMenus);
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
@@ -114,6 +117,7 @@ public final class SmartTradeConfig {
 			compactItemCounts = false;
 			expandedItemStacks = false;
 			compactInformationOverlay = false;
+			compactGameMenus = false;
 			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
@@ -137,7 +141,8 @@ public final class SmartTradeConfig {
 		boolean disableHistoryNavigation,
 		boolean useCompactItemCounts,
 		boolean useExpandedItemStacks,
-		boolean useCompactInformationOverlay
+		boolean useCompactInformationOverlay,
+		boolean useCompactGameMenus
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -150,6 +155,7 @@ public final class SmartTradeConfig {
 		compactItemCounts = useCompactItemCounts;
 		expandedItemStacks = useExpandedItemStacks;
 		compactInformationOverlay = useCompactInformationOverlay;
+		compactGameMenus = useCompactGameMenus;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -175,7 +181,8 @@ public final class SmartTradeConfig {
 					disableChatHistoryNavigation,
 					compactItemCounts,
 					expandedItemStacks,
-					compactInformationOverlay
+					compactInformationOverlay,
+					compactGameMenus
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -237,6 +244,10 @@ public final class SmartTradeConfig {
 		return compactInformationOverlay;
 	}
 
+	public static boolean compactGameMenus() {
+		return compactGameMenus;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -251,7 +262,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} compactInformationOverlay={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} compactInformationOverlay={} compactGameMenus={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -266,6 +277,7 @@ public final class SmartTradeConfig {
 			compactItemCounts,
 			expandedItemStacks,
 			compactInformationOverlay,
+			compactGameMenus,
 			enabledTrades.stream().sorted().toList()
 		);
 	}
@@ -285,7 +297,8 @@ public final class SmartTradeConfig {
 		Boolean disableChatHistoryNavigation,
 		Boolean compactItemCounts,
 		Boolean expandedItemStacks,
-		Boolean compactInformationOverlay
+		Boolean compactInformationOverlay,
+		Boolean compactGameMenus
 	) {
 	}
 }

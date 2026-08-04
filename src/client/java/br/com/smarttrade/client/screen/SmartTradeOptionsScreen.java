@@ -34,6 +34,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean compactItemCounts;
 	private boolean expandedItemStacks;
 	private boolean compactInformationOverlay;
+	private boolean compactGameMenus;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
@@ -45,6 +46,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry compactItemCountsEntry;
 	private GlobalOptionEntry expandedItemStacksEntry;
 	private GlobalOptionEntry compactInformationOverlayEntry;
+	private GlobalOptionEntry compactGameMenusEntry;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -67,6 +69,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
 		this.expandedItemStacks = SmartTradeConfig.expandedItemStacks();
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
+		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -177,6 +180,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactInformationOverlay,
 			selected -> this.compactInformationOverlay = selected
 		);
+		this.compactGameMenusEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.compact_game_menus"),
+			OptionTooltip.translated("smarttrade.options.compact_game_menus"),
+			this.compactGameMenus,
+			selected -> this.compactGameMenus = selected
+		);
 		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
 			this.maximumReputationEntry,
@@ -188,7 +201,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
-			this.compactInformationOverlayEntry
+			this.compactInformationOverlayEntry,
+			this.compactGameMenusEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
@@ -224,6 +238,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.compactItemCounts
 				&& this.expandedItemStacks
 				&& this.compactInformationOverlay
+				&& this.compactGameMenus
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
@@ -236,6 +251,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactItemCountsEntry.setSelected(selected);
 		this.expandedItemStacksEntry.setSelected(selected);
 		this.compactInformationOverlayEntry.setSelected(selected);
+		this.compactGameMenusEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -250,7 +266,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.disableChatHistoryNavigation,
 			this.compactItemCounts,
 			this.expandedItemStacks,
-			this.compactInformationOverlay
+			this.compactInformationOverlay,
+			this.compactGameMenus
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
@@ -300,7 +317,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
-			this.compactInformationOverlayEntry
+			this.compactInformationOverlayEntry,
+			this.compactGameMenusEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {
