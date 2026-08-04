@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 12;
+	private static final int CURRENT_VERSION = 13;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -43,6 +43,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean compactHorseHealthHud;
 	private static volatile boolean automaticDoorClosing;
 	private static volatile boolean disableChatHistoryNavigation;
+	private static volatile boolean compactItemCounts;
 
 	private SmartTradeConfig() {
 	}
@@ -88,6 +89,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.automaticDoorClosing);
 			disableChatHistoryNavigation =
 				data != null && Boolean.TRUE.equals(data.disableChatHistoryNavigation);
+			compactItemCounts =
+				data != null && Boolean.TRUE.equals(data.compactItemCounts);
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
@@ -98,6 +101,7 @@ public final class SmartTradeConfig {
 			compactHorseHealthHud = false;
 			automaticDoorClosing = false;
 			disableChatHistoryNavigation = false;
+			compactItemCounts = false;
 			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
@@ -117,7 +121,8 @@ public final class SmartTradeConfig {
 		boolean useFixedHugeMushroomHeight,
 		boolean useCompactHorseHealthHud,
 		boolean useAutomaticDoorClosing,
-		boolean disableHistoryNavigation
+		boolean disableHistoryNavigation,
+		boolean useCompactItemCounts
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -126,6 +131,7 @@ public final class SmartTradeConfig {
 		compactHorseHealthHud = useCompactHorseHealthHud;
 		automaticDoorClosing = useAutomaticDoorClosing;
 		disableChatHistoryNavigation = disableHistoryNavigation;
+		compactItemCounts = useCompactItemCounts;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -147,7 +153,8 @@ public final class SmartTradeConfig {
 					fixedHugeMushroomHeight,
 					compactHorseHealthHud,
 					automaticDoorClosing,
-					disableChatHistoryNavigation
+					disableChatHistoryNavigation,
+					compactItemCounts
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -193,6 +200,10 @@ public final class SmartTradeConfig {
 		return disableChatHistoryNavigation;
 	}
 
+	public static boolean compactItemCounts() {
+		return compactItemCounts;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -207,7 +218,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} automaticDoorClosing={} disableChatHistoryNavigation={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -218,6 +229,7 @@ public final class SmartTradeConfig {
 			compactHorseHealthHud,
 			automaticDoorClosing,
 			disableChatHistoryNavigation,
+			compactItemCounts,
 			enabledTrades.stream().sorted().toList()
 		);
 	}
@@ -233,7 +245,8 @@ public final class SmartTradeConfig {
 		Boolean fixedHugeMushroomHeight,
 		Boolean compactHorseHealthHud,
 		Boolean automaticDoorClosing,
-		Boolean disableChatHistoryNavigation
+		Boolean disableChatHistoryNavigation,
+		Boolean compactItemCounts
 	) {
 	}
 }

@@ -30,6 +30,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean compactHorseHealthHud;
 	private boolean automaticDoorClosing;
 	private boolean disableChatHistoryNavigation;
+	private boolean compactItemCounts;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
@@ -37,6 +38,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry horseHealthHudEntry;
 	private GlobalOptionEntry automaticDoorClosingEntry;
 	private GlobalOptionEntry chatHistoryNavigationEntry;
+	private GlobalOptionEntry compactItemCountsEntry;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -55,6 +57,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
+		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -125,6 +128,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.disableChatHistoryNavigation,
 			selected -> this.disableChatHistoryNavigation = selected
 		);
+		this.compactItemCountsEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.compact_item_counts"),
+			OptionTooltip.translated("smarttrade.options.compact_item_counts"),
+			this.compactItemCounts,
+			selected -> this.compactItemCounts = selected
+		);
 		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
 			this.maximumReputationEntry,
@@ -132,7 +145,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry
+			this.chatHistoryNavigationEntry,
+			this.compactItemCountsEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
@@ -164,6 +178,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.compactHorseHealthHud
 				&& this.automaticDoorClosing
 				&& this.disableChatHistoryNavigation
+				&& this.compactItemCounts
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
@@ -172,6 +187,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.horseHealthHudEntry.setSelected(selected);
 		this.automaticDoorClosingEntry.setSelected(selected);
 		this.chatHistoryNavigationEntry.setSelected(selected);
+		this.compactItemCountsEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -182,7 +198,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.fixedHugeMushroomHeight,
 			this.compactHorseHealthHud,
 			this.automaticDoorClosing,
-			this.disableChatHistoryNavigation
+			this.disableChatHistoryNavigation,
+			this.compactItemCounts
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
@@ -228,7 +245,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry
+			this.chatHistoryNavigationEntry,
+			this.compactItemCountsEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {

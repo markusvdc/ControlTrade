@@ -18,6 +18,7 @@
   "client": [
     "ClientOpenableBlockMixin",
     "ChatScreenMixin",
+	"GuiGraphicsExtractorMixin",
     "HorseHealthHudMixin",
     "OpenableBlockInvoker"
   ],

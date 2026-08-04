@@ -42,6 +42,8 @@
   "smarttrade.options.disable_chat_history_navigation": "EXPERIENCED OPERATOR",
   "smarttrade.options.disable_chat_history_navigation.lore": "A true Minecrafter masters their commands without shortcuts, relying only on knowledge and practice.",
   "smarttrade.options.disable_chat_history_navigation.description": "Prevents the up and down arrow keys from navigating through previous messages and commands on the chat screen. The history continues to be stored normally.",
+  "smarttrade.options.compact_item_counts": "SQUARE NUMBERS",
+  "smarttrade.options.compact_item_counts.description": "Replaces item stack count numbers with a compact 3x5 font inspired by Create's interface, with a dark outline to remain readable over light and dark backgrounds. Changes only the display; the actual item quantities remain unchanged. (GPL)",
   "smarttrade.jade.reputation": "Reputation: %s",
   "smarttrade.jade.restocks": "Restocks: %s/%s",
   "smarttrade.jade.cured": "Cured: %s",

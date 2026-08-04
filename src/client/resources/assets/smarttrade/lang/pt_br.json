@@ -42,6 +42,8 @@
   "smarttrade.options.disable_chat_history_navigation": "OPERADOR EXPERIENTE",
   "smarttrade.options.disable_chat_history_navigation.lore": "Um verdadeiro Minecrafter domina seus comandos sem atalhos, apenas conhecimento e prática.",
   "smarttrade.options.disable_chat_history_navigation.description": "Impede que as setas para cima e para baixo naveguem pelas mensagens e pelos comandos anteriores na tela de chat. O histórico continua sendo armazenado normalmente.",
+  "smarttrade.options.compact_item_counts": "NÚMEROS QUADRADOS",
+  "smarttrade.options.compact_item_counts.description": "Substitui os números de quantidade das pilhas de itens por uma fonte compacta 3x5 inspirada na interface do Create, com contorno escuro para manter a leitura sobre fundos claros e escuros. Altera somente a exibição; a quantidade real dos itens permanece inalterada. (GPL)",
   "smarttrade.jade.reputation": "Reputação: %s",
   "smarttrade.jade.restocks": "Reabastecimentos: %s/%s",
   "smarttrade.jade.cured": "Curado: %s",
