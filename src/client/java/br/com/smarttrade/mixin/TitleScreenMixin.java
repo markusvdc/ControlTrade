@@ -27,7 +27,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = TitleScreen.class, priority = 500)
 public abstract class TitleScreenMixin {
 	private static final int BUTTON_WIDTH = 200;
+	private static final int HALF_BUTTON_WIDTH = 98;
 	private static final int BUTTON_HEIGHT = 20;
+	private static final int COLUMN_GAP = 4;
 	private static final int ROW_SPACING = 24;
 
 	@Shadow
@@ -96,12 +98,12 @@ public abstract class TitleScreenMixin {
 		AbstractWidget realms = find(retainedButtons, "menu.online");
 		AbstractWidget options = find(retainedButtons, "menu.options");
 		AbstractWidget quit = find(retainedButtons, "menu.quit");
-		List<AbstractWidget> ordered = List.of(singleplayer, multiplayer, friends, mods, realms, options, quit);
+		List<AbstractWidget> ordered = List.of(singleplayer, multiplayer, mods, friends, realms, options, quit);
 		Component[] labels = {
 			Component.translatable("smarttrade.menu.player"),
 			Component.translatable("smarttrade.menu.players"),
-			Component.translatable("smarttrade.menu.friends"),
 			Component.translatable("smarttrade.menu.modmenu"),
+			Component.translatable("smarttrade.menu.friends"),
 			Component.translatable("smarttrade.menu.realms"),
 			Component.translatable("smarttrade.menu.options"),
 			Component.translatable("smarttrade.menu.quit")
@@ -111,9 +113,20 @@ public abstract class TitleScreenMixin {
 		for (int index = 0; index < ordered.size(); index++) {
 			AbstractWidget button = ordered.get(index);
 			button.setMessage(labels[index]);
-			button.setWidth(BUTTON_WIDTH);
 			button.setHeight(BUTTON_HEIGHT);
-			button.setPosition(left, top + index * ROW_SPACING);
+			if (index == 0) {
+				button.setWidth(BUTTON_WIDTH);
+				button.setPosition(left, top);
+				continue;
+			}
+			int pairedIndex = index - 1;
+			int column = pairedIndex % 2;
+			int row = pairedIndex / 2 + 1;
+			button.setWidth(HALF_BUTTON_WIDTH);
+			button.setPosition(
+				left + column * (HALF_BUTTON_WIDTH + COLUMN_GAP),
+				top + row * ROW_SPACING
+			);
 		}
 
 		this.realmsNotificationsScreen = null;

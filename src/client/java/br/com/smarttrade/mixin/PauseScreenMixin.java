@@ -22,6 +22,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = PauseScreen.class, priority = 500)
 public abstract class PauseScreenMixin {
+	private static final int BUTTON_WIDTH = 200;
+	private static final int HALF_BUTTON_WIDTH = 98;
+	private static final int BUTTON_HEIGHT = 20;
+	private static final int COLUMN_GAP = 4;
+	private static final int ROW_SPACING = 24;
+
 	@Shadow
 	private Button disconnectButton;
 
@@ -64,17 +70,30 @@ public abstract class PauseScreenMixin {
 			)),
 			button("smarttrade.menu.save_quit", onPress(this.disconnectButton))
 		);
-		int left = (screen.width - 200) / 2;
+		int left = (screen.width - BUTTON_WIDTH) / 2;
 		int top = screen.height / 4 + 48;
 		for (int index = 0; index < menu.size(); index++) {
 			Button button = menu.get(index);
-			button.setPosition(left, top + index * 24);
+			button.setHeight(BUTTON_HEIGHT);
+			if (index == 0) {
+				button.setWidth(BUTTON_WIDTH);
+				button.setPosition(left, top);
+			} else {
+				int pairedIndex = index - 1;
+				int column = pairedIndex % 2;
+				int row = pairedIndex / 2 + 1;
+				button.setWidth(HALF_BUTTON_WIDTH);
+				button.setPosition(
+					left + column * (HALF_BUTTON_WIDTH + COLUMN_GAP),
+					top + row * ROW_SPACING
+				);
+			}
 			invoker.smarttrade$addRenderableWidget(button);
 		}
 	}
 
 	private static Button button(String key, Button.OnPress onPress) {
-		return Button.builder(Component.translatable(key), onPress).size(200, 20).build();
+		return Button.builder(Component.translatable(key), onPress).size(BUTTON_WIDTH, BUTTON_HEIGHT).build();
 	}
 
 	private static Button.OnPress onPress(Button button) {
