@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 12;
+	private static final int CURRENT_VERSION = 17;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -41,8 +41,13 @@ public final class SmartTradeConfig {
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
 	private static volatile boolean compactHorseHealthHud;
+	private static volatile boolean equestrianHud;
 	private static volatile boolean automaticDoorClosing;
 	private static volatile boolean disableChatHistoryNavigation;
+	private static volatile boolean compactItemCounts;
+	private static volatile boolean expandedItemStacks;
+	private static volatile boolean compactInformationOverlay;
+	private static volatile boolean compactGameMenus;
 
 	private SmartTradeConfig() {
 	}
@@ -84,10 +89,20 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.fixedHugeMushroomHeight);
 			compactHorseHealthHud =
 				data != null && Boolean.TRUE.equals(data.compactHorseHealthHud);
+			equestrianHud =
+				data != null && Boolean.TRUE.equals(data.equestrianHud);
 			automaticDoorClosing =
 				data != null && Boolean.TRUE.equals(data.automaticDoorClosing);
 			disableChatHistoryNavigation =
 				data != null && Boolean.TRUE.equals(data.disableChatHistoryNavigation);
+			compactItemCounts =
+				data != null && Boolean.TRUE.equals(data.compactItemCounts);
+			expandedItemStacks =
+				data != null && Boolean.TRUE.equals(data.expandedItemStacks);
+			compactInformationOverlay =
+				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
+			compactGameMenus =
+				data != null && Boolean.TRUE.equals(data.compactGameMenus);
 			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
@@ -96,8 +111,13 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
 			compactHorseHealthHud = false;
+			equestrianHud = false;
 			automaticDoorClosing = false;
 			disableChatHistoryNavigation = false;
+			compactItemCounts = false;
+			expandedItemStacks = false;
+			compactInformationOverlay = false;
+			compactGameMenus = false;
 			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
@@ -116,16 +136,26 @@ public final class SmartTradeConfig {
 		boolean restrictSoulSpeedToNether,
 		boolean useFixedHugeMushroomHeight,
 		boolean useCompactHorseHealthHud,
+		boolean useEquestrianHud,
 		boolean useAutomaticDoorClosing,
-		boolean disableHistoryNavigation
+		boolean disableHistoryNavigation,
+		boolean useCompactItemCounts,
+		boolean useExpandedItemStacks,
+		boolean useCompactInformationOverlay,
+		boolean useCompactGameMenus
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
 		fixedHugeMushroomHeight = useFixedHugeMushroomHeight;
 		compactHorseHealthHud = useCompactHorseHealthHud;
+		equestrianHud = useEquestrianHud;
 		automaticDoorClosing = useAutomaticDoorClosing;
 		disableChatHistoryNavigation = disableHistoryNavigation;
+		compactItemCounts = useCompactItemCounts;
+		expandedItemStacks = useExpandedItemStacks;
+		compactInformationOverlay = useCompactInformationOverlay;
+		compactGameMenus = useCompactGameMenus;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -146,8 +176,13 @@ public final class SmartTradeConfig {
 					soulSpeedOnlyInNether,
 					fixedHugeMushroomHeight,
 					compactHorseHealthHud,
+					equestrianHud,
 					automaticDoorClosing,
-					disableChatHistoryNavigation
+					disableChatHistoryNavigation,
+					compactItemCounts,
+					expandedItemStacks,
+					compactInformationOverlay,
+					compactGameMenus
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -185,12 +220,32 @@ public final class SmartTradeConfig {
 		return compactHorseHealthHud;
 	}
 
+	public static boolean equestrianHud() {
+		return equestrianHud;
+	}
+
 	public static boolean automaticDoorClosing() {
 		return automaticDoorClosing;
 	}
 
 	public static boolean disableChatHistoryNavigation() {
 		return disableChatHistoryNavigation;
+	}
+
+	public static boolean compactItemCounts() {
+		return compactItemCounts;
+	}
+
+	public static boolean expandedItemStacks() {
+		return expandedItemStacks;
+	}
+
+	public static boolean compactInformationOverlay() {
+		return compactInformationOverlay;
+	}
+
+	public static boolean compactGameMenus() {
+		return compactGameMenus;
 	}
 
 	private static Set<String> sanitize(Collection<String> itemIds) {
@@ -207,7 +262,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} automaticDoorClosing={} disableChatHistoryNavigation={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} compactInformationOverlay={} compactGameMenus={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -216,8 +271,13 @@ public final class SmartTradeConfig {
 			soulSpeedOnlyInNether,
 			fixedHugeMushroomHeight,
 			compactHorseHealthHud,
+			equestrianHud,
 			automaticDoorClosing,
 			disableChatHistoryNavigation,
+			compactItemCounts,
+			expandedItemStacks,
+			compactInformationOverlay,
+			compactGameMenus,
 			enabledTrades.stream().sorted().toList()
 		);
 	}
@@ -232,8 +292,13 @@ public final class SmartTradeConfig {
 		Boolean soulSpeedOnlyInNether,
 		Boolean fixedHugeMushroomHeight,
 		Boolean compactHorseHealthHud,
+		Boolean equestrianHud,
 		Boolean automaticDoorClosing,
-		Boolean disableChatHistoryNavigation
+		Boolean disableChatHistoryNavigation,
+		Boolean compactItemCounts,
+		Boolean expandedItemStacks,
+		Boolean compactInformationOverlay,
+		Boolean compactGameMenus
 	) {
 	}
 }

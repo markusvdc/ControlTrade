@@ -16,6 +16,8 @@ import net.minecraft.network.chat.Component;
 public final class SmartTradeOptionsScreen extends Screen {
 	private static final int MAX_CONTENT_WIDTH = 540;
 	private static final int SIDE_MARGIN = 16;
+	private static final int OPTIONS_TOP = 137;
+	private static final int OPTION_HEIGHT = 30;
 
 	private final Screen parent;
 	private final SummaryPanel summaryPanel = new SummaryPanel();
@@ -26,15 +28,25 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean soulSpeedOnlyInNether;
 	private boolean fixedHugeMushroomHeight;
 	private boolean compactHorseHealthHud;
+	private boolean equestrianHud;
 	private boolean automaticDoorClosing;
 	private boolean disableChatHistoryNavigation;
+	private boolean compactItemCounts;
+	private boolean expandedItemStacks;
+	private boolean compactInformationOverlay;
+	private boolean compactGameMenus;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
 	private GlobalOptionEntry horseHealthHudEntry;
+	private GlobalOptionEntry equestrianHudEntry;
 	private GlobalOptionEntry automaticDoorClosingEntry;
 	private GlobalOptionEntry chatHistoryNavigationEntry;
+	private GlobalOptionEntry compactItemCountsEntry;
+	private GlobalOptionEntry expandedItemStacksEntry;
+	private GlobalOptionEntry compactInformationOverlayEntry;
+	private GlobalOptionEntry compactGameMenusEntry;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -51,13 +63,18 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
 		this.fixedHugeMushroomHeight = SmartTradeConfig.fixedHugeMushroomHeight();
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
+		this.equestrianHud = SmartTradeConfig.equestrianHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
+		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
+		this.expandedItemStacks = SmartTradeConfig.expandedItemStacks();
+		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
+		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.jade_reputation"),
 			OptionTooltip.translated("smarttrade.options.jade_reputation"),
 			this.showAdditionalInformation,
@@ -67,7 +84,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.maximum_reputation"),
 			OptionTooltip.translated("smarttrade.options.maximum_reputation"),
 			this.maximumVillagerReputation,
@@ -77,7 +94,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.soul_speed_nether"),
 			OptionTooltip.translated("smarttrade.options.soul_speed_nether"),
 			this.soulSpeedOnlyInNether,
@@ -87,7 +104,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.fixed_mushroom_height"),
 			OptionTooltip.translated("smarttrade.options.fixed_mushroom_height"),
 			this.fixedHugeMushroomHeight,
@@ -97,17 +114,27 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.compact_horse_health_hud"),
 			OptionTooltip.translated("smarttrade.options.compact_horse_health_hud"),
 			this.compactHorseHealthHud,
 			selected -> this.compactHorseHealthHud = selected
 		);
+		this.equestrianHudEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.equestrian_hud"),
+			OptionTooltip.translated("smarttrade.options.equestrian_hud"),
+			this.equestrianHud,
+			selected -> this.equestrianHud = selected
+		);
 		this.automaticDoorClosingEntry = new GlobalOptionEntry(
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.automatic_door_closing"),
 			OptionTooltip.translated("smarttrade.options.automatic_door_closing"),
 			this.automaticDoorClosing,
@@ -117,11 +144,51 @@ public final class SmartTradeOptionsScreen extends Screen {
 			left,
 			0,
 			contentWidth,
-			34,
+			OPTION_HEIGHT,
 			Component.translatable("smarttrade.options.disable_chat_history_navigation"),
 			OptionTooltip.translated("smarttrade.options.disable_chat_history_navigation"),
 			this.disableChatHistoryNavigation,
 			selected -> this.disableChatHistoryNavigation = selected
+		);
+		this.compactItemCountsEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.compact_item_counts"),
+			OptionTooltip.translated("smarttrade.options.compact_item_counts"),
+			this.compactItemCounts,
+			selected -> this.compactItemCounts = selected
+		);
+		this.expandedItemStacksEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.expanded_item_stacks"),
+			OptionTooltip.translated("smarttrade.options.expanded_item_stacks"),
+			this.expandedItemStacks,
+			selected -> this.expandedItemStacks = selected
+		);
+		this.compactInformationOverlayEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.compact_information_overlay"),
+			OptionTooltip.translated("smarttrade.options.compact_information_overlay"),
+			this.compactInformationOverlay,
+			selected -> this.compactInformationOverlay = selected
+		);
+		this.compactGameMenusEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.compact_game_menus"),
+			OptionTooltip.translated("smarttrade.options.compact_game_menus"),
+			this.compactGameMenus,
+			selected -> this.compactGameMenus = selected
 		);
 		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
@@ -129,14 +196,19 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
+			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry
+			this.chatHistoryNavigationEntry,
+			this.compactItemCountsEntry,
+			this.expandedItemStacksEntry,
+			this.compactInformationOverlayEntry,
+			this.compactGameMenusEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
 		for (int index = 0; index < entries.size(); index++) {
 			GlobalOptionEntry entry = entries.get(index);
-			entry.setY(137 + index * 38);
+			entry.setY(OPTIONS_TOP + OPTION_HEIGHT * index);
 			this.addRenderableWidget(entry);
 		}
 		ActionButtons actionButtons = new ActionButtons(
@@ -160,16 +232,26 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.soulSpeedOnlyInNether
 				&& this.fixedHugeMushroomHeight
 				&& this.compactHorseHealthHud
+				&& this.equestrianHud
 				&& this.automaticDoorClosing
 				&& this.disableChatHistoryNavigation
+				&& this.compactItemCounts
+				&& this.expandedItemStacks
+				&& this.compactInformationOverlay
+				&& this.compactGameMenus
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
 		this.soulSpeedEntry.setSelected(selected);
 		this.mushroomHeightEntry.setSelected(selected);
 		this.horseHealthHudEntry.setSelected(selected);
+		this.equestrianHudEntry.setSelected(selected);
 		this.automaticDoorClosingEntry.setSelected(selected);
 		this.chatHistoryNavigationEntry.setSelected(selected);
+		this.compactItemCountsEntry.setSelected(selected);
+		this.expandedItemStacksEntry.setSelected(selected);
+		this.compactInformationOverlayEntry.setSelected(selected);
+		this.compactGameMenusEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -179,8 +261,13 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedOnlyInNether,
 			this.fixedHugeMushroomHeight,
 			this.compactHorseHealthHud,
+			this.equestrianHud,
 			this.automaticDoorClosing,
-			this.disableChatHistoryNavigation
+			this.disableChatHistoryNavigation,
+			this.compactItemCounts,
+			this.expandedItemStacks,
+			this.compactInformationOverlay,
+			this.compactGameMenus
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
@@ -225,8 +312,13 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
+			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry
+			this.chatHistoryNavigationEntry,
+			this.compactItemCountsEntry,
+			this.expandedItemStacksEntry,
+			this.compactInformationOverlayEntry,
+			this.compactGameMenusEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {

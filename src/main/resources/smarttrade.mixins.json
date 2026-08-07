@@ -6,6 +6,7 @@
     "AbstractVillagerMixin",
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
+	"ItemInstanceMixin",
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
     "SaplingBlockMixin",
@@ -16,10 +17,16 @@
     "VillagerRestockMixin"
   ],
   "client": [
+	"ButtonAccessor",
     "ClientOpenableBlockMixin",
     "ChatScreenMixin",
+	"GuiGraphicsExtractorMixin",
     "HorseHealthHudMixin",
-    "OpenableBlockInvoker"
+    "OpenableBlockInvoker",
+	"OptionsScreenMixin",
+	"PauseScreenMixin",
+	"ScreenInvoker",
+	"TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
