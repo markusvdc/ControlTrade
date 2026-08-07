@@ -1,17 +1,9 @@
-## Opções principais
-| Categoria | Opção | Descrição |
-| --- | --- | --- |
-| AGRICULTOR | FAVOS DE MEL | Permite que o agricultor compre 10 favos de mel por 1 esmeralda. |
-| AGRICULTOR | OVOS | Permite que o agricultor compre 20 ovos por 1 esmeralda. |
-| AGRICULTOR | SEMENTES DE CACAU | Permite que o agricultor compre 20 sementes de cacau por 1 esmeralda. |
-| CLÉRIGO | LÁPIS-LAZÚLI | Permite que o clérigo compre 20 lápis-lazúli por 1 esmeralda. |
-| CLÉRIGO | OLHOS DE ARANHA | Permite que o clérigo compre 15 olhos de aranha por 1 esmeralda. |
-| CLÉRIGO | PÉROLAS DO ENDER | Permite que o clérigo compre 3 pérolas do Ender por 1 esmeralda. |
-| CLÉRIGO | PÓS DE REDSTONE | Permite que o clérigo compre 20 pós de redstone por 1 esmeralda. |
-| AÇOUGUEIRO | OSSOS | Permite que o açougueiro compre 20 ossos por 1 esmeralda. |
-| FLECHEIRO | FLECHAS | Permite que o flecheiro compre 15 flechas por 1 esmeralda. |
+## Visão geral
+
+O SmartTrade acrescenta nove ofertas de compra às profissões de agricultor, clérigo, açougueiro e flecheiro, transformando recursos acumulados em esmeraldas por meio de trocas com até 12 usos. Assim, cada aldeão se torna parte de uma economia mais viva: ovos, favos, ossos, flechas e outros excedentes encontram quem os valorize, e o trabalho de explorar, cultivar e coletar ganha um destino além dos baús lotados.
 
 ## Opções globais
+
 | Opção | Descrição |
 | --- | --- |
 | ALTURA LIMITADA | Padroniza crescimentos com pó de osso: cogumelos vermelho/marrom sobre nicélios carmesim/distorcido usam caules de 5/4 blocos e ocupam até 6/5 camadas com a copa; mudas da selva e acácia usam tronco de 6 blocos; fungos carmesim/distorcido no nicélio correspondente usam caule de 6 blocos em 11/12 dos casos ou 12 blocos em 1/12, ocupando até 7/13 camadas. Preserva as chances: 40% para cogumelos e fungos e 45% para mudas, aplicando a altura quando a árvore é gerada, além dos requisitos de suporte, espaço, altura e substituição. |
