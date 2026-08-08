@@ -17,7 +17,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private static final int MAX_CONTENT_WIDTH = 540;
 	private static final int SIDE_MARGIN = 16;
 	private static final int OPTIONS_TOP = 137;
-	private static final int OPTION_HEIGHT = 30;
+	private static final int OPTION_HEIGHT = 28;
 
 	private final Screen parent;
 	private final SummaryPanel summaryPanel = new SummaryPanel();
@@ -33,6 +33,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean disableChatHistoryNavigation;
 	private boolean compactItemCounts;
 	private boolean expandedItemStacks;
+	private boolean randomExperienceOrbColors;
 	private boolean compactInformationOverlay;
 	private boolean compactGameMenus;
 	private GlobalOptionEntry jadeReputationEntry;
@@ -45,6 +46,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry chatHistoryNavigationEntry;
 	private GlobalOptionEntry compactItemCountsEntry;
 	private GlobalOptionEntry expandedItemStacksEntry;
+	private GlobalOptionEntry randomExperienceOrbColorsEntry;
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
 
@@ -68,6 +70,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
 		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
 		this.expandedItemStacks = SmartTradeConfig.expandedItemStacks();
+		this.randomExperienceOrbColors = SmartTradeConfig.randomExperienceOrbColors();
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.jadeReputationEntry = new GlobalOptionEntry(
@@ -170,6 +173,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.expandedItemStacks,
 			selected -> this.expandedItemStacks = selected
 		);
+		this.randomExperienceOrbColorsEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.random_experience_orb_colors"),
+			OptionTooltip.translated("smarttrade.options.random_experience_orb_colors"),
+			this.randomExperienceOrbColors,
+			selected -> this.randomExperienceOrbColors = selected
+		);
 		this.compactInformationOverlayEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -201,6 +214,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
+			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
 			this.compactGameMenusEntry
 		));
@@ -237,6 +251,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.disableChatHistoryNavigation
 				&& this.compactItemCounts
 				&& this.expandedItemStacks
+				&& this.randomExperienceOrbColors
 				&& this.compactInformationOverlay
 				&& this.compactGameMenus
 		);
@@ -250,6 +265,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.chatHistoryNavigationEntry.setSelected(selected);
 		this.compactItemCountsEntry.setSelected(selected);
 		this.expandedItemStacksEntry.setSelected(selected);
+		this.randomExperienceOrbColorsEntry.setSelected(selected);
 		this.compactInformationOverlayEntry.setSelected(selected);
 		this.compactGameMenusEntry.setSelected(selected);
 	}
@@ -266,6 +282,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.disableChatHistoryNavigation,
 			this.compactItemCounts,
 			this.expandedItemStacks,
+			this.randomExperienceOrbColors,
 			this.compactInformationOverlay,
 			this.compactGameMenus
 		);
@@ -317,6 +334,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
+			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
 			this.compactGameMenusEntry
 		};
