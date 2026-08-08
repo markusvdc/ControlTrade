@@ -3,8 +3,6 @@ package br.com.smarttrade.integration.jade;
 import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.config.SmartTradeConfig;
 import br.com.smarttrade.gameplay.VillagerRestockAccess;
-import java.util.Map;
-import java.util.WeakHashMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.gossip.GossipType;
@@ -19,7 +17,6 @@ public final class VillagerReputationProvider implements IServerDataProvider<Ent
 	public static final String REPUTATION_KEY = "SmartTradeReputation";
 	public static final String RESTOCKS_KEY = "SmartTradeRestocksToday";
 	public static final String CURED_KEY = "SmartTradeCuredByPlayer";
-	private final Map<Villager, Integer> lastLoggedRestocks = new WeakHashMap<>();
 
 	private VillagerReputationProvider() {
 	}
@@ -31,16 +28,6 @@ public final class VillagerReputationProvider implements IServerDataProvider<Ent
 			data.putInt(REPUTATION_KEY, villager.getPlayerReputation(accessor.getPlayer()));
 			int restocksToday = ((VillagerRestockAccess) villager).smarttrade$getRestocksToday();
 			data.putInt(RESTOCKS_KEY, restocksToday);
-			Integer previousRestocks = this.lastLoggedRestocks.put(villager, restocksToday);
-			if (previousRestocks == null || previousRestocks != restocksToday) {
-				SmartTrade.LOGGER.info(
-					"Jade restock data: villager={}, restocksToday={}/2, previous={}, gameTime={}",
-					villager.getUUID(),
-					restocksToday,
-					previousRestocks == null ? "not observed" : previousRestocks,
-					villager.level().getGameTime()
-				);
-			}
 			data.putBoolean(
 				CURED_KEY,
 				villager.getGossips().getReputation(

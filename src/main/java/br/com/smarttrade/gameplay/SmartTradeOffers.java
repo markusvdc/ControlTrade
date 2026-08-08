@@ -1,10 +1,8 @@
 package br.com.smarttrade.gameplay;
 
-import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.config.SmartTradeConfig;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
@@ -67,29 +65,11 @@ public final class SmartTradeOffers {
 			if (enabled && existingIndex < 0) {
 				int insertionIndex = Math.min(VANILLA_NOVICE_OFFER_COUNT + customOffset, offers.size());
 				offers.add(insertionIndex, definition.createOffer());
-				SmartTrade.LOGGER.info(
-					"Trade added: villager={}, profession={}, level={}, trade={}, index={}, "
-						+ "input={}x{}, output={}xemerald, maxUses={}, xp={}, priceMultiplier={}, offers={}",
-					villager.getUUID(),
-					profession.identifier(),
-					villager.getVillagerData().level(),
-					definition.id(),
-					insertionIndex,
-					definition.inputCount(),
-					itemId(definition.input()),
-					EMERALD_RESULT,
-					MAX_USES,
-					VILLAGER_XP,
-					PRICE_MULTIPLIER,
-					offers.size()
-				);
 			}
 			if (enabled) {
 				customOffset++;
 			}
 		}
-
-		logValidation(villager, offers, profession);
 	}
 
 	private static void removeRetiredSugarCaneOffers(
@@ -117,15 +97,6 @@ public final class SmartTradeOffers {
 			}
 
 			offers.remove(index);
-			SmartTrade.LOGGER.info(
-				"Retired trade removed: villager={}, profession={}, level={}, "
-					+ "trade=farmer/minecraft:sugar_cane, index={}, input={}xsugar_cane",
-				villager.getUUID(),
-				profession.identifier(),
-				villager.getVillagerData().level(),
-				index,
-				cost.getCount()
-			);
 		}
 	}
 
@@ -148,89 +119,6 @@ public final class SmartTradeOffers {
 			}
 
 			offers.remove(index);
-			SmartTrade.LOGGER.info(
-				"Legacy trade migrated: villager={}, profession={}, level={}, trade={}, "
-					+ "removedIndex={}, oldInput={}x{}, newInput={}x{}",
-				villager.getUUID(),
-				definition.profession().identifier(),
-				villager.getVillagerData().level(),
-				definition.id(),
-				index,
-				legacyCount,
-				itemId(definition.input()),
-				definition.inputCount(),
-				itemId(definition.input())
-			);
-		}
-	}
-
-	public static void logTrade(Villager villager, MerchantOffer offer) {
-		TradeDefinition definition = findDefinition(offer);
-		if (definition == null) {
-			return;
-		}
-
-		SmartTrade.LOGGER.info(
-			"Trade completed: villager={}, profession={}, level={}, trade={}, baseCost={}x{}, "
-				+ "currentCost={}x{}, output={}xemerald, uses={}/{}, xp={}, demand={}, "
-				+ "specialPrice={}, priceMultiplier={}, outOfStock={}",
-			villager.getUUID(),
-			professionId(villager),
-			villager.getVillagerData().level(),
-			definition.id(),
-			offer.getBaseCostA().getCount(),
-			itemId(definition.input()),
-			offer.getCostA().getCount(),
-			itemId(definition.input()),
-			offer.getResult().getCount(),
-			offer.getUses(),
-			offer.getMaxUses(),
-			offer.getXp(),
-			offer.getDemand(),
-			offer.getSpecialPriceDiff(),
-			offer.getPriceMultiplier(),
-			offer.isOutOfStock()
-		);
-	}
-
-	private static void logValidation(
-		Villager villager,
-		MerchantOffers offers,
-		ResourceKey<VillagerProfession> profession
-	) {
-		for (TradeDefinition definition : DEFINITIONS) {
-			if (definition.profession() != profession) {
-				continue;
-			}
-
-			int occurrences = countOccurrences(offers, definition);
-			int index = findIndex(offers, definition);
-			boolean enabled = SmartTradeConfig.isTradeEnabled(definition.input());
-			String message =
-				"Trade validation: villager={}, profession={}, level={}, trade={}, enabled={}, "
-					+ "index={}, noviceBlockEnd={}, occurrences={}, input={}x{}, output={}xemerald, "
-					+ "maxUses={}, xp={}, offers={}";
-			Object[] values = {
-				villager.getUUID(),
-				profession.identifier(),
-				villager.getVillagerData().level(),
-				definition.id(),
-				enabled,
-				index,
-				VANILLA_NOVICE_OFFER_COUNT,
-				occurrences,
-				definition.inputCount(),
-				itemId(definition.input()),
-				EMERALD_RESULT,
-				MAX_USES,
-				VILLAGER_XP,
-				offers.size()
-			};
-			if (occurrences > 1 || (enabled && occurrences != 1)) {
-				SmartTrade.LOGGER.warn(message, values);
-			} else {
-				SmartTrade.LOGGER.info(message, values);
-			}
 		}
 	}
 
@@ -243,21 +131,6 @@ public final class SmartTradeOffers {
 		return null;
 	}
 
-	private static String professionId(Villager villager) {
-		ResourceKey<VillagerProfession> profession = professionOf(villager);
-		return profession == null ? "unknown" : profession.identifier().toString();
-	}
-
-	private static int countOccurrences(MerchantOffers offers, TradeDefinition definition) {
-		int occurrences = 0;
-		for (MerchantOffer offer : offers) {
-			if (definition.matches(offer)) {
-				occurrences++;
-			}
-		}
-		return occurrences;
-	}
-
 	private static int findIndex(MerchantOffers offers, TradeDefinition definition) {
 		for (int index = 0; index < offers.size(); index++) {
 			if (definition.matches(offers.get(index))) {
@@ -267,28 +140,11 @@ public final class SmartTradeOffers {
 		return -1;
 	}
 
-	private static TradeDefinition findDefinition(MerchantOffer offer) {
-		for (TradeDefinition definition : DEFINITIONS) {
-			if (definition.matches(offer)) {
-				return definition;
-			}
-		}
-		return null;
-	}
-
-	private static String itemId(Item item) {
-		return BuiltInRegistries.ITEM.getKey(item).toString();
-	}
-
 	private record TradeDefinition(
 		ResourceKey<VillagerProfession> profession,
 		Item input,
 		int inputCount
 	) {
-		private String id() {
-			return profession.identifier() + "/" + itemId(input);
-		}
-
 		private MerchantOffer createOffer() {
 			return new MerchantOffer(
 				new ItemCost(input, inputCount),

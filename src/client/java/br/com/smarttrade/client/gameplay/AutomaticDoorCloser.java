@@ -1,6 +1,5 @@
 package br.com.smarttrade.client.gameplay;
 
-import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.config.SmartTradeConfig;
 import br.com.smarttrade.mixin.OpenableBlockInvoker;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -47,23 +45,11 @@ public final class AutomaticDoorCloser {
 			pos.immutable(),
 			new PendingClosure(System.nanoTime() + CLOSE_DELAY_NANOS, block, hitResult)
 		);
-		SmartTrade.LOGGER.info(
-			"Automatic door scheduled: block={} pos={} dimension={} delaySeconds=5",
-			block,
-			pos,
-			level.dimension().identifier()
-		);
 	}
 
 	public static void cancel(ClientLevel level, BlockPos pos) {
 		track(level);
-		if (PENDING.remove(pos) != null && !VERIFYING.containsKey(pos)) {
-			SmartTrade.LOGGER.info(
-				"Automatic door canceled: pos={} dimension={} reason=closed",
-				pos,
-				level.dimension().identifier()
-			);
-		}
+		PENDING.remove(pos);
 	}
 
 	private static void tick(Minecraft minecraft) {
@@ -93,14 +79,6 @@ public final class AutomaticDoorCloser {
 			BlockState state = level.getBlockState(entry.getKey());
 			boolean sameOpenBlock = state.getBlock() == closure.block()
 				&& isOpen(level, entry.getKey(), state);
-			SmartTrade.LOGGER.info(
-				"Automatic door deadline: pos={} dimension={} sameBlock={} open={} action={}",
-				entry.getKey(),
-				level.dimension().identifier(),
-				state.getBlock() == closure.block(),
-				isOpen(level, entry.getKey(), state),
-				sameOpenBlock ? "close" : "ignore"
-			);
 			if (sameOpenBlock) {
 				close(minecraft, entry.getKey(), closure.block(), closure.hitResult(), 1);
 			}
@@ -118,15 +96,6 @@ public final class AutomaticDoorCloser {
 			BlockState state = level.getBlockState(entry.getKey());
 			boolean sameBlock = state.getBlock() == verification.block();
 			boolean open = sameBlock && isOpen(level, entry.getKey(), state);
-			SmartTrade.LOGGER.info(
-				"Automatic door verification: pos={} dimension={} attempt={} sameBlock={} open={} action={}",
-				entry.getKey(),
-				level.dimension().identifier(),
-				verification.attempt(),
-				sameBlock,
-				open,
-				open && verification.attempt() < MAX_CLOSE_ATTEMPTS ? "retry" : "finish"
-			);
 			if (open && verification.attempt() < MAX_CLOSE_ATTEMPTS) {
 				int nextAttempt = verification.attempt() + 1;
 				requestServerClose(
@@ -176,11 +145,6 @@ public final class AutomaticDoorCloser {
 	) {
 		var server = minecraft.getSingleplayerServer();
 		if (server == null) {
-			SmartTrade.LOGGER.info(
-				"Automatic door server close skipped: pos={} attempt={} reason=no_integrated_server",
-				pos,
-				attempt
-			);
 			return;
 		}
 
@@ -190,11 +154,6 @@ public final class AutomaticDoorCloser {
 			ServerLevel serverLevel = server.getLevel(dimension);
 			ServerPlayer serverPlayer = server.getPlayerList().getPlayer(playerId);
 			if (serverLevel == null || serverPlayer == null) {
-				SmartTrade.LOGGER.info(
-					"Automatic door server close skipped: pos={} attempt={} reason=world_or_player_missing",
-					pos,
-					attempt
-				);
 				return;
 			}
 
@@ -202,30 +161,14 @@ public final class AutomaticDoorCloser {
 			boolean canClose = state.getBlock() == expectedBlock
 				&& isOpen(serverLevel, pos, state);
 			if (!canClose) {
-				SmartTrade.LOGGER.info(
-					"Automatic door server close skipped: pos={} attempt={} sameBlock={} open={}",
-					pos,
-					attempt,
-					state.getBlock() == expectedBlock,
-					state.hasProperty(BlockStateProperties.OPEN)
-						&& state.getValue(BlockStateProperties.OPEN)
-				);
 				return;
 			}
 
-			InteractionResult result = state.getValue(BlockStateProperties.OPEN)
-				? ((OpenableBlockInvoker) state.getBlock())
-					.smarttrade$useWithoutItem(state, serverLevel, pos, null, hitResult)
-				: InteractionResult.PASS;
-			boolean synchronizedDoorHalf = synchronizeDoorHalf(serverLevel, pos, state);
-			SmartTrade.LOGGER.info(
-				"Automatic door server close: pos={} dimension={} attempt={} result={} synchronizedDoorHalf={}",
-				pos,
-				dimension.identifier(),
-				attempt,
-				result,
-				synchronizedDoorHalf
-			);
+			if (state.getValue(BlockStateProperties.OPEN)) {
+				((OpenableBlockInvoker) state.getBlock())
+					.smarttrade$useWithoutItem(state, serverLevel, pos, null, hitResult);
+			}
+			synchronizeDoorHalf(serverLevel, pos, state);
 		});
 	}
 

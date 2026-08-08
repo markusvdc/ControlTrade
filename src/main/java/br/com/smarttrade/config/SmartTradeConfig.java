@@ -1,6 +1,5 @@
 package br.com.smarttrade.config;
 
-import br.com.smarttrade.SmartTrade;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -56,7 +55,6 @@ public final class SmartTradeConfig {
 
 	public static synchronized void load() {
 		if (!Files.exists(CONFIG_PATH)) {
-			SmartTrade.LOGGER.info("Trade configuration: all {} trades enabled by default", AVAILABLE_TRADES.size());
 			return;
 		}
 
@@ -109,7 +107,6 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
 			compactGameMenus =
 				data != null && Boolean.TRUE.equals(data.compactGameMenus);
-			logConfiguration("loaded");
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
@@ -126,7 +123,6 @@ public final class SmartTradeConfig {
 			randomExperienceOrbColors = false;
 			compactInformationOverlay = false;
 			compactGameMenus = false;
-			SmartTrade.LOGGER.error("Could not load {}. Using defaults.", CONFIG_PATH, exception);
 		}
 	}
 
@@ -202,10 +198,8 @@ public final class SmartTradeConfig {
 			);
 			Files.move(temporaryPath, CONFIG_PATH, StandardCopyOption.REPLACE_EXISTING);
 			enabledTrades = sanitized;
-			logConfiguration("saved");
 			return true;
 		} catch (IOException exception) {
-			SmartTrade.LOGGER.error("Could not save {}.", CONFIG_PATH, exception);
 			return false;
 		}
 	}
@@ -280,30 +274,6 @@ public final class SmartTradeConfig {
 			}
 		}
 		return Set.copyOf(sanitized);
-	}
-
-	private static void logConfiguration(String state) {
-		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} randomSuspiciousStews={} randomExperienceOrbColors={} compactInformationOverlay={} compactGameMenus={} entries={}",
-			state,
-			enabledTrades.size(),
-			AVAILABLE_TRADES.size(),
-			showAdditionalInformation,
-			maximumVillagerReputation,
-			soulSpeedOnlyInNether,
-			fixedHugeMushroomHeight,
-			compactHorseHealthHud,
-			equestrianHud,
-			automaticDoorClosing,
-			disableChatHistoryNavigation,
-			compactItemCounts,
-			expandedItemStacks,
-			randomSuspiciousStews,
-			randomExperienceOrbColors,
-			compactInformationOverlay,
-			compactGameMenus,
-			enabledTrades.stream().sorted().toList()
-		);
 	}
 
 	private record ConfigData(
