@@ -22,7 +22,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 18;
+	private static final int CURRENT_VERSION = 19;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -46,6 +46,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean disableChatHistoryNavigation;
 	private static volatile boolean compactItemCounts;
 	private static volatile boolean expandedItemStacks;
+	private static volatile boolean randomSuspiciousStews;
 	private static volatile boolean randomExperienceOrbColors;
 	private static volatile boolean compactInformationOverlay;
 	private static volatile boolean compactGameMenus;
@@ -100,6 +101,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactItemCounts);
 			expandedItemStacks =
 				data != null && Boolean.TRUE.equals(data.expandedItemStacks);
+			randomSuspiciousStews =
+				data != null && Boolean.TRUE.equals(data.randomSuspiciousStews);
 			randomExperienceOrbColors =
 				data != null && Boolean.TRUE.equals(data.randomExperienceOrbColors);
 			compactInformationOverlay =
@@ -119,6 +122,7 @@ public final class SmartTradeConfig {
 			disableChatHistoryNavigation = false;
 			compactItemCounts = false;
 			expandedItemStacks = false;
+			randomSuspiciousStews = false;
 			randomExperienceOrbColors = false;
 			compactInformationOverlay = false;
 			compactGameMenus = false;
@@ -145,6 +149,7 @@ public final class SmartTradeConfig {
 		boolean disableHistoryNavigation,
 		boolean useCompactItemCounts,
 		boolean useExpandedItemStacks,
+		boolean useRandomSuspiciousStews,
 		boolean useRandomExperienceOrbColors,
 		boolean useCompactInformationOverlay,
 		boolean useCompactGameMenus
@@ -159,6 +164,7 @@ public final class SmartTradeConfig {
 		disableChatHistoryNavigation = disableHistoryNavigation;
 		compactItemCounts = useCompactItemCounts;
 		expandedItemStacks = useExpandedItemStacks;
+		randomSuspiciousStews = useRandomSuspiciousStews;
 		randomExperienceOrbColors = useRandomExperienceOrbColors;
 		compactInformationOverlay = useCompactInformationOverlay;
 		compactGameMenus = useCompactGameMenus;
@@ -187,6 +193,7 @@ public final class SmartTradeConfig {
 					disableChatHistoryNavigation,
 					compactItemCounts,
 					expandedItemStacks,
+					randomSuspiciousStews,
 					randomExperienceOrbColors,
 					compactInformationOverlay,
 					compactGameMenus
@@ -247,6 +254,10 @@ public final class SmartTradeConfig {
 		return expandedItemStacks;
 	}
 
+	public static boolean randomSuspiciousStews() {
+		return randomSuspiciousStews;
+	}
+
 	public static boolean randomExperienceOrbColors() {
 		return randomExperienceOrbColors;
 	}
@@ -273,7 +284,7 @@ public final class SmartTradeConfig {
 
 	private static void logConfiguration(String state) {
 		SmartTrade.LOGGER.info(
-			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} randomExperienceOrbColors={} compactInformationOverlay={} compactGameMenus={} entries={}",
+			"Trade configuration {}: enabled={}/{} additionalInfo={} maximumReputation={} soulSpeedOnlyInNether={} fixedMushroomHeight={} compactHorseHealthHud={} equestrianHud={} automaticDoorClosing={} disableChatHistoryNavigation={} compactItemCounts={} expandedItemStacks={} randomSuspiciousStews={} randomExperienceOrbColors={} compactInformationOverlay={} compactGameMenus={} entries={}",
 			state,
 			enabledTrades.size(),
 			AVAILABLE_TRADES.size(),
@@ -287,6 +298,7 @@ public final class SmartTradeConfig {
 			disableChatHistoryNavigation,
 			compactItemCounts,
 			expandedItemStacks,
+			randomSuspiciousStews,
 			randomExperienceOrbColors,
 			compactInformationOverlay,
 			compactGameMenus,
@@ -309,6 +321,7 @@ public final class SmartTradeConfig {
 		Boolean disableChatHistoryNavigation,
 		Boolean compactItemCounts,
 		Boolean expandedItemStacks,
+		Boolean randomSuspiciousStews,
 		Boolean randomExperienceOrbColors,
 		Boolean compactInformationOverlay,
 		Boolean compactGameMenus
