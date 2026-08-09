@@ -11,17 +11,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MushroomBlock.class)
 public abstract class MushroomBlockMixin {
-	@Inject(method = "performBonemeal", at = @At("HEAD"))
+	@Inject(method = "growMushroom", at = @At("HEAD"))
 	private void smarttrade$beginFixedHeightGrowth(
 		ServerLevel level,
-		RandomSource random,
 		BlockPos pos,
 		BlockState state,
-		CallbackInfo callback
+		RandomSource random,
+		CallbackInfoReturnable<Boolean> callback
 	) {
 		FixedHeightGrowthContext.clear();
 		if (!SmartTradeConfig.fixedHugeMushroomHeight()) {
@@ -40,13 +40,13 @@ public abstract class MushroomBlockMixin {
 		}
 	}
 
-	@Inject(method = "performBonemeal", at = @At("RETURN"))
+	@Inject(method = "growMushroom", at = @At("RETURN"))
 	private void smarttrade$finishFixedHeightGrowth(
 		ServerLevel level,
-		RandomSource random,
 		BlockPos pos,
 		BlockState state,
-		CallbackInfo callback
+		RandomSource random,
+		CallbackInfoReturnable<Boolean> callback
 	) {
 		FixedHeightGrowthContext.clear();
 	}
