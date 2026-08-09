@@ -10,6 +10,9 @@ public final class ExpandedItemStacks {
 	}
 
 	public static int maximumFor(ItemStack stack) {
+		if (stack.is(Items.SUSPICIOUS_STEW)) {
+			return 0;
+		}
 		if (
 			stack.is(ConventionalItemTags.SOUP_FOODS)
 				|| stack.is(Items.ENDER_PEARL)

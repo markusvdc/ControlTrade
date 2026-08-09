@@ -39,7 +39,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean disableChatHistoryNavigation;
 	private boolean compactItemCounts;
 	private boolean expandedItemStacks;
-	private boolean randomSuspiciousStews;
 	private boolean randomExperienceOrbColors;
 	private boolean compactInformationOverlay;
 	private boolean compactGameMenus;
@@ -54,7 +53,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry chatHistoryNavigationEntry;
 	private GlobalOptionEntry compactItemCountsEntry;
 	private GlobalOptionEntry expandedItemStacksEntry;
-	private GlobalOptionEntry randomSuspiciousStewsEntry;
 	private GlobalOptionEntry randomExperienceOrbColorsEntry;
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
@@ -89,7 +87,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
 		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
 		this.expandedItemStacks = SmartTradeConfig.expandedItemStacks();
-		this.randomSuspiciousStews = SmartTradeConfig.randomSuspiciousStews();
 		this.randomExperienceOrbColors = SmartTradeConfig.randomExperienceOrbColors();
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
@@ -194,16 +191,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.expandedItemStacks,
 			selected -> this.expandedItemStacks = selected
 		);
-		this.randomSuspiciousStewsEntry = new GlobalOptionEntry(
-			left,
-			0,
-			contentWidth,
-			OPTION_HEIGHT,
-			Component.translatable("smarttrade.options.random_suspicious_stews"),
-			OptionTooltip.translated("smarttrade.options.random_suspicious_stews"),
-			this.randomSuspiciousStews,
-			selected -> this.randomSuspiciousStews = selected
-		);
 		this.randomExperienceOrbColorsEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -259,7 +246,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.maximumReputationEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
-			this.randomSuspiciousStewsEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.insaneDifficultyEntry
 		));
@@ -341,7 +327,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.disableChatHistoryNavigation
 				&& this.compactItemCounts
 				&& this.expandedItemStacks
-				&& this.randomSuspiciousStews
 				&& this.randomExperienceOrbColors
 				&& this.compactInformationOverlay
 				&& this.compactGameMenus
@@ -357,7 +342,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.chatHistoryNavigationEntry.setSelected(selected);
 		this.compactItemCountsEntry.setSelected(selected);
 		this.expandedItemStacksEntry.setSelected(selected);
-		this.randomSuspiciousStewsEntry.setSelected(selected);
 		this.randomExperienceOrbColorsEntry.setSelected(selected);
 		this.compactInformationOverlayEntry.setSelected(selected);
 		this.compactGameMenusEntry.setSelected(selected);
@@ -376,7 +360,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.disableChatHistoryNavigation,
 			this.compactItemCounts,
 			this.expandedItemStacks,
-			this.randomSuspiciousStews,
 			this.randomExperienceOrbColors,
 			this.compactInformationOverlay,
 			this.compactGameMenus,
@@ -448,7 +431,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
-			this.randomSuspiciousStewsEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
 			this.compactGameMenusEntry,

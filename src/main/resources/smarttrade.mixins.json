@@ -9,8 +9,6 @@
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
 	"ItemInstanceMixin",
-	"ItemMixin",
-	"ItemStackMixin",
 	"MeleeAttackGoalInsaneDifficultyMixin",
 	"MobInsaneDifficultyMixin",
 	"NaturalSpawnerInsaneDifficultyMixin",
