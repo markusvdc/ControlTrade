@@ -4,25 +4,36 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AbstractVillagerMixin",
+	"AbstractSkeletonInsaneDifficultyMixin",
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
 	"ItemInstanceMixin",
 	"ItemMixin",
 	"ItemStackMixin",
+	"MobInsaneDifficultyMixin",
+	"PlayerInsaneDifficultyMixin",
+	"RaidAccessor",
+	"RaidInsaneDifficultyMixin",
+	"RaidsInsaneDifficultyMixin",
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
     "SaplingBlockMixin",
     "SoulSpeedDimensionMixin",
     "SoulSpeedMovementMixin",
+	"SpiderInsaneDifficultyMixin",
     "TrunkPlacerMixin",
     "VillagerReputationMixin",
-    "VillagerRestockMixin"
+	"VillagerRestockMixin",
+	"ZombieInsaneDifficultyMixin"
   ],
   "client": [
 	"ButtonAccessor",
+	"AbstractArrowAccessor",
     "ClientOpenableBlockMixin",
     "ChatScreenMixin",
 	"GuiGraphicsExtractorMixin",
+	"DifficultyButtonsMixin",
+	"EntityRendererInsaneDifficultyMixin",
 	"ExperienceOrbRendererMixin",
 	"ExperienceOrbRenderStateMixin",
 	"HorseHealthHudMixin",
@@ -30,7 +41,8 @@
 	"OptionsScreenMixin",
 	"PauseScreenMixin",
 	"ScreenInvoker",
-	"TitleScreenMixin"
+	"TitleScreenMixin",
+	"WorldListEntryMixin"
   ],
   "injectors": {
     "defaultRequire": 1

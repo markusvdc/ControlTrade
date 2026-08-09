@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 19;
+	private static final int CURRENT_VERSION = 20;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -49,6 +49,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean randomExperienceOrbColors;
 	private static volatile boolean compactInformationOverlay;
 	private static volatile boolean compactGameMenus;
+	private static volatile boolean insaneDifficulty;
 
 	private SmartTradeConfig() {
 	}
@@ -107,6 +108,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
 			compactGameMenus =
 				data != null && Boolean.TRUE.equals(data.compactGameMenus);
+			insaneDifficulty =
+				data != null && Boolean.TRUE.equals(data.insaneDifficulty);
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
@@ -123,6 +126,7 @@ public final class SmartTradeConfig {
 			randomExperienceOrbColors = false;
 			compactInformationOverlay = false;
 			compactGameMenus = false;
+			insaneDifficulty = false;
 		}
 	}
 
@@ -148,7 +152,8 @@ public final class SmartTradeConfig {
 		boolean useRandomSuspiciousStews,
 		boolean useRandomExperienceOrbColors,
 		boolean useCompactInformationOverlay,
-		boolean useCompactGameMenus
+		boolean useCompactGameMenus,
+		boolean enableInsaneDifficulty
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -164,6 +169,7 @@ public final class SmartTradeConfig {
 		randomExperienceOrbColors = useRandomExperienceOrbColors;
 		compactInformationOverlay = useCompactInformationOverlay;
 		compactGameMenus = useCompactGameMenus;
+		insaneDifficulty = enableInsaneDifficulty;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -192,7 +198,8 @@ public final class SmartTradeConfig {
 					randomSuspiciousStews,
 					randomExperienceOrbColors,
 					compactInformationOverlay,
-					compactGameMenus
+					compactGameMenus,
+					insaneDifficulty
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -264,6 +271,10 @@ public final class SmartTradeConfig {
 		return compactGameMenus;
 	}
 
+	public static boolean insaneDifficulty() {
+		return insaneDifficulty;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -294,7 +305,8 @@ public final class SmartTradeConfig {
 		Boolean randomSuspiciousStews,
 		Boolean randomExperienceOrbColors,
 		Boolean compactInformationOverlay,
-		Boolean compactGameMenus
+		Boolean compactGameMenus,
+		Boolean insaneDifficulty
 	) {
 	}
 }

@@ -5,6 +5,7 @@ import br.com.smarttrade.client.screen.component.AlphabeticalOrder;
 import br.com.smarttrade.client.screen.component.GlobalOptionEntry;
 import br.com.smarttrade.client.screen.component.OptionTooltip;
 import br.com.smarttrade.client.screen.component.SummaryPanel;
+import br.com.smarttrade.client.gameplay.InsaneDifficultyClient;
 import br.com.smarttrade.config.SmartTradeConfig;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,7 +18,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private static final int MAX_CONTENT_WIDTH = 540;
 	private static final int SIDE_MARGIN = 16;
 	private static final int OPTIONS_TOP = 137;
-	private static final int OPTION_HEIGHT = 26;
+	private static final int OPTION_HEIGHT = 24;
 
 	private final Screen parent;
 	private final SummaryPanel summaryPanel = new SummaryPanel();
@@ -37,6 +38,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean randomExperienceOrbColors;
 	private boolean compactInformationOverlay;
 	private boolean compactGameMenus;
+	private boolean insaneDifficulty;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
@@ -51,6 +53,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry randomExperienceOrbColorsEntry;
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
+	private GlobalOptionEntry insaneDifficultyEntry;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -76,6 +79,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.randomExperienceOrbColors = SmartTradeConfig.randomExperienceOrbColors();
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
+		this.insaneDifficulty = SmartTradeConfig.insaneDifficulty();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -216,6 +220,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactGameMenus,
 			selected -> this.compactGameMenus = selected
 		);
+		this.insaneDifficultyEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.insane_difficulty"),
+			OptionTooltip.translated("smarttrade.options.insane_difficulty"),
+			this.insaneDifficulty,
+			selected -> this.insaneDifficulty = selected
+		);
 		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
 			this.maximumReputationEntry,
@@ -230,7 +244,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.randomSuspiciousStewsEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
-			this.compactGameMenusEntry
+			this.compactGameMenusEntry,
+			this.insaneDifficultyEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
@@ -269,6 +284,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.randomExperienceOrbColors
 				&& this.compactInformationOverlay
 				&& this.compactGameMenus
+				&& this.insaneDifficulty
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
@@ -284,6 +300,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.randomExperienceOrbColorsEntry.setSelected(selected);
 		this.compactInformationOverlayEntry.setSelected(selected);
 		this.compactGameMenusEntry.setSelected(selected);
+		this.insaneDifficultyEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -301,12 +318,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.randomSuspiciousStews,
 			this.randomExperienceOrbColors,
 			this.compactInformationOverlay,
-			this.compactGameMenus
+			this.compactGameMenus,
+			this.insaneDifficulty
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
 		);
 		this.statusColor = saved ? 0xFF9CD67A : 0xFFFF6B6B;
+		if (saved && this.insaneDifficulty) {
+			InsaneDifficultyClient.unlockDifficulty(this.minecraft);
+		}
 	}
 
 	@Override
@@ -354,7 +375,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.randomSuspiciousStewsEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
-			this.compactGameMenusEntry
+			this.compactGameMenusEntry,
+			this.insaneDifficultyEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {
