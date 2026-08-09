@@ -2,6 +2,7 @@ package br.com.smarttrade.client.screen;
 
 import br.com.smarttrade.client.screen.component.ActionButtons;
 import br.com.smarttrade.client.screen.component.AlphabeticalOrder;
+import br.com.smarttrade.client.screen.component.CategoryDivider;
 import br.com.smarttrade.client.screen.component.GlobalOptionEntry;
 import br.com.smarttrade.client.screen.component.OptionTooltip;
 import br.com.smarttrade.client.screen.component.SummaryPanel;
@@ -65,6 +66,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		int contentWidth = Math.min(MAX_CONTENT_WIDTH, this.width - SIDE_MARGIN * 2);
 		int left = (this.width - contentWidth) / 2;
 		int buttonY = this.height - 36;
+		int rowHeight = Math.min(OPTION_HEIGHT, (buttonY - 12 - OPTIONS_TOP) / 17);
 		this.showAdditionalInformation = SmartTradeConfig.showAdditionalInformation();
 		this.maximumVillagerReputation = SmartTradeConfig.maximumVillagerReputation();
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
@@ -230,28 +232,41 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.insaneDifficulty,
 			selected -> this.insaneDifficulty = selected
 		);
-		List<GlobalOptionEntry> entries = new ArrayList<>(List.of(
+		List<GlobalOptionEntry> qualityEntries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
-			this.maximumReputationEntry,
-			this.soulSpeedEntry,
-			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
 			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
 			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
+			this.compactInformationOverlayEntry,
+			this.compactGameMenusEntry
+		));
+		List<GlobalOptionEntry> fantasyEntries = new ArrayList<>(List.of(
+			this.maximumReputationEntry,
+			this.soulSpeedEntry,
+			this.mushroomHeightEntry,
 			this.randomSuspiciousStewsEntry,
 			this.randomExperienceOrbColorsEntry,
-			this.compactInformationOverlayEntry,
-			this.compactGameMenusEntry,
 			this.insaneDifficultyEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
-		entries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
-		for (int index = 0; index < entries.size(); index++) {
-			GlobalOptionEntry entry = entries.get(index);
-			entry.setY(OPTIONS_TOP + OPTION_HEIGHT * index);
+		qualityEntries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
+		fantasyEntries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
+		int row = 0;
+		this.addRenderableWidget(new CategoryDivider(left, OPTIONS_TOP + rowHeight * row++, contentWidth, rowHeight,
+			Component.translatable("smarttrade.options.category.quality")));
+		for (GlobalOptionEntry entry : qualityEntries) {
+			entry.setHeight(rowHeight);
+			entry.setY(OPTIONS_TOP + rowHeight * row++);
+			this.addRenderableWidget(entry);
+		}
+		this.addRenderableWidget(new CategoryDivider(left, OPTIONS_TOP + rowHeight * row++, contentWidth, rowHeight,
+			Component.translatable("smarttrade.options.category.fantasy")));
+		for (GlobalOptionEntry entry : fantasyEntries) {
+			entry.setHeight(rowHeight);
+			entry.setY(OPTIONS_TOP + rowHeight * row++);
 			this.addRenderableWidget(entry);
 		}
 		ActionButtons actionButtons = new ActionButtons(

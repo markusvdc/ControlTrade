@@ -36,6 +36,8 @@
   "smarttrade.action.toggle_all.tooltip": "Toggle all available entries.",
   "smarttrade.options.title": "GLOBAL OPTIONS",
   "smarttrade.options.subtitle": "Select the global options you want to enable.",
+  "smarttrade.options.category.quality": "QUALITY",
+  "smarttrade.options.category.fantasy": "FANTASY",
   "smarttrade.options.jade_reputation": "REVEALED VILLAGERS",
   "smarttrade.options.jade_reputation.lore": "Villagers reveal more than words; attentive eyes perceive trust, daily routines, and old debts engraved upon every expression.",
   "smarttrade.options.jade_reputation.description": "Shows three values for the observed villager in Jade: reputation toward the player, green with a + sign above 0, red below 0, and gray at 0; restocks completed that day in current/2 format; and Cured as Yes when that player's major_positive reputation is above 0. With MAXIMUM REPUTATION, reputation shows +150 while Cured uses the real data. Requires Jade.",

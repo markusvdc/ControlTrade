@@ -36,6 +36,8 @@
   "smarttrade.action.toggle_all.tooltip": "Alternar todas as entradas disponíveis.",
   "smarttrade.options.title": "OPÇÕES GLOBAIS",
   "smarttrade.options.subtitle": "Selecione as opções globais que você quer ativar.",
+  "smarttrade.options.category.quality": "QUALIDADE",
+  "smarttrade.options.category.fantasy": "FANTASIA",
   "smarttrade.options.jade_reputation": "ALDEÕES REVELADOS",
   "smarttrade.options.jade_reputation.lore": "Aldeões revelam muito além das palavras; olhos atentos percebem confiança, rotina e antigas dívidas gravadas em cada expressão.",
   "smarttrade.options.jade_reputation.description": "Exibe no Jade três dados do aldeão observado: reputação em relação ao jogador, em verde e com sinal + acima de 0, em vermelho abaixo de 0 e em cinza quando igual a 0; reabastecimentos realizados no dia, no formato atual/2; e Curado como Sim quando a reputação major_positive desse jogador é maior que 0. Com REPUTAÇÃO MÁXIMA, exibe +150, enquanto Curado usa o dado real. Requer Jade.",

@@ -62,8 +62,9 @@ public final class GlobalOptionEntry extends AbstractButton {
 			graphics.outline(x, y + 1, this.width, this.height - 3, 0xFFFFFFFF);
 		}
 
-		drawCheckbox(graphics, x + 8, y + 9);
-		graphics.text(Minecraft.getInstance().font, this.getMessage(), x + 29, y + 11, 0xFFFFFFFF, true);
+		int contentY = y + (this.height - 11) / 2;
+		drawCheckbox(graphics, x + 8, contentY);
+		graphics.text(Minecraft.getInstance().font, this.getMessage(), x + 29, y + (this.height - 9) / 2, 0xFFFFFFFF, true);
 	}
 
 	private void drawCheckbox(GuiGraphicsExtractor graphics, int x, int y) {
