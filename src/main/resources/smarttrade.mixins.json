@@ -12,6 +12,7 @@
 	"ItemStackMixin",
 	"MeleeAttackGoalInsaneDifficultyMixin",
 	"MobInsaneDifficultyMixin",
+	"NaturalSpawnerInsaneDifficultyMixin",
 	"PlayerInsaneDifficultyMixin",
 	"RaidAccessor",
 	"RaidInsaneDifficultyMixin",
