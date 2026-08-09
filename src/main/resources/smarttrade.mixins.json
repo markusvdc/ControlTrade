@@ -41,6 +41,7 @@
     "OpenableBlockInvoker",
 	"OptionsScreenMixin",
 	"PauseScreenMixin",
+	"PauseAudioSliderMixin",
 	"ScreenInvoker",
 	"TitleScreenMixin",
 	"WorldListEntryMixin"

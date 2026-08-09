@@ -92,6 +92,8 @@
   "smarttrade.menu.lan": "LAN",
   "smarttrade.menu.statistics": "STATISTICS",
   "smarttrade.menu.save_quit": "SAVE (QUIT)",
+  "soundCategory.master": "MASTER VOLUME",
+  "soundCategory.music": "MUSIC",
   "smarttrade.menu.game_options": "GAME OPTIONS",
   "smarttrade.menu.advancements": "Advancements",
   "smarttrade.menu.report": "Report",

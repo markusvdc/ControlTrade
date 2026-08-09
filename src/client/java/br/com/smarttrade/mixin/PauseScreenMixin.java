@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screens.friends.FriendsOverlayScreen;
 import net.minecraft.client.gui.screens.options.OnlineOptionsScreen;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -89,6 +90,13 @@ public abstract class PauseScreenMixin {
 				);
 			}
 			invoker.smarttrade$addRenderableWidget(button);
+		}
+		for (int index = 0; index < 2; index++) {
+			SoundSource source = index == 0 ? SoundSource.MASTER : SoundSource.MUSIC;
+			AbstractWidget slider = minecraft.options.getSoundSourceOptionInstance(source)
+				.createButton(minecraft.options, left, top + (4 + index) * ROW_SPACING, BUTTON_WIDTH);
+			slider.setHeight(BUTTON_HEIGHT);
+			invoker.smarttrade$addRenderableWidget(slider);
 		}
 	}
 
