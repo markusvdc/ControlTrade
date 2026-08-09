@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -19,7 +20,10 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private static final int MAX_CONTENT_WIDTH = 540;
 	private static final int SIDE_MARGIN = 16;
 	private static final int OPTIONS_TOP = 137;
-	private static final int OPTION_HEIGHT = 24;
+	private static final int OPTION_HEIGHT = 30;
+	private static final int VISIBLE_ROW_COUNT = 13;
+	private static final int SCROLLBAR_WIDTH = 6;
+	private static final int SCROLLBAR_GAP = 6;
 
 	private final Screen parent;
 	private final SummaryPanel summaryPanel = new SummaryPanel();
@@ -55,6 +59,10 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
 	private GlobalOptionEntry insaneDifficultyEntry;
+	private List<AbstractWidget> optionRows = List.of();
+	private int optionRowHeight;
+	private int optionsBottom;
+	private int scrollRow;
 
 	public SmartTradeOptionsScreen(Screen parent) {
 		super(Component.translatable("smarttrade.options.title"));
@@ -66,7 +74,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 		int contentWidth = Math.min(MAX_CONTENT_WIDTH, this.width - SIDE_MARGIN * 2);
 		int left = (this.width - contentWidth) / 2;
 		int buttonY = this.height - 36;
-		int rowHeight = Math.min(OPTION_HEIGHT, (buttonY - 12 - OPTIONS_TOP) / 17);
+		int rowHeight = Math.min(OPTION_HEIGHT, (buttonY - 12 - OPTIONS_TOP) / VISIBLE_ROW_COUNT);
+		int rowWidth = contentWidth;
+		this.optionRowHeight = rowHeight;
+		this.optionsBottom = buttonY - 12;
+		this.scrollRow = 0;
 		this.showAdditionalInformation = SmartTradeConfig.showAdditionalInformation();
 		this.maximumVillagerReputation = SmartTradeConfig.maximumVillagerReputation();
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
@@ -254,21 +266,26 @@ public final class SmartTradeOptionsScreen extends Screen {
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		qualityEntries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
 		fantasyEntries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
-		int row = 0;
-		this.addRenderableWidget(new CategoryDivider(left, OPTIONS_TOP + rowHeight * row++, contentWidth, rowHeight,
+		List<AbstractWidget> rows = new ArrayList<>();
+		rows.add(new CategoryDivider(left, 0, rowWidth, rowHeight,
 			Component.translatable("smarttrade.options.category.quality")));
 		for (GlobalOptionEntry entry : qualityEntries) {
 			entry.setHeight(rowHeight);
-			entry.setY(OPTIONS_TOP + rowHeight * row++);
-			this.addRenderableWidget(entry);
+			entry.setWidth(rowWidth);
+			rows.add(entry);
 		}
-		this.addRenderableWidget(new CategoryDivider(left, OPTIONS_TOP + rowHeight * row++, contentWidth, rowHeight,
+		rows.add(new CategoryDivider(left, 0, rowWidth, rowHeight,
 			Component.translatable("smarttrade.options.category.fantasy")));
 		for (GlobalOptionEntry entry : fantasyEntries) {
 			entry.setHeight(rowHeight);
-			entry.setY(OPTIONS_TOP + rowHeight * row++);
-			this.addRenderableWidget(entry);
+			entry.setWidth(rowWidth);
+			rows.add(entry);
 		}
+		this.optionRows = List.copyOf(rows);
+		for (AbstractWidget row : this.optionRows) {
+			this.addRenderableWidget(row);
+		}
+		this.layoutOptionRows();
 		ActionButtons actionButtons = new ActionButtons(
 			left,
 			buttonY,
@@ -281,6 +298,35 @@ public final class SmartTradeOptionsScreen extends Screen {
 			true
 		);
 		actionButtons.addTo(this::addRenderableWidget);
+	}
+
+	private void layoutOptionRows() {
+		for (int index = 0; index < this.optionRows.size(); index++) {
+			AbstractWidget row = this.optionRows.get(index);
+			int y = OPTIONS_TOP + (index - this.scrollRow) * this.optionRowHeight;
+			boolean visible = y >= OPTIONS_TOP && y + this.optionRowHeight <= this.optionsBottom;
+			row.setY(y);
+			row.visible = visible;
+			row.active = visible && !(row instanceof CategoryDivider);
+		}
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+		int contentWidth = Math.min(MAX_CONTENT_WIDTH, this.width - SIDE_MARGIN * 2);
+		int left = (this.width - contentWidth) / 2;
+		if (mouseX < left || mouseX >= left + contentWidth + SCROLLBAR_GAP + SCROLLBAR_WIDTH
+			|| mouseY < OPTIONS_TOP || mouseY >= this.optionsBottom) {
+			return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+		}
+		int maxScrollRow = Math.max(0, this.optionRows.size() - VISIBLE_ROW_COUNT);
+		int nextScrollRow = Math.max(0, Math.min(maxScrollRow, this.scrollRow - (int)Math.signum(verticalAmount)));
+		if (nextScrollRow == this.scrollRow) {
+			return false;
+		}
+		this.scrollRow = nextScrollRow;
+		this.layoutOptionRows();
+		return true;
 	}
 
 	private void toggleAllOptions() {
@@ -369,10 +415,25 @@ public final class SmartTradeOptionsScreen extends Screen {
 		graphics.text(this.font, this.title, left + 4, 123, 0xFFE0E0E0, true);
 
 		super.extractRenderState(graphics, mouseX, mouseY, delta);
+		this.renderOptionsScrollbar(graphics, left, contentWidth);
 		if (!this.status.getString().isEmpty()) {
 			graphics.centeredText(this.font, this.status, this.width / 2, this.height - 49, this.statusColor);
 		}
 		this.renderGlobalOptionTooltip(graphics, mouseX, mouseY);
+	}
+
+	private void renderOptionsScrollbar(GuiGraphicsExtractor graphics, int left, int contentWidth) {
+		int maxScrollRow = Math.max(0, this.optionRows.size() - VISIBLE_ROW_COUNT);
+		if (maxScrollRow == 0) {
+			return;
+		}
+		int trackHeight = this.optionsBottom - OPTIONS_TOP;
+		int thumbHeight = Math.max(24, trackHeight * VISIBLE_ROW_COUNT / this.optionRows.size());
+		int travel = trackHeight - thumbHeight;
+		int thumbY = OPTIONS_TOP + travel * this.scrollRow / maxScrollRow;
+		int scrollbarX = left + contentWidth + SCROLLBAR_GAP;
+		graphics.fill(scrollbarX, OPTIONS_TOP, scrollbarX + SCROLLBAR_WIDTH, this.optionsBottom, 0xFF080808);
+		graphics.fill(scrollbarX, thumbY, scrollbarX + SCROLLBAR_WIDTH, thumbY + thumbHeight, 0xFFC0C0C0);
 	}
 
 	private void renderGlobalOptionTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
