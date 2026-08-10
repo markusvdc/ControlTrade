@@ -43,6 +43,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean compactInformationOverlay;
 	private boolean compactGameMenus;
 	private boolean insaneDifficulty;
+	private boolean sovereignShift;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
@@ -57,6 +58,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
 	private GlobalOptionEntry insaneDifficultyEntry;
+	private GlobalOptionEntry sovereignShiftEntry;
 	private List<AbstractWidget> optionRows = List.of();
 	private int optionRowHeight;
 	private int optionsBottom;
@@ -91,6 +93,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.insaneDifficulty = SmartTradeConfig.insaneDifficulty();
+		this.sovereignShift = SmartTradeConfig.sovereignShift();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -231,6 +234,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.insaneDifficulty,
 			selected -> this.insaneDifficulty = selected
 		);
+		this.sovereignShiftEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.sovereign_shift"),
+			OptionTooltip.translated("smarttrade.options.sovereign_shift"),
+			this.sovereignShift,
+			selected -> this.sovereignShift = selected
+		);
 		List<GlobalOptionEntry> qualityEntries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
 			this.horseHealthHudEntry,
@@ -247,7 +260,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.randomExperienceOrbColorsEntry,
-			this.insaneDifficultyEntry
+			this.insaneDifficultyEntry,
+			this.sovereignShiftEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
 		qualityEntries.sort(Comparator.comparing(GlobalOptionEntry::getMessage, alphabeticalOrder));
@@ -331,6 +345,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.compactInformationOverlay
 				&& this.compactGameMenus
 				&& this.insaneDifficulty
+				&& this.sovereignShift
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
@@ -346,6 +361,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactInformationOverlayEntry.setSelected(selected);
 		this.compactGameMenusEntry.setSelected(selected);
 		this.insaneDifficultyEntry.setSelected(selected);
+		this.sovereignShiftEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -363,7 +379,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.randomExperienceOrbColors,
 			this.compactInformationOverlay,
 			this.compactGameMenus,
-			this.insaneDifficulty
+			this.insaneDifficulty,
+			this.sovereignShift
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"

@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 21;
+	private static final int CURRENT_VERSION = 22;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -49,6 +49,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean compactInformationOverlay;
 	private static volatile boolean compactGameMenus;
 	private static volatile boolean insaneDifficulty;
+	private static volatile boolean sovereignShift;
 
 	private SmartTradeConfig() {
 	}
@@ -107,6 +108,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactGameMenus);
 			insaneDifficulty =
 				data != null && Boolean.TRUE.equals(data.insaneDifficulty);
+			sovereignShift =
+				data != null && Boolean.TRUE.equals(data.sovereignShift);
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
@@ -123,6 +126,7 @@ public final class SmartTradeConfig {
 			compactInformationOverlay = false;
 			compactGameMenus = false;
 			insaneDifficulty = false;
+			sovereignShift = false;
 		}
 	}
 
@@ -148,7 +152,8 @@ public final class SmartTradeConfig {
 		boolean useRandomExperienceOrbColors,
 		boolean useCompactInformationOverlay,
 		boolean useCompactGameMenus,
-		boolean enableInsaneDifficulty
+		boolean enableInsaneDifficulty,
+		boolean enableSovereignShift
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -164,6 +169,7 @@ public final class SmartTradeConfig {
 		compactInformationOverlay = useCompactInformationOverlay;
 		compactGameMenus = useCompactGameMenus;
 		insaneDifficulty = enableInsaneDifficulty;
+		sovereignShift = enableSovereignShift;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -192,7 +198,8 @@ public final class SmartTradeConfig {
 					randomExperienceOrbColors,
 					compactInformationOverlay,
 					compactGameMenus,
-					insaneDifficulty
+					insaneDifficulty,
+					sovereignShift
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -264,6 +271,10 @@ public final class SmartTradeConfig {
 		return insaneDifficulty;
 	}
 
+	public static boolean sovereignShift() {
+		return sovereignShift;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -294,7 +305,8 @@ public final class SmartTradeConfig {
 		Boolean randomExperienceOrbColors,
 		Boolean compactInformationOverlay,
 		Boolean compactGameMenus,
-		Boolean insaneDifficulty
+		Boolean insaneDifficulty,
+		Boolean sovereignShift
 	) {
 	}
 }
