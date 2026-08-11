@@ -12,7 +12,7 @@ public abstract class PlayerInsaneDifficultyMixin {
 	private float smarttrade$applyInsaneDamage(float hardMultiplier) {
 		Player player = (Player)(Object)this;
 		return InsaneDifficulty.isActive(player.level())
-			? 5.0F
+			? 4.0F
 			: hardMultiplier;
 	}
 }

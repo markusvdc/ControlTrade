@@ -31,6 +31,7 @@ public abstract class SaplingBlockMixin {
 						|| state.is(Blocks.ACACIA_SAPLING)
 						|| state.is(Blocks.CHERRY_SAPLING)
 						|| state.is(Blocks.BIRCH_SAPLING)
+						|| state.is(Blocks.OAK_SAPLING)
 				)
 		) {
 			FixedHeightGrowthContext.begin(6);

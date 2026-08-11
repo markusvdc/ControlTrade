@@ -24,7 +24,7 @@ public abstract class AbstractHorseInsaneDifficultyMixin {
 		ServerLevel level = args.get(0);
 		DamageSource source = args.get(1);
 		if (InsaneDifficulty.isActive(level) && source.scalesWithDifficulty()) {
-			args.set(2, (float)args.get(2) * 2.5F);
+			args.set(2, (float)args.get(2) * 1.5F);
 		}
 	}
 

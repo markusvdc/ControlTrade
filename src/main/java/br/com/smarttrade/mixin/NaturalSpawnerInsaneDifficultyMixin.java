@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NaturalSpawner.class)
 public abstract class NaturalSpawnerInsaneDifficultyMixin {
-	private static final int WITCH_SPAWN_WEIGHT_MULTIPLIER = 12;
-	private static final int ENDERMAN_SPAWN_WEIGHT_MULTIPLIER = 6;
+	private static final int WITCH_SPAWN_WEIGHT_MULTIPLIER = 8;
+	private static final int ENDERMAN_SPAWN_WEIGHT_MULTIPLIER = 3;
 
 	@Inject(method = "mobsAt", at = @At("RETURN"), cancellable = true)
 	private static void smarttrade$increaseInsaneMonsterSpawnWeights(

@@ -1,6 +1,7 @@
 package br.com.smarttrade.mixin;
 
 import br.com.smarttrade.config.SmartTradeConfig;
+import br.com.smarttrade.client.screen.component.PauseAudioSlider;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,9 +94,9 @@ public abstract class PauseScreenMixin {
 		}
 		for (int index = 0; index < 2; index++) {
 			SoundSource source = index == 0 ? SoundSource.MASTER : SoundSource.MUSIC;
-			AbstractWidget slider = minecraft.options.getSoundSourceOptionInstance(source)
-				.createButton(minecraft.options, left, top + (4 + index) * ROW_SPACING, BUTTON_WIDTH);
-			slider.setHeight(BUTTON_HEIGHT);
+			AbstractWidget slider = new PauseAudioSlider(
+				minecraft.options, source, left, top + (4 + index) * ROW_SPACING, BUTTON_WIDTH
+			);
 			invoker.smarttrade$addRenderableWidget(slider);
 		}
 	}
