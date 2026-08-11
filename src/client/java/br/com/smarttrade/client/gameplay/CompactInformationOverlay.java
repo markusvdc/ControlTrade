@@ -59,7 +59,7 @@ public final class CompactInformationOverlay {
 	}
 
 	private static List<OverlayLine> createLines(Minecraft minecraft) {
-		List<OverlayLine> lines = new ArrayList<>(6);
+		List<OverlayLine> lines = new ArrayList<>(7);
 		Runtime runtime = Runtime.getRuntime();
 		long usedMemory = runtime.totalMemory() - runtime.freeMemory();
 		long maximumMemory = runtime.maxMemory();
@@ -68,6 +68,10 @@ public final class CompactInformationOverlay {
 		int fpsLimit = minecraft.options.framerateLimit().get();
 
 		lines.add(line(Component.translatable("smarttrade.overlay.time", LocalTime.now().format(TIME_FORMAT))));
+		lines.add(line(Component.translatable(
+			"smarttrade.overlay.minecraft_clock",
+			minecraftTime(minecraft.level.getOverworldClockTime())
+		)));
 		lines.add(line(Component.translatable(
 			"smarttrade.overlay.memory",
 			usedMemory / 1024 / 1024,
@@ -87,6 +91,19 @@ public final class CompactInformationOverlay {
 		)));
 		lines.add(line(Component.translatable("smarttrade.overlay.biome", biomeName(minecraft, position))));
 		return lines;
+	}
+
+	private static String minecraftTime(long dayTime) {
+		long timeOfDay = Math.floorMod(dayTime, 24_000L);
+		int totalMinutes = (int) ((timeOfDay + 6_000L) % 24_000L * 1_440L / 24_000L);
+		int hour = totalMinutes / 60;
+		int minute = totalMinutes % 60;
+		String period = hour < 12 ? "AM" : "PM";
+		int hour12 = hour % 12;
+		if (hour12 == 0) {
+			hour12 = 12;
+		}
+		return String.format(Locale.ROOT, "%02d:%02d %s", hour12, minute, period);
 	}
 
 	private static OverlayLine line(Component component) {
