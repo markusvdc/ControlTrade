@@ -3,6 +3,7 @@ package br.com.smarttrade.mixin;
 import br.com.smarttrade.gameplay.InsaneDifficulty;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -28,14 +29,21 @@ public abstract class MeleeAttackGoalInsaneDifficultyMixin {
 	protected abstract void resetAttackCooldown();
 
 	@Inject(method = "checkAndPerformAttack", at = @At("HEAD"), cancellable = true)
-	private void smarttrade$attackHorseWhenRiderIsOutOfReach(LivingEntity target, CallbackInfo callback) {
+	private void smarttrade$redirectSelectedAttackersToHorse(LivingEntity target, CallbackInfo callback) {
 		if (
 			InsaneDifficulty.isActive(this.mob.level())
 				&& target instanceof Player player
 				&& player.getVehicle() instanceof AbstractHorse horse
 				&& this.mob.level() instanceof ServerLevel serverLevel
 				&& horse.isAlive()
-				&& !this.mob.isWithinMeleeAttackRange(player)
+				&& (
+					this.mob.getType() == EntityTypes.SPIDER
+						|| this.mob.getType() == EntityTypes.CAVE_SPIDER
+						|| this.mob.isBaby() && (
+							this.mob.getType() == EntityTypes.ZOMBIE
+								|| this.mob.getType() == EntityTypes.ZOMBIE_VILLAGER
+						)
+				)
 				&& this.mob.isWithinMeleeAttackRange(horse)
 				&& this.mob.getSensing().hasLineOfSight(horse)
 				&& this.isTimeToAttack()

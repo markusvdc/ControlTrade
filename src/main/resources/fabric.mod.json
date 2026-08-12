@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "smarttrade",
   "version": "${version}",
-  "name": "SMART TRADE",
+  "name": "CONTROL TRADE",
   "description": "A clean, vanilla-friendly foundation for configurable villager trading.",
   "authors": ["markusvdc"],
   "contact": {

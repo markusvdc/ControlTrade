@@ -6,4 +6,4 @@ pluginManagement {
 	}
 }
 
-rootProject.name = 'smart-trade'
+rootProject.name = 'ControlTrade'
