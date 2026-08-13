@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 22;
+	private static final int CURRENT_VERSION = 23;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -50,6 +50,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean compactGameMenus;
 	private static volatile boolean insaneDifficulty;
 	private static volatile boolean sovereignShift;
+	private static volatile boolean sovereignSeal;
 
 	private SmartTradeConfig() {
 	}
@@ -110,6 +111,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.insaneDifficulty);
 			sovereignShift =
 				data != null && Boolean.TRUE.equals(data.sovereignShift);
+			sovereignSeal =
+				data != null && Boolean.TRUE.equals(data.sovereignSeal);
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
@@ -127,6 +130,7 @@ public final class SmartTradeConfig {
 			compactGameMenus = false;
 			insaneDifficulty = false;
 			sovereignShift = false;
+			sovereignSeal = false;
 		}
 	}
 
@@ -153,7 +157,8 @@ public final class SmartTradeConfig {
 		boolean useCompactInformationOverlay,
 		boolean useCompactGameMenus,
 		boolean enableInsaneDifficulty,
-		boolean enableSovereignShift
+		boolean enableSovereignShift,
+		boolean enableSovereignSeal
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		maximumVillagerReputation = useMaximumVillagerReputation;
@@ -170,6 +175,7 @@ public final class SmartTradeConfig {
 		compactGameMenus = useCompactGameMenus;
 		insaneDifficulty = enableInsaneDifficulty;
 		sovereignShift = enableSovereignShift;
+		sovereignSeal = enableSovereignSeal;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -199,7 +205,8 @@ public final class SmartTradeConfig {
 					compactInformationOverlay,
 					compactGameMenus,
 					insaneDifficulty,
-					sovereignShift
+					sovereignShift,
+					sovereignSeal
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -275,6 +282,10 @@ public final class SmartTradeConfig {
 		return sovereignShift;
 	}
 
+	public static boolean sovereignSeal() {
+		return sovereignSeal;
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -306,7 +317,8 @@ public final class SmartTradeConfig {
 		Boolean compactInformationOverlay,
 		Boolean compactGameMenus,
 		Boolean insaneDifficulty,
-		Boolean sovereignShift
+		Boolean sovereignShift,
+		Boolean sovereignSeal
 	) {
 	}
 }

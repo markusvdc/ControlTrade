@@ -44,6 +44,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean compactGameMenus;
 	private boolean insaneDifficulty;
 	private boolean sovereignShift;
+	private boolean sovereignSeal;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
@@ -59,6 +60,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry compactGameMenusEntry;
 	private GlobalOptionEntry insaneDifficultyEntry;
 	private GlobalOptionEntry sovereignShiftEntry;
+	private GlobalOptionEntry sovereignSealEntry;
 	private List<AbstractWidget> optionRows = List.of();
 	private int optionRowHeight;
 	private int optionsBottom;
@@ -94,6 +96,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.insaneDifficulty = SmartTradeConfig.insaneDifficulty();
 		this.sovereignShift = SmartTradeConfig.sovereignShift();
+		this.sovereignSeal = SmartTradeConfig.sovereignSeal();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -244,6 +247,16 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.sovereignShift,
 			selected -> this.sovereignShift = selected
 		);
+		this.sovereignSealEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.sovereign_seal"),
+			OptionTooltip.translated("smarttrade.options.sovereign_seal"),
+			this.sovereignSeal,
+			selected -> this.sovereignSeal = selected
+		);
 		List<GlobalOptionEntry> qualityEntries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
 			this.horseHealthHudEntry,
@@ -253,7 +266,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
 			this.compactInformationOverlayEntry,
-			this.compactGameMenusEntry
+			this.compactGameMenusEntry,
+			this.sovereignSealEntry
 		));
 		List<GlobalOptionEntry> fantasyEntries = new ArrayList<>(List.of(
 			this.maximumReputationEntry,
@@ -346,6 +360,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.compactGameMenus
 				&& this.insaneDifficulty
 				&& this.sovereignShift
+				&& this.sovereignSeal
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.maximumReputationEntry.setSelected(selected);
@@ -362,6 +377,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactGameMenusEntry.setSelected(selected);
 		this.insaneDifficultyEntry.setSelected(selected);
 		this.sovereignShiftEntry.setSelected(selected);
+		this.sovereignSealEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -380,7 +396,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactInformationOverlay,
 			this.compactGameMenus,
 			this.insaneDifficulty,
-			this.sovereignShift
+			this.sovereignShift,
+			this.sovereignSeal
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
