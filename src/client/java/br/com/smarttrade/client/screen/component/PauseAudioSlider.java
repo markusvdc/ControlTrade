@@ -48,7 +48,9 @@ public final class PauseAudioSlider extends AbstractOptionSliderButton {
 
 	@Override
 	protected void updateMessage() {
-		Component caption = Component.translatable("soundCategory." + this.source.getName());
+		Component caption = this.source == SoundSource.MASTER
+			? Component.translatable("smarttrade.menu.volume")
+			: Component.translatable("soundCategory." + this.source.getName());
 		Component valueLabel = this.value == 0.0
 			? CommonComponents.OPTION_OFF
 			: Component.literal((int) Math.round(this.value * 100.0) + "%");

@@ -15,7 +15,9 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.friends.FriendsOverlayScreen;
 import net.minecraft.client.gui.screens.options.OnlineOptionsScreen;
+import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
@@ -58,7 +60,8 @@ public abstract class TitleScreenMixin {
 		ScreenInvoker invoker = (ScreenInvoker) this;
 		List<? extends GuiEventListener> children = new ArrayList<>(screen.children());
 		List<AbstractWidget> retainedButtons = new ArrayList<>();
-		Component modMenuMessage = ModMenuApi.createModsButtonText();
+		Component originalModMenuMessage = ModMenuApi.createModsButtonText();
+		Component modMenuMessage = uppercaseModsButtonText(originalModMenuMessage);
 
 		for (GuiEventListener child : children) {
 			if (!(child instanceof AbstractWidget widget)) {
@@ -67,7 +70,7 @@ public abstract class TitleScreenMixin {
 			Component message = widget.getMessage();
 			if (widget instanceof FriendsButton
 				|| widget instanceof SpriteIconButton
-				|| message.equals(modMenuMessage)) {
+				|| message.equals(originalModMenuMessage)) {
 				invoker.smarttrade$removeWidget(widget);
 				continue;
 			}
@@ -87,10 +90,23 @@ public abstract class TitleScreenMixin {
 		).build();
 		friends.active = !minecraft.isDemo();
 		Button mods = Button.builder(
-			Component.translatable("smarttrade.menu.modmenu"),
+			modMenuMessage,
 			button -> minecraft.gui.setScreen(ModMenuApi.createModsScreen(screen))
 		).build();
+		Button resources = Button.builder(
+			Component.translatable("smarttrade.menu.resources"),
+			button -> minecraft.gui.setScreen(new PackSelectionScreen(
+				minecraft.getResourcePackRepository(),
+				repository -> {
+					minecraft.options.updateResourcePacks(repository);
+					minecraft.gui.setScreen(screen);
+				},
+				minecraft.getResourcePackDirectory(),
+				Component.translatable("resourcePack.title")
+			))
+		).build();
 		invoker.smarttrade$addRenderableWidget(friends);
+		invoker.smarttrade$addRenderableWidget(resources);
 		invoker.smarttrade$addRenderableWidget(mods);
 
 		AbstractWidget singleplayer = find(retainedButtons, "menu.singleplayer");
@@ -98,11 +114,12 @@ public abstract class TitleScreenMixin {
 		AbstractWidget realms = find(retainedButtons, "menu.online");
 		AbstractWidget options = find(retainedButtons, "menu.options");
 		AbstractWidget quit = find(retainedButtons, "menu.quit");
-		List<AbstractWidget> ordered = List.of(singleplayer, multiplayer, mods, friends, realms, options, quit);
+		List<AbstractWidget> ordered = List.of(singleplayer, multiplayer, resources, mods, friends, realms, options, quit);
 		Component[] labels = {
 			Component.translatable("smarttrade.menu.player"),
 			Component.translatable("smarttrade.menu.players"),
-			Component.translatable("smarttrade.menu.modmenu"),
+			Component.translatable("smarttrade.menu.resources"),
+			modMenuMessage,
 			Component.translatable("smarttrade.menu.friends"),
 			Component.translatable("smarttrade.menu.realms"),
 			Component.translatable("smarttrade.menu.options"),
@@ -114,14 +131,14 @@ public abstract class TitleScreenMixin {
 			AbstractWidget button = ordered.get(index);
 			button.setMessage(labels[index]);
 			button.setHeight(BUTTON_HEIGHT);
-			if (index == 0) {
+			if (index < 2) {
 				button.setWidth(BUTTON_WIDTH);
-				button.setPosition(left, top);
+				button.setPosition(left, top + index * ROW_SPACING);
 				continue;
 			}
-			int pairedIndex = index - 1;
+			int pairedIndex = index - 2;
 			int column = pairedIndex % 2;
-			int row = pairedIndex / 2 + 1;
+			int row = pairedIndex / 2 + 2;
 			button.setWidth(HALF_BUTTON_WIDTH);
 			button.setPosition(
 				left + column * (HALF_BUTTON_WIDTH + COLUMN_GAP),
@@ -138,6 +155,12 @@ public abstract class TitleScreenMixin {
 			|| message.equals(Component.translatable("menu.online"))
 			|| message.equals(Component.translatable("menu.options"))
 			|| message.equals(Component.translatable("menu.quit"));
+	}
+
+	private static Component uppercaseModsButtonText(Component original) {
+		MutableComponent uppercase = Component.translatable("smarttrade.menu.modmenu").withStyle(original.getStyle());
+		original.getSiblings().forEach(sibling -> uppercase.append(sibling.copy()));
+		return uppercase;
 	}
 
 	private static AbstractWidget find(List<AbstractWidget> buttons, String translationKey) {

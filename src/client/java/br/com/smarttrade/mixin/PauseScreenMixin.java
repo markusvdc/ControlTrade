@@ -14,7 +14,9 @@ import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.client.gui.screens.friends.FriendsOverlayScreen;
 import net.minecraft.client.gui.screens.options.OnlineOptionsScreen;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
+import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -64,7 +66,16 @@ public abstract class PauseScreenMixin {
 				() -> minecraft.gui.setScreen(new FriendsOverlayScreen(screen)),
 				screen
 			)),
-			button("smarttrade.menu.modmenu", button -> minecraft.gui.setScreen(ModMenuApi.createModsScreen(screen))),
+			button("smarttrade.menu.resources", button -> minecraft.gui.setScreen(new PackSelectionScreen(
+				minecraft.getResourcePackRepository(),
+				repository -> {
+					minecraft.options.updateResourcePacks(repository);
+					minecraft.gui.setScreen(screen);
+				},
+				minecraft.getResourcePackDirectory(),
+				Component.translatable("resourcePack.title")
+			))),
+			button(uppercaseModsButtonText(), button -> minecraft.gui.setScreen(ModMenuApi.createModsScreen(screen))),
 			button("smarttrade.menu.lan", onPress(lanOriginal)),
 			button("smarttrade.menu.statistics", onPress(statsOriginal)),
 			button("smarttrade.menu.options", button -> minecraft.gui.setScreen(
@@ -77,13 +88,13 @@ public abstract class PauseScreenMixin {
 		for (int index = 0; index < menu.size(); index++) {
 			Button button = menu.get(index);
 			button.setHeight(BUTTON_HEIGHT);
-			if (index == 0) {
+			if (index < 2) {
 				button.setWidth(BUTTON_WIDTH);
-				button.setPosition(left, top);
+				button.setPosition(left, top + index * ROW_SPACING);
 			} else {
-				int pairedIndex = index - 1;
+				int pairedIndex = index - 2;
 				int column = pairedIndex % 2;
-				int row = pairedIndex / 2 + 1;
+				int row = pairedIndex / 2 + 2;
 				button.setWidth(HALF_BUTTON_WIDTH);
 				button.setPosition(
 					left + column * (HALF_BUTTON_WIDTH + COLUMN_GAP),
@@ -95,7 +106,7 @@ public abstract class PauseScreenMixin {
 		for (int index = 0; index < 2; index++) {
 			SoundSource source = index == 0 ? SoundSource.MASTER : SoundSource.MUSIC;
 			AbstractWidget slider = new PauseAudioSlider(
-				minecraft.options, source, left, top + (4 + index) * ROW_SPACING, BUTTON_WIDTH
+				minecraft.options, source, left, top + (5 + index) * ROW_SPACING, BUTTON_WIDTH
 			);
 			invoker.smarttrade$addRenderableWidget(slider);
 		}
@@ -103,6 +114,17 @@ public abstract class PauseScreenMixin {
 
 	private static Button button(String key, Button.OnPress onPress) {
 		return Button.builder(Component.translatable(key), onPress).size(BUTTON_WIDTH, BUTTON_HEIGHT).build();
+	}
+
+	private static Button button(Component message, Button.OnPress onPress) {
+		return Button.builder(message, onPress).size(BUTTON_WIDTH, BUTTON_HEIGHT).build();
+	}
+
+	private static Component uppercaseModsButtonText() {
+		Component original = ModMenuApi.createModsButtonText();
+		MutableComponent uppercase = Component.translatable("smarttrade.menu.modmenu").withStyle(original.getStyle());
+		original.getSiblings().forEach(sibling -> uppercase.append(sibling.copy()));
+		return uppercase;
 	}
 
 	private static Button.OnPress onPress(Button button) {
