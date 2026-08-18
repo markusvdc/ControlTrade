@@ -6,7 +6,6 @@ import br.com.smarttrade.client.screen.component.CategoryDivider;
 import br.com.smarttrade.client.screen.component.GlobalOptionEntry;
 import br.com.smarttrade.client.screen.component.OptionTooltip;
 import br.com.smarttrade.client.screen.component.SummaryPanel;
-import br.com.smarttrade.client.gameplay.InsaneDifficultyClient;
 import br.com.smarttrade.config.SmartTradeConfig;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,7 +41,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean randomExperienceOrbColors;
 	private boolean compactInformationOverlay;
 	private boolean compactGameMenus;
-	private boolean insaneDifficulty;
 	private boolean sovereignShift;
 	private boolean sovereignSeal;
 	private GlobalOptionEntry jadeReputationEntry;
@@ -58,7 +56,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry randomExperienceOrbColorsEntry;
 	private GlobalOptionEntry compactInformationOverlayEntry;
 	private GlobalOptionEntry compactGameMenusEntry;
-	private GlobalOptionEntry insaneDifficultyEntry;
 	private GlobalOptionEntry sovereignShiftEntry;
 	private GlobalOptionEntry sovereignSealEntry;
 	private List<AbstractWidget> optionRows = List.of();
@@ -94,7 +91,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.randomExperienceOrbColors = SmartTradeConfig.randomExperienceOrbColors();
 		this.compactInformationOverlay = SmartTradeConfig.compactInformationOverlay();
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
-		this.insaneDifficulty = SmartTradeConfig.insaneDifficulty();
 		this.sovereignShift = SmartTradeConfig.sovereignShift();
 		this.sovereignSeal = SmartTradeConfig.sovereignSeal();
 		this.jadeReputationEntry = new GlobalOptionEntry(
@@ -227,16 +223,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactGameMenus,
 			selected -> this.compactGameMenus = selected
 		);
-		this.insaneDifficultyEntry = new GlobalOptionEntry(
-			left,
-			0,
-			contentWidth,
-			OPTION_HEIGHT,
-			Component.translatable("smarttrade.options.insane_difficulty"),
-			OptionTooltip.translated("smarttrade.options.insane_difficulty"),
-			this.insaneDifficulty,
-			selected -> this.insaneDifficulty = selected
-		);
 		this.sovereignShiftEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -274,7 +260,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.randomExperienceOrbColorsEntry,
-			this.insaneDifficultyEntry,
 			this.sovereignShiftEntry
 		));
 		Comparator<Component> alphabeticalOrder = AlphabeticalOrder.components(this.minecraft);
@@ -358,7 +343,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.randomExperienceOrbColors
 				&& this.compactInformationOverlay
 				&& this.compactGameMenus
-				&& this.insaneDifficulty
 				&& this.sovereignShift
 				&& this.sovereignSeal
 		);
@@ -375,7 +359,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.randomExperienceOrbColorsEntry.setSelected(selected);
 		this.compactInformationOverlayEntry.setSelected(selected);
 		this.compactGameMenusEntry.setSelected(selected);
-		this.insaneDifficultyEntry.setSelected(selected);
 		this.sovereignShiftEntry.setSelected(selected);
 		this.sovereignSealEntry.setSelected(selected);
 	}
@@ -395,7 +378,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.randomExperienceOrbColors,
 			this.compactInformationOverlay,
 			this.compactGameMenus,
-			this.insaneDifficulty,
 			this.sovereignShift,
 			this.sovereignSeal
 		);
@@ -403,9 +385,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
 		);
 		this.statusColor = saved ? 0xFF9CD67A : 0xFFFF6B6B;
-		if (saved && this.insaneDifficulty) {
-			InsaneDifficultyClient.unlockDifficulty(this.minecraft);
-		}
 	}
 
 	@Override
@@ -467,8 +446,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.expandedItemStacksEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.compactInformationOverlayEntry,
-			this.compactGameMenusEntry,
-			this.insaneDifficultyEntry
+			this.compactGameMenusEntry
 		};
 		for (GlobalOptionEntry entry : entries) {
 			if (entry.isHovered()) {

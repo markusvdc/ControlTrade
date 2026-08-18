@@ -3,6 +3,7 @@ package br.com.smarttrade.mixin;
 import br.com.smarttrade.config.SmartTradeConfig;
 import com.mojang.realmsclient.gui.screens.RealmsNotificationsScreen;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.gui.widget.ModMenuButtonWidget;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -89,10 +90,9 @@ public abstract class TitleScreenMixin {
 			)
 		).build();
 		friends.active = !minecraft.isDemo();
-		Button mods = Button.builder(
-			modMenuMessage,
-			button -> minecraft.gui.setScreen(ModMenuApi.createModsScreen(screen))
-		).build();
+		Button mods = new ModMenuButtonWidget(
+			0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, modMenuMessage, screen
+		);
 		Button resources = Button.builder(
 			Component.translatable("smarttrade.menu.resources"),
 			button -> minecraft.gui.setScreen(new PackSelectionScreen(

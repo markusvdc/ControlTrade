@@ -48,7 +48,6 @@ public final class SmartTradeConfig {
 	private static volatile boolean randomExperienceOrbColors;
 	private static volatile boolean compactInformationOverlay;
 	private static volatile boolean compactGameMenus;
-	private static volatile boolean insaneDifficulty;
 	private static volatile boolean sovereignShift;
 	private static volatile boolean sovereignSeal;
 
@@ -107,8 +106,6 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.compactInformationOverlay);
 			compactGameMenus =
 				data != null && Boolean.TRUE.equals(data.compactGameMenus);
-			insaneDifficulty =
-				data != null && Boolean.TRUE.equals(data.insaneDifficulty);
 			sovereignShift =
 				data != null && Boolean.TRUE.equals(data.sovereignShift);
 			sovereignSeal =
@@ -128,7 +125,6 @@ public final class SmartTradeConfig {
 			randomExperienceOrbColors = false;
 			compactInformationOverlay = false;
 			compactGameMenus = false;
-			insaneDifficulty = false;
 			sovereignShift = false;
 			sovereignSeal = false;
 		}
@@ -156,7 +152,6 @@ public final class SmartTradeConfig {
 		boolean useRandomExperienceOrbColors,
 		boolean useCompactInformationOverlay,
 		boolean useCompactGameMenus,
-		boolean enableInsaneDifficulty,
 		boolean enableSovereignShift,
 		boolean enableSovereignSeal
 	) {
@@ -173,7 +168,6 @@ public final class SmartTradeConfig {
 		randomExperienceOrbColors = useRandomExperienceOrbColors;
 		compactInformationOverlay = useCompactInformationOverlay;
 		compactGameMenus = useCompactGameMenus;
-		insaneDifficulty = enableInsaneDifficulty;
 		sovereignShift = enableSovereignShift;
 		sovereignSeal = enableSovereignSeal;
 		return saveTradeIds(enabledTrades);
@@ -204,7 +198,7 @@ public final class SmartTradeConfig {
 					randomExperienceOrbColors,
 					compactInformationOverlay,
 					compactGameMenus,
-					insaneDifficulty,
+					null,
 					sovereignShift,
 					sovereignSeal
 				)),
@@ -275,7 +269,7 @@ public final class SmartTradeConfig {
 	}
 
 	public static boolean insaneDifficulty() {
-		return insaneDifficulty;
+		return false;
 	}
 
 	public static boolean sovereignShift() {

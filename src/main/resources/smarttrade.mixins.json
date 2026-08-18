@@ -3,41 +3,29 @@
   "package": "br.com.smarttrade.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-	"AbstractHorseInsaneDifficultyMixin",
     "AbstractVillagerMixin",
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
 	"ItemInstanceMixin",
 	"ItemFrameNameTagMixin",
-	"LivingEntityInsaneDifficultyMixin",
-	"MeleeAttackGoalInsaneDifficultyMixin",
-	"NaturalSpawnerInsaneDifficultyMixin",
 	"PlayerSovereignShiftMixin",
-	"PlayerInsaneDifficultyMixin",
-	"RaidAccessor",
-	"RaidInsaneDifficultyMixin",
-	"RaidsInsaneDifficultyMixin",
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
 	"SaplingBlockMixin",
 	"ServerLevelSovereignShiftMixin",
-	"ServerPlayerInsaneDeathMixin",
 	"ServerPlayerSovereignShiftMixin",
 	"SoulSpeedDimensionMixin",
 	"SoulSpeedMovementMixin",
-	"SpiderInsaneDifficultyMixin",
 	"SpearItemFrameMixin",
     "TrunkPlacerMixin",
-    "VillagerReputationMixin",
-	"VillagerRestockMixin",
-	"ZombieInsaneDifficultyMixin"
+	"VillagerReputationMixin",
+	"VillagerRestockMixin"
   ],
   "client": [
 	"ButtonAccessor",
     "ClientOpenableBlockMixin",
     "ChatScreenMixin",
 	"GuiGraphicsExtractorMixin",
-	"DifficultyButtonsMixin",
 	"ExperienceOrbRendererMixin",
 	"ExperienceOrbRenderStateMixin",
 	"HorseHealthHudMixin",
@@ -45,8 +33,7 @@
 	"OptionsScreenMixin",
 	"PauseScreenMixin",
 	"ScreenInvoker",
-	"TitleScreenMixin",
-	"WorldListEntryMixin"
+	"TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

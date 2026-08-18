@@ -3,6 +3,7 @@ package br.com.smarttrade.mixin;
 import br.com.smarttrade.config.SmartTradeConfig;
 import br.com.smarttrade.client.screen.component.PauseAudioSlider;
 import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.gui.widget.ModMenuButtonWidget;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -75,7 +76,7 @@ public abstract class PauseScreenMixin {
 				minecraft.getResourcePackDirectory(),
 				Component.translatable("resourcePack.title")
 			))),
-			button(uppercaseModsButtonText(), button -> minecraft.gui.setScreen(ModMenuApi.createModsScreen(screen))),
+			new ModMenuButtonWidget(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, uppercaseModsButtonText(), screen),
 			button("smarttrade.menu.lan", onPress(lanOriginal)),
 			button("smarttrade.menu.statistics", onPress(statsOriginal)),
 			button("smarttrade.menu.options", button -> minecraft.gui.setScreen(
