@@ -29,13 +29,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private Component status = Component.empty();
 	private int statusColor = 0xFF9CD67A;
 	private boolean showAdditionalInformation;
-	private boolean maximumVillagerReputation;
 	private boolean soulSpeedOnlyInNether;
 	private boolean fixedHugeMushroomHeight;
 	private boolean compactHorseHealthHud;
 	private boolean equestrianHud;
 	private boolean automaticDoorClosing;
-	private boolean disableChatHistoryNavigation;
 	private boolean compactItemCounts;
 	private boolean expandedItemStacks;
 	private boolean randomExperienceOrbColors;
@@ -44,13 +42,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean sovereignShift;
 	private boolean sovereignSeal;
 	private GlobalOptionEntry jadeReputationEntry;
-	private GlobalOptionEntry maximumReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
 	private GlobalOptionEntry horseHealthHudEntry;
 	private GlobalOptionEntry equestrianHudEntry;
 	private GlobalOptionEntry automaticDoorClosingEntry;
-	private GlobalOptionEntry chatHistoryNavigationEntry;
 	private GlobalOptionEntry compactItemCountsEntry;
 	private GlobalOptionEntry expandedItemStacksEntry;
 	private GlobalOptionEntry randomExperienceOrbColorsEntry;
@@ -79,13 +75,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.optionsBottom = buttonY - 12;
 		this.scrollRow = 0;
 		this.showAdditionalInformation = SmartTradeConfig.showAdditionalInformation();
-		this.maximumVillagerReputation = SmartTradeConfig.maximumVillagerReputation();
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
 		this.fixedHugeMushroomHeight = SmartTradeConfig.fixedHugeMushroomHeight();
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
 		this.equestrianHud = SmartTradeConfig.equestrianHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
-		this.disableChatHistoryNavigation = SmartTradeConfig.disableChatHistoryNavigation();
 		this.compactItemCounts = SmartTradeConfig.compactItemCounts();
 		this.expandedItemStacks = SmartTradeConfig.expandedItemStacks();
 		this.randomExperienceOrbColors = SmartTradeConfig.randomExperienceOrbColors();
@@ -102,16 +96,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			OptionTooltip.translated("smarttrade.options.jade_reputation"),
 			this.showAdditionalInformation,
 			selected -> this.showAdditionalInformation = selected
-		);
-		this.maximumReputationEntry = new GlobalOptionEntry(
-			left,
-			0,
-			contentWidth,
-			OPTION_HEIGHT,
-			Component.translatable("smarttrade.options.maximum_reputation"),
-			OptionTooltip.translated("smarttrade.options.maximum_reputation"),
-			this.maximumVillagerReputation,
-			selected -> this.maximumVillagerReputation = selected
 		);
 		this.soulSpeedEntry = new GlobalOptionEntry(
 			left,
@@ -162,16 +146,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			OptionTooltip.translated("smarttrade.options.automatic_door_closing"),
 			this.automaticDoorClosing,
 			selected -> this.automaticDoorClosing = selected
-		);
-		this.chatHistoryNavigationEntry = new GlobalOptionEntry(
-			left,
-			0,
-			contentWidth,
-			OPTION_HEIGHT,
-			Component.translatable("smarttrade.options.disable_chat_history_navigation"),
-			OptionTooltip.translated("smarttrade.options.disable_chat_history_navigation"),
-			this.disableChatHistoryNavigation,
-			selected -> this.disableChatHistoryNavigation = selected
 		);
 		this.compactItemCountsEntry = new GlobalOptionEntry(
 			left,
@@ -248,7 +222,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.horseHealthHudEntry,
 			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
 			this.compactInformationOverlayEntry,
@@ -256,7 +229,6 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.sovereignSealEntry
 		));
 		List<GlobalOptionEntry> fantasyEntries = new ArrayList<>(List.of(
-			this.maximumReputationEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.randomExperienceOrbColorsEntry,
@@ -331,13 +303,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private void toggleAllOptions() {
 		boolean selected = !(
 			this.showAdditionalInformation
-				&& this.maximumVillagerReputation
 				&& this.soulSpeedOnlyInNether
 				&& this.fixedHugeMushroomHeight
 				&& this.compactHorseHealthHud
 				&& this.equestrianHud
 				&& this.automaticDoorClosing
-				&& this.disableChatHistoryNavigation
 				&& this.compactItemCounts
 				&& this.expandedItemStacks
 				&& this.randomExperienceOrbColors
@@ -347,13 +317,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.sovereignSeal
 		);
 		this.jadeReputationEntry.setSelected(selected);
-		this.maximumReputationEntry.setSelected(selected);
 		this.soulSpeedEntry.setSelected(selected);
 		this.mushroomHeightEntry.setSelected(selected);
 		this.horseHealthHudEntry.setSelected(selected);
 		this.equestrianHudEntry.setSelected(selected);
 		this.automaticDoorClosingEntry.setSelected(selected);
-		this.chatHistoryNavigationEntry.setSelected(selected);
 		this.compactItemCountsEntry.setSelected(selected);
 		this.expandedItemStacksEntry.setSelected(selected);
 		this.randomExperienceOrbColorsEntry.setSelected(selected);
@@ -366,13 +334,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private void applyOptions() {
 		boolean saved = SmartTradeConfig.saveGlobalOptions(
 			this.showAdditionalInformation,
-			this.maximumVillagerReputation,
 			this.soulSpeedOnlyInNether,
 			this.fixedHugeMushroomHeight,
 			this.compactHorseHealthHud,
 			this.equestrianHud,
 			this.automaticDoorClosing,
-			this.disableChatHistoryNavigation,
 			this.compactItemCounts,
 			this.expandedItemStacks,
 			this.randomExperienceOrbColors,
@@ -435,13 +401,11 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private void renderGlobalOptionTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
 		GlobalOptionEntry[] entries = {
 			this.jadeReputationEntry,
-			this.maximumReputationEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
 			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
-			this.chatHistoryNavigationEntry,
 			this.compactItemCountsEntry,
 			this.expandedItemStacksEntry,
 			this.randomExperienceOrbColorsEntry,

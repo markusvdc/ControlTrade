@@ -18,13 +18,11 @@
 	"SoulSpeedMovementMixin",
 	"SpearItemFrameMixin",
     "TrunkPlacerMixin",
-	"VillagerReputationMixin",
 	"VillagerRestockMixin"
   ],
   "client": [
 	"ButtonAccessor",
     "ClientOpenableBlockMixin",
-    "ChatScreenMixin",
 	"GuiGraphicsExtractorMixin",
 	"ExperienceOrbRendererMixin",
 	"ExperienceOrbRenderStateMixin",

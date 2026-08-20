@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 23;
+	private static final int CURRENT_VERSION = 24;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -36,13 +36,11 @@ public final class SmartTradeConfig {
 
 	private static volatile Set<String> enabledTrades = AVAILABLE_TRADES;
 	private static volatile boolean showAdditionalInformation;
-	private static volatile boolean maximumVillagerReputation;
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
 	private static volatile boolean compactHorseHealthHud;
 	private static volatile boolean equestrianHud;
 	private static volatile boolean automaticDoorClosing;
-	private static volatile boolean disableChatHistoryNavigation;
 	private static volatile boolean compactItemCounts;
 	private static volatile boolean expandedItemStacks;
 	private static volatile boolean randomExperienceOrbColors;
@@ -82,8 +80,6 @@ public final class SmartTradeConfig {
 			} else {
 				showAdditionalInformation = false;
 			}
-			maximumVillagerReputation =
-				data != null && Boolean.TRUE.equals(data.maximumVillagerReputation);
 			soulSpeedOnlyInNether =
 				data != null && Boolean.TRUE.equals(data.soulSpeedOnlyInNether);
 			fixedHugeMushroomHeight =
@@ -94,8 +90,6 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.equestrianHud);
 			automaticDoorClosing =
 				data != null && Boolean.TRUE.equals(data.automaticDoorClosing);
-			disableChatHistoryNavigation =
-				data != null && Boolean.TRUE.equals(data.disableChatHistoryNavigation);
 			compactItemCounts =
 				data != null && Boolean.TRUE.equals(data.compactItemCounts);
 			expandedItemStacks =
@@ -113,13 +107,11 @@ public final class SmartTradeConfig {
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
-			maximumVillagerReputation = false;
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
 			compactHorseHealthHud = false;
 			equestrianHud = false;
 			automaticDoorClosing = false;
-			disableChatHistoryNavigation = false;
 			compactItemCounts = false;
 			expandedItemStacks = false;
 			randomExperienceOrbColors = false;
@@ -140,13 +132,11 @@ public final class SmartTradeConfig {
 
 	public static synchronized boolean saveGlobalOptions(
 		boolean showAdditionalInfo,
-		boolean useMaximumVillagerReputation,
 		boolean restrictSoulSpeedToNether,
 		boolean useFixedHugeMushroomHeight,
 		boolean useCompactHorseHealthHud,
 		boolean useEquestrianHud,
 		boolean useAutomaticDoorClosing,
-		boolean disableHistoryNavigation,
 		boolean useCompactItemCounts,
 		boolean useExpandedItemStacks,
 		boolean useRandomExperienceOrbColors,
@@ -156,13 +146,11 @@ public final class SmartTradeConfig {
 		boolean enableSovereignSeal
 	) {
 		showAdditionalInformation = showAdditionalInfo;
-		maximumVillagerReputation = useMaximumVillagerReputation;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
 		fixedHugeMushroomHeight = useFixedHugeMushroomHeight;
 		compactHorseHealthHud = useCompactHorseHealthHud;
 		equestrianHud = useEquestrianHud;
 		automaticDoorClosing = useAutomaticDoorClosing;
-		disableChatHistoryNavigation = disableHistoryNavigation;
 		compactItemCounts = useCompactItemCounts;
 		expandedItemStacks = useExpandedItemStacks;
 		randomExperienceOrbColors = useRandomExperienceOrbColors;
@@ -186,13 +174,11 @@ public final class SmartTradeConfig {
 					null,
 					null,
 					showAdditionalInformation,
-					maximumVillagerReputation,
 					soulSpeedOnlyInNether,
 					fixedHugeMushroomHeight,
 					compactHorseHealthHud,
 					equestrianHud,
 					automaticDoorClosing,
-					disableChatHistoryNavigation,
 					compactItemCounts,
 					expandedItemStacks,
 					randomExperienceOrbColors,
@@ -220,10 +206,6 @@ public final class SmartTradeConfig {
 		return showAdditionalInformation;
 	}
 
-	public static boolean maximumVillagerReputation() {
-		return maximumVillagerReputation;
-	}
-
 	public static boolean soulSpeedOnlyInNether() {
 		return soulSpeedOnlyInNether;
 	}
@@ -242,10 +224,6 @@ public final class SmartTradeConfig {
 
 	public static boolean automaticDoorClosing() {
 		return automaticDoorClosing;
-	}
-
-	public static boolean disableChatHistoryNavigation() {
-		return disableChatHistoryNavigation;
 	}
 
 	public static boolean compactItemCounts() {
@@ -298,13 +276,11 @@ public final class SmartTradeConfig {
 		Boolean eggTradeEnabled,
 		Boolean showVillagerReputationInJade,
 		Boolean showAdditionalInformation,
-		Boolean maximumVillagerReputation,
 		Boolean soulSpeedOnlyInNether,
 		Boolean fixedHugeMushroomHeight,
 		Boolean compactHorseHealthHud,
 		Boolean equestrianHud,
 		Boolean automaticDoorClosing,
-		Boolean disableChatHistoryNavigation,
 		Boolean compactItemCounts,
 		Boolean expandedItemStacks,
 		Boolean randomExperienceOrbColors,

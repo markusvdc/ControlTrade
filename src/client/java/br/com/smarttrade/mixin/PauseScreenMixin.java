@@ -1,5 +1,6 @@
 package br.com.smarttrade.mixin;
 
+import br.com.smarttrade.client.gameplay.CompactInformationOverlay;
 import br.com.smarttrade.config.SmartTradeConfig;
 import br.com.smarttrade.client.screen.component.PauseAudioSlider;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -7,6 +8,7 @@ import com.terraformersmc.modmenu.gui.widget.ModMenuButtonWidget;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.StringWidget;
@@ -35,6 +37,17 @@ public abstract class PauseScreenMixin {
 
 	@Shadow
 	private Button disconnectButton;
+
+	@Inject(method = "extractRenderState", at = @At("RETURN"))
+	private void smarttrade$renderOracleAboveBlur(
+		GuiGraphicsExtractor graphics,
+		int mouseX,
+		int mouseY,
+		float delta,
+		CallbackInfo callbackInfo
+	) {
+		CompactInformationOverlay.renderOverPauseScreen(graphics);
+	}
 
 	@Inject(method = "init", at = @At("RETURN"))
 	private void smarttrade$organizeInGameMenu(CallbackInfo callbackInfo) {

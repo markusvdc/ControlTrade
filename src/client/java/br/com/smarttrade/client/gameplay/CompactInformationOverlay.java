@@ -11,12 +11,19 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
@@ -30,11 +37,18 @@ public final class CompactInformationOverlay {
 	}
 
 	public static void register() {
-		HudElementRegistry.addLast(ID, (graphics, tickCounter) -> render(graphics));
+		HudElementRegistry.addLast(ID, (graphics, tickCounter) -> render(graphics, false));
 	}
 
-	private static void render(GuiGraphicsExtractor graphics) {
+	public static void renderOverPauseScreen(GuiGraphicsExtractor graphics) {
+		render(graphics, true);
+	}
+
+	private static void render(GuiGraphicsExtractor graphics, boolean overPauseScreen) {
 		Minecraft minecraft = Minecraft.getInstance();
+		if (!overPauseScreen && minecraft.gui.screen() instanceof PauseScreen) {
+			return;
+		}
 		boolean tabIsDown = InputConstants.isKeyDown(minecraft.getWindow(), GLFW.GLFW_KEY_TAB);
 		if (tabIsDown && !tabWasDown && SmartTradeConfig.compactInformationOverlay()) {
 			visible = !visible;
@@ -70,7 +84,9 @@ public final class CompactInformationOverlay {
 		lines.add(line(Component.translatable("smarttrade.overlay.time", LocalTime.now().format(TIME_FORMAT))));
 		lines.add(line(Component.translatable(
 			"smarttrade.overlay.minecraft_clock",
-			minecraftTime(minecraft.level.getOverworldClockTime())
+			hasAccessibleClock(minecraft)
+				? minecraftTime(minecraft.level.getOverworldClockTime())
+				: Component.translatable("smarttrade.overlay.not_available")
 		)));
 		lines.add(line(Component.translatable(
 			"smarttrade.overlay.memory",
@@ -91,6 +107,25 @@ public final class CompactInformationOverlay {
 		)));
 		lines.add(line(Component.translatable("smarttrade.overlay.biome", biomeName(minecraft, position))));
 		return lines;
+	}
+
+	private static boolean hasAccessibleClock(Minecraft minecraft) {
+		for (ItemStack stack : minecraft.player.getInventory().getNonEquipmentItems()) {
+			if (stack.is(Items.CLOCK)) {
+				return true;
+			}
+			if (stack.is(ItemTags.SHULKER_BOXES)) {
+				ItemContainerContents contents = stack.get(DataComponents.CONTAINER);
+				if (contents != null) {
+					for (ItemStackTemplate contained : contents.nonEmptyItems()) {
+						if (contained.is(Items.CLOCK)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	private static String minecraftTime(long dayTime) {
