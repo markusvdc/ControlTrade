@@ -151,9 +151,9 @@ public final class CompactInformationOverlay {
 
 	private static int memoryColor(int memoryPercent) {
 		if (memoryPercent <= 75) {
-			return 0xFF9CD67A;
+			return 0xFF55FF55;
 		}
-		return 0xFFFF6B6B;
+		return 0xFFC1121F;
 	}
 
 	private static Component directionName(Direction direction) {
