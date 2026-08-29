@@ -103,6 +103,7 @@ public final class CompactInformationOverlay {
 		lines.add(line(Component.translatable(
 			"smarttrade.overlay.direction",
 			directionName(minecraft.player.getDirection()),
+			directionMapReference(minecraft.player.getDirection()),
 			directionAxis(minecraft.player.getDirection())
 		)));
 		lines.add(line(Component.translatable("smarttrade.overlay.biome", biomeName(minecraft, position))));
@@ -166,6 +167,16 @@ public final class CompactInformationOverlay {
 			case SOUTH -> "+Z";
 			case WEST -> "-X";
 			case EAST -> "+X";
+			default -> "";
+		};
+	}
+
+	private static String directionMapReference(Direction direction) {
+		return switch (direction) {
+			case NORTH -> "C";
+			case SOUTH -> "B";
+			case WEST -> "E";
+			case EAST -> "D";
 			default -> "";
 		};
 	}

@@ -12,6 +12,7 @@
     "MushroomBlockMixin",
     "NetherFungusBlockMixin",
 	"SaplingBlockMixin",
+	"ServerPlaceRecipeMixin",
 	"ServerLevelSovereignShiftMixin",
 	"ServerPlayerSovereignShiftMixin",
 	"SoulSpeedDimensionMixin",
