@@ -36,8 +36,6 @@ public final class VillagerReputationComponentProvider implements IEntityCompone
 		Component value = Component.literal(reputation > 0 ? "+" + reputation : Integer.toString(reputation))
 			.withStyle(color);
 		tooltip.add(Component.translatable("smarttrade.jade.reputation", value), getUid());
-		int restocks = serverData.getIntOr(VillagerReputationProvider.RESTOCKS_KEY, 0);
-		tooltip.add(Component.translatable("smarttrade.jade.restocks", restocks, 2));
 		boolean cured = serverData.getBooleanOr(VillagerReputationProvider.CURED_KEY, false);
 		tooltip.add(Component.translatable(
 			"smarttrade.jade.cured",

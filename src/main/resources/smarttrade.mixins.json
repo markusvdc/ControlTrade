@@ -18,8 +18,7 @@
 	"SoulSpeedDimensionMixin",
 	"SoulSpeedMovementMixin",
 	"SpearItemFrameMixin",
-    "TrunkPlacerMixin",
-	"VillagerRestockMixin"
+    "TrunkPlacerMixin"
   ],
   "client": [
 	"ButtonAccessor",

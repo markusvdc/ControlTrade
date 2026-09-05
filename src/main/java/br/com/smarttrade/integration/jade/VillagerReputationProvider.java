@@ -2,7 +2,6 @@ package br.com.smarttrade.integration.jade;
 
 import br.com.smarttrade.SmartTrade;
 import br.com.smarttrade.config.SmartTradeConfig;
-import br.com.smarttrade.gameplay.VillagerRestockAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.gossip.GossipType;
@@ -15,7 +14,6 @@ public final class VillagerReputationProvider implements IServerDataProvider<Ent
 	public static final Identifier UID =
 		Identifier.fromNamespaceAndPath(SmartTrade.MOD_ID, "villager_reputation");
 	public static final String REPUTATION_KEY = "SmartTradeReputation";
-	public static final String RESTOCKS_KEY = "SmartTradeRestocksToday";
 	public static final String CURED_KEY = "SmartTradeCuredByPlayer";
 
 	private VillagerReputationProvider() {
@@ -26,8 +24,6 @@ public final class VillagerReputationProvider implements IServerDataProvider<Ent
 		if (SmartTradeConfig.showAdditionalInformation()
 			&& accessor.getEntity() instanceof Villager villager) {
 			data.putInt(REPUTATION_KEY, villager.getPlayerReputation(accessor.getPlayer()));
-			int restocksToday = ((VillagerRestockAccess) villager).smarttrade$getRestocksToday();
-			data.putInt(RESTOCKS_KEY, restocksToday);
 			data.putBoolean(
 				CURED_KEY,
 				villager.getGossips().getReputation(
