@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 25;
+	private static final int CURRENT_VERSION = 26;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -49,12 +49,15 @@ public final class SmartTradeConfig {
 	private static volatile boolean compactGameMenus;
 	private static volatile boolean sovereignShift;
 	private static volatile boolean sovereignSeal;
+	private static volatile boolean dawnRestock;
 
 	private SmartTradeConfig() {
 	}
 
 	public static synchronized void load() {
 		if (!Files.exists(CONFIG_PATH)) {
+			dawnRestock = loadLegacyDawnRestock();
+			save();
 			return;
 		}
 
@@ -109,6 +112,11 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.sovereignShift);
 			sovereignSeal =
 				data != null && Boolean.TRUE.equals(data.sovereignSeal);
+			dawnRestock = data != null && data.dawnRestock != null
+				? data.dawnRestock : loadLegacyDawnRestock();
+			if (data == null || data.dawnRestock == null) {
+				save();
+			}
 		} catch (IOException | JsonParseException exception) {
 			enabledTrades = AVAILABLE_TRADES;
 			showAdditionalInformation = false;
@@ -124,6 +132,7 @@ public final class SmartTradeConfig {
 			compactGameMenus = false;
 			sovereignShift = false;
 			sovereignSeal = false;
+			dawnRestock = false;
 		}
 	}
 
@@ -148,7 +157,8 @@ public final class SmartTradeConfig {
 		boolean useCompactInformationOverlay,
 		boolean useCompactGameMenus,
 		boolean enableSovereignShift,
-		boolean enableSovereignSeal
+		boolean enableSovereignSeal,
+		boolean enableDawnRestock
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
@@ -163,6 +173,7 @@ public final class SmartTradeConfig {
 		compactGameMenus = useCompactGameMenus;
 		sovereignShift = enableSovereignShift;
 		sovereignSeal = enableSovereignSeal;
+		dawnRestock = enableDawnRestock;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -191,7 +202,8 @@ public final class SmartTradeConfig {
 					compactGameMenus,
 					null,
 					sovereignShift,
-					sovereignSeal
+					sovereignSeal,
+					dawnRestock
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -263,6 +275,23 @@ public final class SmartTradeConfig {
 		return sovereignSeal;
 	}
 
+	public static boolean dawnRestock() {
+		return dawnRestock;
+	}
+
+	private static boolean loadLegacyDawnRestock() {
+		Path legacyPath = CONFIG_PATH.resolveSibling("capfood.json");
+		if (!Files.exists(legacyPath)) {
+			return false;
+		}
+		try {
+			ConfigData legacy = GSON.fromJson(Files.readString(legacyPath, StandardCharsets.UTF_8), ConfigData.class);
+			return legacy != null && Boolean.TRUE.equals(legacy.dawnRestock);
+		} catch (IOException | JsonParseException exception) {
+			return false;
+		}
+	}
+
 	private static Set<String> sanitize(Collection<String> itemIds) {
 		LinkedHashSet<String> sanitized = new LinkedHashSet<>();
 		if (itemIds != null) {
@@ -293,7 +322,8 @@ public final class SmartTradeConfig {
 		Boolean compactGameMenus,
 		Boolean insaneDifficulty,
 		Boolean sovereignShift,
-		Boolean sovereignSeal
+		Boolean sovereignSeal,
+		Boolean dawnRestock
 	) {
 	}
 }

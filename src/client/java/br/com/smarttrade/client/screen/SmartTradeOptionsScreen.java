@@ -41,6 +41,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean compactGameMenus;
 	private boolean sovereignShift;
 	private boolean sovereignSeal;
+	private boolean dawnRestock;
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
@@ -54,6 +55,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry compactGameMenusEntry;
 	private GlobalOptionEntry sovereignShiftEntry;
 	private GlobalOptionEntry sovereignSealEntry;
+	private GlobalOptionEntry dawnRestockEntry;
 	private List<AbstractWidget> optionRows = List.of();
 	private int optionRowHeight;
 	private int optionsBottom;
@@ -87,6 +89,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactGameMenus = SmartTradeConfig.compactGameMenus();
 		this.sovereignShift = SmartTradeConfig.sovereignShift();
 		this.sovereignSeal = SmartTradeConfig.sovereignSeal();
+		this.dawnRestock = SmartTradeConfig.dawnRestock();
 		this.jadeReputationEntry = new GlobalOptionEntry(
 			left,
 			0,
@@ -217,8 +220,15 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.sovereignSeal,
 			selected -> this.sovereignSeal = selected
 		);
+		this.dawnRestockEntry = new GlobalOptionEntry(
+			left, 0, contentWidth, OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.dawn_restock"),
+			OptionTooltip.translated("smarttrade.options.dawn_restock"),
+			this.dawnRestock, selected -> this.dawnRestock = selected
+		);
 		List<GlobalOptionEntry> qualityEntries = new ArrayList<>(List.of(
 			this.jadeReputationEntry,
+			this.dawnRestockEntry,
 			this.horseHealthHudEntry,
 			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
@@ -315,6 +325,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 				&& this.compactGameMenus
 				&& this.sovereignShift
 				&& this.sovereignSeal
+				&& this.dawnRestock
 		);
 		this.jadeReputationEntry.setSelected(selected);
 		this.soulSpeedEntry.setSelected(selected);
@@ -329,6 +340,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.compactGameMenusEntry.setSelected(selected);
 		this.sovereignShiftEntry.setSelected(selected);
 		this.sovereignSealEntry.setSelected(selected);
+		this.dawnRestockEntry.setSelected(selected);
 	}
 
 	private void applyOptions() {
@@ -345,7 +357,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.compactInformationOverlay,
 			this.compactGameMenus,
 			this.sovereignShift,
-			this.sovereignSeal
+			this.sovereignSeal,
+			this.dawnRestock
 		);
 		this.status = Component.translatable(
 			saved ? "smarttrade.options.status.applied" : "smarttrade.status.save_failed"
@@ -401,6 +414,7 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private void renderGlobalOptionTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
 		GlobalOptionEntry[] entries = {
 			this.jadeReputationEntry,
+			this.dawnRestockEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
 			this.horseHealthHudEntry,
