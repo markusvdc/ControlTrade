@@ -1,6 +1,6 @@
 {
 	"smarttrade.options.dawn_restock": "ALVORADA PRÓSPERA",
-	"smarttrade.options.dawn_restock.lore": "O Cavaleiro Príncipe ordena ao sol que renove as riquezas do reino; nem dragões podem antecipar o comércio sagrado de Excalibur.",
+	"smarttrade.options.dawn_restock.lore": "O Cavaleiro Príncipe ordena ao sol que renove as riquezas do reino; cada aurora abre os cofres do comércio sagrado de Excalibur.",
 	"smarttrade.options.dawn_restock.description": "Dobra o limite padrão de usos de cada oferta dos aldeões e reabastece uma vez ao amanhecer, inclusive após dormir, sem exigir bloco de profissão. Aldeões descarregados recebem uma reposição ao voltar. O dia fica salvo; reabrir o mundo não renova o estoque. Funciona somente em singleplayer.",
   "smarttrade.title": "CONTROL TRADE",
   "smarttrade.subtitle": "Marque os recursos que você quer disponibilizar nos comércios.",
