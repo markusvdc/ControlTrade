@@ -21,17 +21,18 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 24;
+	private static final int CURRENT_VERSION = 25;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
 		"minecraft:honeycomb",
 		"minecraft:spider_eye",
-		"minecraft:ender_pearl",
 		"minecraft:redstone",
 		"minecraft:lapis_lazuli",
 		"minecraft:bone",
-		"minecraft:arrow"
+		"minecraft:arrow",
+		"minecraft:iron_ingot",
+		"minecraft:copper_ingot"
 	);
 
 	private static volatile Set<String> enabledTrades = AVAILABLE_TRADES;
@@ -64,6 +65,10 @@ public final class SmartTradeConfig {
 				LinkedHashSet<String> migrated = new LinkedHashSet<>(data.enabledTrades);
 				if (data.version < 8) {
 					migrated.add("minecraft:arrow");
+				}
+				if (data.version < 25) {
+					migrated.add("minecraft:iron_ingot");
+					migrated.add("minecraft:copper_ingot");
 				}
 				enabledTrades = sanitize(migrated);
 			} else {

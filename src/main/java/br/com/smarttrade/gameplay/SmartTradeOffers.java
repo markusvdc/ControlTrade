@@ -20,26 +20,28 @@ public final class SmartTradeOffers {
 	private static final int VILLAGER_XP = 2;
 	private static final float PRICE_MULTIPLIER = 0.05F;
 	private static final Map<Item, List<Integer>> LEGACY_INPUT_COUNTS = Map.of(
-		Items.EGG, List.of(16),
-		Items.COCOA_BEANS, List.of(16, 32),
-		Items.HONEYCOMB, List.of(8, 12),
+		Items.EGG, List.of(16, 20),
+		Items.COCOA_BEANS, List.of(16, 20, 32),
+		Items.HONEYCOMB, List.of(8, 10, 12),
 		Items.SPIDER_EYE, List.of(12, 24),
-		Items.ENDER_PEARL, List.of(2, 4),
-		Items.REDSTONE, List.of(16, 24),
-		Items.LAPIS_LAZULI, List.of(16, 24),
-		Items.BONE, List.of(16, 32),
-		Items.ARROW, List.of(12)
+		Items.REDSTONE, List.of(16, 20, 24),
+		Items.LAPIS_LAZULI, List.of(16, 20, 24),
+		Items.BONE, List.of(16, 20, 32),
+		Items.ARROW, List.of(12),
+		Items.IRON_INGOT, List.of(10),
+		Items.COPPER_INGOT, List.of(10)
 	);
 	private static final List<TradeDefinition> DEFINITIONS = List.of(
-		new TradeDefinition(VillagerProfession.FARMER, Items.EGG, 20),
-		new TradeDefinition(VillagerProfession.FARMER, Items.COCOA_BEANS, 20),
-		new TradeDefinition(VillagerProfession.FARMER, Items.HONEYCOMB, 10),
+		new TradeDefinition(VillagerProfession.FARMER, Items.EGG, 15),
+		new TradeDefinition(VillagerProfession.FARMER, Items.COCOA_BEANS, 15),
+		new TradeDefinition(VillagerProfession.FARMER, Items.HONEYCOMB, 15),
 		new TradeDefinition(VillagerProfession.CLERIC, Items.SPIDER_EYE, 15),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.ENDER_PEARL, 3),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.REDSTONE, 20),
-		new TradeDefinition(VillagerProfession.CLERIC, Items.LAPIS_LAZULI, 20),
-		new TradeDefinition(VillagerProfession.BUTCHER, Items.BONE, 20),
-		new TradeDefinition(VillagerProfession.FLETCHER, Items.ARROW, 15)
+		new TradeDefinition(VillagerProfession.CLERIC, Items.REDSTONE, 15),
+		new TradeDefinition(VillagerProfession.CLERIC, Items.LAPIS_LAZULI, 15),
+		new TradeDefinition(VillagerProfession.BUTCHER, Items.BONE, 15),
+		new TradeDefinition(VillagerProfession.FLETCHER, Items.ARROW, 15),
+		new TradeDefinition(VillagerProfession.MASON, Items.IRON_INGOT, 15),
+		new TradeDefinition(VillagerProfession.MASON, Items.COPPER_INGOT, 15)
 	);
 
 	private SmartTradeOffers() {
@@ -52,6 +54,12 @@ public final class SmartTradeOffers {
 		}
 
 		removeRetiredSugarCaneOffers(villager, offers, profession);
+		if (profession == VillagerProfession.CLERIC) {
+			TradeDefinition retiredPearl = new TradeDefinition(VillagerProfession.CLERIC, Items.ENDER_PEARL, 3);
+			offers.removeIf(offer -> retiredPearl.matchesWithInputCount(offer, 2)
+				|| retiredPearl.matchesWithInputCount(offer, 3)
+				|| retiredPearl.matchesWithInputCount(offer, 4));
+		}
 
 		int customOffset = 0;
 		for (TradeDefinition definition : DEFINITIONS) {

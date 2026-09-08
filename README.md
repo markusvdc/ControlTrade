@@ -1,6 +1,6 @@
 ## Visão geral
 
-O ControlTrade acrescenta nove ofertas de compra às profissões de agricultor, clérigo, açougueiro e flecheiro, transformando recursos acumulados em esmeraldas por meio de trocas com até 12 usos. Assim, cada aldeão se torna parte de uma economia mais viva: ovos, favos, ossos, flechas e outros excedentes encontram quem os valorize, e o trabalho de explorar, cultivar e coletar ganha um destino além dos baús lotados.
+O ControlTrade acrescenta dez ofertas de compra às profissões de agricultor, clérigo, açougueiro, flecheiro e pedreiro, transformando recursos acumulados em esmeraldas por meio de trocas com preço-base de 15 itens por 1 esmeralda e até 12 usos. Assim, cada aldeão se torna parte de uma economia mais viva: ovos, favos, ossos, flechas e outros excedentes encontram quem os valorize, e o trabalho de explorar, cultivar e coletar ganha um destino além dos baús lotados.
 
 ## Opções globais
 

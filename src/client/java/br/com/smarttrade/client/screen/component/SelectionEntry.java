@@ -68,6 +68,9 @@ public final class SelectionEntry {
 	}
 
 	private static Component uppercaseNativeName(Minecraft minecraft, Item item) {
+		if (item == Items.IRON_INGOT || item == Items.COPPER_INGOT) {
+			return Component.translatable("smarttrade.trade." + BuiltInRegistries.ITEM.getKey(item).getPath());
+		}
 		String languageCode = minecraft.getLanguageManager().getSelected();
 		Locale locale = Locale.forLanguageTag(languageCode.replace('_', '-'));
 		String localizedName = Component.translatable(item.getDescriptionId()).getString();
