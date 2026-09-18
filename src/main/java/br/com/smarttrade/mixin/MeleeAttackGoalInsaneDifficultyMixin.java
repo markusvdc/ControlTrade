@@ -49,7 +49,7 @@ public abstract class MeleeAttackGoalInsaneDifficultyMixin {
 				&& this.isTimeToAttack()
 		) {
 			this.resetAttackCooldown();
-			this.mob.swing(InteractionHand.MAIN_HAND);
+			this.mob.swingForAttack(InteractionHand.MAIN_HAND);
 			this.mob.doHurtTarget(serverLevel, horse);
 			callback.cancel();
 		}

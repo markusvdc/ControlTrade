@@ -8,8 +8,8 @@ import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.LockIconButton;
 import net.minecraft.client.gui.layouts.EqualSpacingLayout;
 import net.minecraft.client.gui.screens.ConfirmScreen;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.options.DifficultyButtons;
+import net.minecraft.client.gui.screens.WorldOptionsScreen;
+import net.minecraft.client.gui.screens.WorldOptionsScreen.DifficultyButtons;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ServerboundChangeDifficultyPacket;
 import net.minecraft.network.protocol.game.ServerboundLockDifficultyPacket;
@@ -27,7 +27,7 @@ public abstract class DifficultyButtonsMixin {
 	private static void smarttrade$createWithInsaneDifficulty(
 		Minecraft minecraft,
 		Level level,
-		Screen screen,
+		WorldOptionsScreen screen,
 		CallbackInfoReturnable<DifficultyButtons> callback
 	) {
 		if (!SmartTradeConfig.insaneDifficulty()) {
@@ -73,8 +73,8 @@ public abstract class DifficultyButtonsMixin {
 		callback.setReturnValue(new DifficultyButtons(layout, unsafeCast(difficultyButton), lockButton, level));
 	}
 
-	@Inject(method = "refresh", at = @At("HEAD"), cancellable = true)
-	private void smarttrade$refreshInsaneDifficulty(Minecraft minecraft, CallbackInfo callback) {
+	@Inject(method = "refresh(Lnet/minecraft/client/Minecraft;Lnet/minecraft/client/gui/screens/WorldOptionsScreen;Z)V", at = @At("HEAD"), cancellable = true)
+	private void smarttrade$refreshInsaneDifficulty(Minecraft minecraft, WorldOptionsScreen screen, boolean updateDifficulty, CallbackInfo callback) {
 		if (!SmartTradeConfig.insaneDifficulty()) {
 			return;
 		}

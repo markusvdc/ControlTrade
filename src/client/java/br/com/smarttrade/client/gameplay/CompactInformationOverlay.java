@@ -25,7 +25,6 @@ import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.biome.Biome;
-import org.lwjgl.glfw.GLFW;
 
 public final class CompactInformationOverlay {
 	private static final Identifier ID = Identifier.fromNamespaceAndPath("smarttrade", "compact_information_overlay");
@@ -49,7 +48,7 @@ public final class CompactInformationOverlay {
 		if (!overPauseScreen && minecraft.gui.screen() instanceof PauseScreen) {
 			return;
 		}
-		boolean tabIsDown = InputConstants.isKeyDown(minecraft.getWindow(), GLFW.GLFW_KEY_TAB);
+		boolean tabIsDown = InputConstants.isKeyDown(InputConstants.KEY_TAB);
 		if (tabIsDown && !tabWasDown && SmartTradeConfig.compactInformationOverlay()) {
 			visible = !visible;
 		}

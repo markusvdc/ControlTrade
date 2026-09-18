@@ -36,7 +36,7 @@ public abstract class AbstractHorseInsaneDifficultyMixin {
 		CallbackInfoReturnable<Boolean> callback
 	) {
 		if (callback.getReturnValue() && InsaneDifficulty.isActive(level)) {
-			((AbstractHorse)(Object)this).invulnerableTime = 50;
+			((AbstractHorse)(Object)this).setInvulnerableTime(50);
 		}
 	}
 }

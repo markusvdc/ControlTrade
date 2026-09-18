@@ -98,7 +98,7 @@ public final class GlobalOptionEntry extends AbstractButton {
 		ClientTooltipPositioner positioner = focusedByKeyboard && !this.isHovered()
 			? new BelowOrAboveWidgetTooltipPositioner(this.getRectangle())
 			: new MenuTooltipPositioner(this.getRectangle());
-		graphics.tooltip(font, lines, mouseX, mouseY, positioner, null);
+		graphics.tooltip(font, lines, mouseX, mouseY, positioner, null, true);
 	}
 
 	@Override

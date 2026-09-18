@@ -18,10 +18,10 @@ public abstract class ServerLevelSovereignShiftMixin {
 		method = "tick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/clock/ServerClockManager;moveToTimeMarker(Lnet/minecraft/core/Holder;Lnet/minecraft/resources/ResourceKey;)Z"
+			target = "Lnet/minecraft/world/clock/ServerClockManager;moveToTimeMarker(Lnet/minecraft/core/Holder;Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/world/clock/ServerClockManager$MoveResult;"
 		)
 	)
-	private boolean smarttrade$moveToOppositeShift(
+	private ServerClockManager.MoveResult smarttrade$moveToOppositeShift(
 		ServerClockManager clockManager,
 		Holder<WorldClock> clock,
 		ResourceKey<ClockTimeMarker> originalMarker

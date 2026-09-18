@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import br.com.smarttrade.config.SmartTradeConfig;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -115,7 +116,7 @@ public final class SelectionList extends AbstractWidget {
 
 	@Override
 	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-		if (event.button() != 0 || !isMouseOver(event.x(), event.y())) {
+		if (event.button() != InputConstants.MOUSE_BUTTON_LEFT || !isMouseOver(event.x(), event.y())) {
 			return false;
 		}
 		int contentWidth = this.width - SCROLLBAR_WIDTH - SCROLLBAR_GAP;
@@ -139,7 +140,7 @@ public final class SelectionList extends AbstractWidget {
 
 	@Override
 	public boolean mouseDragged(MouseButtonEvent event, double offsetX, double offsetY) {
-		if (!this.draggingScrollbar || event.button() != 0) {
+		if (!this.draggingScrollbar || event.button() != InputConstants.MOUSE_BUTTON_LEFT) {
 			return false;
 		}
 		setScrollFromMouse(event.y());
@@ -148,7 +149,7 @@ public final class SelectionList extends AbstractWidget {
 
 	@Override
 	public boolean mouseReleased(MouseButtonEvent event) {
-		if (event.button() == 0 && this.draggingScrollbar) {
+		if (event.button() == InputConstants.MOUSE_BUTTON_LEFT && this.draggingScrollbar) {
 			this.draggingScrollbar = false;
 			return true;
 		}
@@ -223,7 +224,7 @@ public final class SelectionList extends AbstractWidget {
 			mouseX,
 			mouseY,
 			DefaultTooltipPositioner.INSTANCE,
-			null
+			null, true
 		);
 	}
 

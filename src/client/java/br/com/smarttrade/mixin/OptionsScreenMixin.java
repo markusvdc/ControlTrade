@@ -13,19 +13,15 @@ import net.minecraft.client.gui.screens.social.SocialInteractionsScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.CommonLinks;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin {
-	@Shadow
-	private boolean inWorld;
-
 	@Inject(method = "init", at = @At("RETURN"))
 	private void smarttrade$addInGameOptions(CallbackInfo callbackInfo) {
-		if (!this.inWorld || !SmartTradeConfig.compactGameMenus()) {
+		if (Minecraft.getInstance().level == null || !SmartTradeConfig.compactGameMenus()) {
 			return;
 		}
 		OptionsScreen screen = (OptionsScreen) (Object) this;

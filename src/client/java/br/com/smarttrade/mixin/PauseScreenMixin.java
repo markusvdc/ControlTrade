@@ -71,7 +71,7 @@ public abstract class PauseScreenMixin {
 
 		Button resumeOriginal = find(originals, "menu.returnToGame");
 		Button statsOriginal = find(originals, "gui.stats");
-		Button lanOriginal = find(originals, "menu.multiplayerOptions.button");
+		Button worldOptionsOriginal = find(originals, "options.worldOptions.button");
 		Minecraft minecraft = Minecraft.getInstance();
 		List<Button> menu = List.of(
 			button("smarttrade.menu.play", onPress(resumeOriginal)),
@@ -90,10 +90,10 @@ public abstract class PauseScreenMixin {
 				Component.translatable("resourcePack.title")
 			))),
 			new ModMenuButtonWidget(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, uppercaseModsButtonText(), screen),
-			button("smarttrade.menu.lan", onPress(lanOriginal)),
+			button("smarttrade.menu.world", onPress(worldOptionsOriginal)),
 			button("smarttrade.menu.statistics", onPress(statsOriginal)),
 			button("smarttrade.menu.options", button -> minecraft.gui.setScreen(
-				new OptionsScreen(screen, minecraft.options, true)
+				new OptionsScreen(screen, minecraft.options)
 			)),
 			button("smarttrade.menu.save_quit", onPress(this.disconnectButton))
 		);
