@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 26;
+	private static final int CURRENT_VERSION = 27;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -39,6 +39,8 @@ public final class SmartTradeConfig {
 	private static volatile boolean showAdditionalInformation;
 	private static volatile boolean soulSpeedOnlyInNether;
 	private static volatile boolean fixedHugeMushroomHeight;
+	private static volatile boolean fixedHugeFungusHeight;
+	private static volatile boolean fixedSaplingHeight;
 	private static volatile boolean compactHorseHealthHud;
 	private static volatile boolean equestrianHud;
 	private static volatile boolean automaticDoorClosing;
@@ -92,6 +94,8 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.soulSpeedOnlyInNether);
 			fixedHugeMushroomHeight =
 				data != null && Boolean.TRUE.equals(data.fixedHugeMushroomHeight);
+			fixedSaplingHeight = data != null && Boolean.TRUE.equals(data.fixedSaplingHeight);
+			fixedHugeFungusHeight = data != null && Boolean.TRUE.equals(data.fixedHugeFungusHeight);
 			compactHorseHealthHud =
 				data != null && Boolean.TRUE.equals(data.compactHorseHealthHud);
 			equestrianHud =
@@ -114,7 +118,7 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.sovereignSeal);
 			dawnRestock = data != null && data.dawnRestock != null
 				? data.dawnRestock : loadLegacyDawnRestock();
-			if (data == null || data.dawnRestock == null) {
+			if (data == null || data.version < CURRENT_VERSION || data.dawnRestock == null) {
 				save();
 			}
 		} catch (IOException | JsonParseException exception) {
@@ -122,6 +126,8 @@ public final class SmartTradeConfig {
 			showAdditionalInformation = false;
 			soulSpeedOnlyInNether = false;
 			fixedHugeMushroomHeight = false;
+			fixedHugeFungusHeight = false;
+			fixedSaplingHeight = false;
 			compactHorseHealthHud = false;
 			equestrianHud = false;
 			automaticDoorClosing = false;
@@ -148,6 +154,8 @@ public final class SmartTradeConfig {
 		boolean showAdditionalInfo,
 		boolean restrictSoulSpeedToNether,
 		boolean useFixedHugeMushroomHeight,
+		boolean useFixedHugeFungusHeight,
+		boolean useFixedSaplingHeight,
 		boolean useCompactHorseHealthHud,
 		boolean useEquestrianHud,
 		boolean useAutomaticDoorClosing,
@@ -163,6 +171,8 @@ public final class SmartTradeConfig {
 		showAdditionalInformation = showAdditionalInfo;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
 		fixedHugeMushroomHeight = useFixedHugeMushroomHeight;
+		fixedHugeFungusHeight = useFixedHugeFungusHeight;
+		fixedSaplingHeight = useFixedSaplingHeight;
 		compactHorseHealthHud = useCompactHorseHealthHud;
 		equestrianHud = useEquestrianHud;
 		automaticDoorClosing = useAutomaticDoorClosing;
@@ -192,6 +202,8 @@ public final class SmartTradeConfig {
 					showAdditionalInformation,
 					soulSpeedOnlyInNether,
 					fixedHugeMushroomHeight,
+					fixedHugeFungusHeight,
+					fixedSaplingHeight,
 					compactHorseHealthHud,
 					equestrianHud,
 					automaticDoorClosing,
@@ -225,6 +237,14 @@ public final class SmartTradeConfig {
 
 	public static boolean soulSpeedOnlyInNether() {
 		return soulSpeedOnlyInNether;
+	}
+
+	public static boolean fixedSaplingHeight() {
+		return fixedSaplingHeight;
+	}
+
+	public static boolean fixedHugeFungusHeight() {
+		return fixedHugeFungusHeight;
 	}
 
 	public static boolean fixedHugeMushroomHeight() {
@@ -312,6 +332,8 @@ public final class SmartTradeConfig {
 		Boolean showAdditionalInformation,
 		Boolean soulSpeedOnlyInNether,
 		Boolean fixedHugeMushroomHeight,
+		Boolean fixedHugeFungusHeight,
+		Boolean fixedSaplingHeight,
 		Boolean compactHorseHealthHud,
 		Boolean equestrianHud,
 		Boolean automaticDoorClosing,

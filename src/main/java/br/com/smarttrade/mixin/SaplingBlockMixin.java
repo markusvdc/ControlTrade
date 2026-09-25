@@ -25,13 +25,14 @@ public abstract class SaplingBlockMixin {
 	) {
 		FixedHeightGrowthContext.clear();
 		if (
-			SmartTradeConfig.fixedHugeMushroomHeight()
+			SmartTradeConfig.fixedSaplingHeight()
 				&& (
 					state.is(Blocks.JUNGLE_SAPLING)
 						|| state.is(Blocks.ACACIA_SAPLING)
 						|| state.is(Blocks.CHERRY_SAPLING)
 						|| state.is(Blocks.BIRCH_SAPLING)
 						|| state.is(Blocks.OAK_SAPLING)
+						|| state.is(Blocks.POPLAR_SAPLING)
 				)
 		) {
 			FixedHeightGrowthContext.begin(6);

@@ -27,7 +27,7 @@ public abstract class NetherFungusBlockMixin {
 	) {
 		FixedHeightGrowthContext.clear();
 		if (
-			SmartTradeConfig.fixedHugeMushroomHeight()
+			SmartTradeConfig.fixedHugeFungusHeight()
 				&& (state.is(Blocks.CRIMSON_FUNGUS) || state.is(Blocks.WARPED_FUNGUS))
 		) {
 			FixedHeightGrowthContext.begin(6);

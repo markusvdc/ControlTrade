@@ -31,6 +31,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private boolean showAdditionalInformation;
 	private boolean soulSpeedOnlyInNether;
 	private boolean fixedHugeMushroomHeight;
+	private boolean fixedHugeFungusHeight;
+	private boolean fixedSaplingHeight;
 	private boolean compactHorseHealthHud;
 	private boolean equestrianHud;
 	private boolean automaticDoorClosing;
@@ -45,6 +47,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 	private GlobalOptionEntry jadeReputationEntry;
 	private GlobalOptionEntry soulSpeedEntry;
 	private GlobalOptionEntry mushroomHeightEntry;
+	private GlobalOptionEntry fungusHeightEntry;
+	private GlobalOptionEntry saplingHeightEntry;
 	private GlobalOptionEntry horseHealthHudEntry;
 	private GlobalOptionEntry equestrianHudEntry;
 	private GlobalOptionEntry automaticDoorClosingEntry;
@@ -79,6 +83,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.showAdditionalInformation = SmartTradeConfig.showAdditionalInformation();
 		this.soulSpeedOnlyInNether = SmartTradeConfig.soulSpeedOnlyInNether();
 		this.fixedHugeMushroomHeight = SmartTradeConfig.fixedHugeMushroomHeight();
+		this.fixedHugeFungusHeight = SmartTradeConfig.fixedHugeFungusHeight();
+		this.fixedSaplingHeight = SmartTradeConfig.fixedSaplingHeight();
 		this.compactHorseHealthHud = SmartTradeConfig.compactHorseHealthHud();
 		this.equestrianHud = SmartTradeConfig.equestrianHud();
 		this.automaticDoorClosing = SmartTradeConfig.automaticDoorClosing();
@@ -119,6 +125,26 @@ public final class SmartTradeOptionsScreen extends Screen {
 			OptionTooltip.translated("smarttrade.options.fixed_mushroom_height"),
 			this.fixedHugeMushroomHeight,
 			selected -> this.fixedHugeMushroomHeight = selected
+		);
+		this.fungusHeightEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.fixed_fungus_height"),
+			OptionTooltip.translated("smarttrade.options.fixed_fungus_height"),
+			this.fixedHugeFungusHeight,
+			selected -> this.fixedHugeFungusHeight = selected
+		);
+		this.saplingHeightEntry = new GlobalOptionEntry(
+			left,
+			0,
+			contentWidth,
+			OPTION_HEIGHT,
+			Component.translatable("smarttrade.options.fixed_sapling_height"),
+			OptionTooltip.translated("smarttrade.options.fixed_sapling_height"),
+			this.fixedSaplingHeight,
+			selected -> this.fixedSaplingHeight = selected
 		);
 		this.horseHealthHudEntry = new GlobalOptionEntry(
 			left,
@@ -241,6 +267,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 		List<GlobalOptionEntry> fantasyEntries = new ArrayList<>(List.of(
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
+			this.fungusHeightEntry,
+			this.saplingHeightEntry,
 			this.randomExperienceOrbColorsEntry,
 			this.sovereignShiftEntry
 		));
@@ -315,6 +343,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.showAdditionalInformation
 				&& this.soulSpeedOnlyInNether
 				&& this.fixedHugeMushroomHeight
+				&& this.fixedHugeFungusHeight
+				&& this.fixedSaplingHeight
 				&& this.compactHorseHealthHud
 				&& this.equestrianHud
 				&& this.automaticDoorClosing
@@ -330,6 +360,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 		this.jadeReputationEntry.setSelected(selected);
 		this.soulSpeedEntry.setSelected(selected);
 		this.mushroomHeightEntry.setSelected(selected);
+		this.fungusHeightEntry.setSelected(selected);
+		this.saplingHeightEntry.setSelected(selected);
 		this.horseHealthHudEntry.setSelected(selected);
 		this.equestrianHudEntry.setSelected(selected);
 		this.automaticDoorClosingEntry.setSelected(selected);
@@ -348,6 +380,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.showAdditionalInformation,
 			this.soulSpeedOnlyInNether,
 			this.fixedHugeMushroomHeight,
+			this.fixedHugeFungusHeight,
+			this.fixedSaplingHeight,
 			this.compactHorseHealthHud,
 			this.equestrianHud,
 			this.automaticDoorClosing,
@@ -417,6 +451,8 @@ public final class SmartTradeOptionsScreen extends Screen {
 			this.dawnRestockEntry,
 			this.soulSpeedEntry,
 			this.mushroomHeightEntry,
+			this.fungusHeightEntry,
+			this.saplingHeightEntry,
 			this.horseHealthHudEntry,
 			this.equestrianHudEntry,
 			this.automaticDoorClosingEntry,
