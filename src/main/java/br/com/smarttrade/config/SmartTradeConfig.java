@@ -21,7 +21,7 @@ public final class SmartTradeConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH =
 		FabricLoader.getInstance().getConfigDir().resolve("smarttrade.json");
-	private static final int CURRENT_VERSION = 27;
+	private static final int CURRENT_VERSION = 28;
 	private static final Set<String> AVAILABLE_TRADES = Set.of(
 		"minecraft:egg",
 		"minecraft:cocoa_beans",
@@ -52,6 +52,7 @@ public final class SmartTradeConfig {
 	private static volatile boolean sovereignShift;
 	private static volatile boolean sovereignSeal;
 	private static volatile boolean dawnRestock;
+	private static volatile boolean bulkSelling;
 
 	private SmartTradeConfig() {
 	}
@@ -116,6 +117,7 @@ public final class SmartTradeConfig {
 				data != null && Boolean.TRUE.equals(data.sovereignShift);
 			sovereignSeal =
 				data != null && Boolean.TRUE.equals(data.sovereignSeal);
+			bulkSelling = data != null && Boolean.TRUE.equals(data.bulkSelling);
 			dawnRestock = data != null && data.dawnRestock != null
 				? data.dawnRestock : loadLegacyDawnRestock();
 			if (data == null || data.version < CURRENT_VERSION || data.dawnRestock == null) {
@@ -139,6 +141,7 @@ public final class SmartTradeConfig {
 			sovereignShift = false;
 			sovereignSeal = false;
 			dawnRestock = false;
+			bulkSelling = false;
 		}
 	}
 
@@ -166,7 +169,8 @@ public final class SmartTradeConfig {
 		boolean useCompactGameMenus,
 		boolean enableSovereignShift,
 		boolean enableSovereignSeal,
-		boolean enableDawnRestock
+		boolean enableDawnRestock,
+		boolean enableBulkSelling
 	) {
 		showAdditionalInformation = showAdditionalInfo;
 		soulSpeedOnlyInNether = restrictSoulSpeedToNether;
@@ -184,6 +188,7 @@ public final class SmartTradeConfig {
 		sovereignShift = enableSovereignShift;
 		sovereignSeal = enableSovereignSeal;
 		dawnRestock = enableDawnRestock;
+		bulkSelling = enableBulkSelling;
 		return saveTradeIds(enabledTrades);
 	}
 
@@ -215,7 +220,8 @@ public final class SmartTradeConfig {
 					null,
 					sovereignShift,
 					sovereignSeal,
-					dawnRestock
+					dawnRestock,
+					bulkSelling
 				)),
 				StandardCharsets.UTF_8
 			);
@@ -299,6 +305,10 @@ public final class SmartTradeConfig {
 		return dawnRestock;
 	}
 
+	public static boolean bulkSelling() {
+		return bulkSelling;
+	}
+
 	private static boolean loadLegacyDawnRestock() {
 		Path legacyPath = CONFIG_PATH.resolveSibling("capfood.json");
 		if (!Files.exists(legacyPath)) {
@@ -345,7 +355,8 @@ public final class SmartTradeConfig {
 		Boolean insaneDifficulty,
 		Boolean sovereignShift,
 		Boolean sovereignSeal,
-		Boolean dawnRestock
+		Boolean dawnRestock,
+		Boolean bulkSelling
 	) {
 	}
 }

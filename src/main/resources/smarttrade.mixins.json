@@ -6,6 +6,8 @@
     "AbstractVillagerMixin",
     "VillagerDawnRestockMixin",
     "MerchantOfferDawnStockMixin",
+    "MerchantMenuBulkSaleMixin",
+    "MerchantResultSlotAuditMixin",
     "HugeFungusFeatureMixin",
     "HugeMushroomFeatureMixin",
 	"ItemInstanceMixin",
@@ -24,6 +26,7 @@
   ],
   "client": [
 	"ButtonAccessor",
+    "MerchantScreenBulkSaleMixin",
     "ClientOpenableBlockMixin",
 	"GuiGraphicsExtractorMixin",
 	"ExperienceOrbRendererMixin",

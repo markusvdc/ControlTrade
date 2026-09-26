@@ -60,3 +60,22 @@ java {
 tasks.named('sourcesJar') {
 	destinationDirectory = layout.buildDirectory.dir('devlibs')
 }
+
+sourceSets {
+	bulkSaleTest {
+		compileClasspath += sourceSets.main.output + configurations.testCompileClasspath
+		runtimeClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+	}
+}
+
+tasks.register('bulkSaleRegression', JavaExec) {
+	dependsOn tasks.named('bulkSaleTestClasses')
+	classpath = sourceSets.bulkSaleTest.runtimeClasspath
+	mainClass = 'br.com.smarttrade.gameplay.BulkSalePlanTest'
+	workingDir = layout.buildDirectory.dir('bulk-sale-test').get().asFile
+	doFirst { workingDir.mkdirs() }
+}
+
+tasks.named('check') {
+	dependsOn tasks.named('bulkSaleRegression')
+}

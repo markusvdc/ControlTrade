@@ -1,4 +1,11 @@
 {
+  "smarttrade.options.bulk_selling": "TRIBUTO IMPERIAL",
+  "smarttrade.options.bulk_selling.lore": "O Cavaleiro Príncipe decreta o tributo das colheitas; Excalibur converte os tesouros do reino em esmeraldas dignas da sua coroa.",
+  "smarttrade.options.bulk_selling.description": "Adiciona Vender tudo à tela do aldeão: vende itens do inventário e da barra rápida por esmeraldas, na ordem das ofertas, a uma troca por tick. Respeita preços, estoque disponível no início e espaço; mantém sobras. Não gasta esmeraldas nem abre recipientes. Exige cursor e pagamentos vazios. Parar ou fechar a tela encerra o lote. Somente singleplayer.",
+  "smarttrade.sale.sell_all": "Vender tudo",
+  "smarttrade.sale.stop": "Parar vendas",
+  "smarttrade.sale.hint": "Vende por esmeraldas. Esvazie o cursor e os dois campos de pagamento antes de começar.",
+
 	"smarttrade.options.dawn_restock": "ALVORADA PRÓSPERA",
 	"smarttrade.options.dawn_restock.lore": "O Cavaleiro Príncipe ordena ao sol que renove as riquezas do reino; cada aurora abre os cofres do comércio sagrado de Excalibur.",
 	"smarttrade.options.dawn_restock.description": "Dobra o limite padrão de usos de cada oferta dos aldeões e reabastece uma vez ao amanhecer, inclusive após dormir, sem exigir bloco de profissão. Aldeões descarregados recebem uma reposição ao voltar. O dia fica salvo; reabrir o mundo não renova o estoque. Funciona somente em singleplayer.",

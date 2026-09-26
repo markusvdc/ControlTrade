@@ -1,4 +1,11 @@
 {
+  "smarttrade.options.bulk_selling": "IMPERIAL TRIBUTE",
+  "smarttrade.options.bulk_selling.lore": "The Knight Prince decree harvest tribute; Excalibur turns kingdom treasures into emeralds worthy of his crown and royal glory.",
+  "smarttrade.options.bulk_selling.description": "Adds Sell all to villager screen: sells inventory and hotbar items for emeralds in offer order, one trade per tick. Obeys prices, stock available at start and space; leftovers stays. Spends no emeralds and opens no containers. Cursor and payments must be empty. Stop or closing screen ends batch. Singleplayer only.",
+  "smarttrade.sale.sell_all": "Sell all",
+  "smarttrade.sale.stop": "Stop selling",
+  "smarttrade.sale.hint": "Sells for emeralds. Empty cursor and both payment slots before starting.",
+
 	"smarttrade.options.dawn_restock": "PROSPEROUS DAWN",
 	"smarttrade.options.dawn_restock.lore": "Knight Prince command the sun to renew all riches of kingdom; every dawn open the coffers for sacred commerce of Excalibur.",
 	"smarttrade.options.dawn_restock.description": "Doubles default use limit of each villager offer and refill once at dawn, also after sleeping, with no job block required. Unloaded villagers receive one refill when returning. The day stays saved; reopening world does not renew stock. Works only in singleplayer.",
